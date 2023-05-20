@@ -1,5 +1,5 @@
 <div 
-    className="fs-22 fw-400 text-center user-select-none"
+    className="fs-48 fw-200 text-center user-select-none"
     style-dark="test"
     style-light=""
     style-hover="cursor-pointer"

@@ -1,3 +1,3 @@
-<div className="fw-600 white-space-normal">
+<div className="fw-200 white-space-normal">
 
 </div>

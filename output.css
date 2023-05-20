@@ -1,0 +1,19 @@
+.fs-42 {
+  font-size: 42px;
+}.fw-200 {
+  font-weight: 200;
+}.text-center {
+  text-align: center;
+}.user-select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}.white-space-normal {
+  white-space: normal;
+}.fs-44 {
+  font-size: 44px;
+}.fs-48 {
+  font-size: 48px;
+}.fs-49 {
+  font-size: 49px;
+}
