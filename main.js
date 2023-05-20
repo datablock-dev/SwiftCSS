@@ -36,19 +36,27 @@ const watchFiles = async () => {
 };
 
 const processFile = async (filePath) => {
-    try {
-      const resolvedPath = path.resolve(filePath);
-      const fileContents = await fs.promises.readFile(resolvedPath, 'utf-8');
-      const processedContents = processFileContents(fileContents);
-      matchedClasses = Array.from(new Set([...matchedClasses, ...processedContents]));
-      removeUnusedClasses(matchedClasses);
-      const updatedCSS = updateCSS(cssPath, matchedClasses);
-      await fs.promises.writeFile(outputPath, updatedCSS, 'utf-8');
-      console.log('CSS successfully updated.');
-    } catch (error) {
-      console.error(`Error processing file: ${filePath}`, error);
+  try {
+    const resolvedPath = path.resolve(filePath);
+    const fileContents = await fs.promises.readFile(resolvedPath, 'utf-8');
+    const processedContents = processFileContents(fileContents);
+
+    // Copy contents from config.input if provided and it's a CSS file
+    if (config.input && config.input.endsWith('.css')) {
+      const inputPath = path.join(__dirname, config.input);
+      const inputContents = await fs.promises.readFile(inputPath, 'utf-8');
+      processedContents.unshift(inputContents);
     }
-};  
+
+    matchedClasses = Array.from(new Set([...matchedClasses, ...processedContents]));
+    matchedClasses = removeUnusedClasses(matchedClasses); // Update matchedClasses with filtered list
+    const updatedCSS = await updateCSS(cssPath, matchedClasses);
+    await fs.promises.writeFile(outputPath, updatedCSS, 'utf-8');
+    console.log('CSS successfully updated.');
+  } catch (error) {
+    console.error(`Error processing file: ${filePath}`, error);
+  }
+};
 
 const processFileContents = (fileContents) => {
   const attributeRegex = /(?:class(?:Name)?|style-dark)="([^"]*)"/g;
@@ -62,8 +70,8 @@ const processFileContents = (fileContents) => {
   return classList;
 };
 
-const updateCSS = (cssPath, matchedClasses) => {
-  const existingCSS = fs.readFileSync(cssPath, 'utf-8');
+const updateCSS = async (cssPath, matchedClasses) => {
+  const existingCSS = await fs.promises.readFile(cssPath, 'utf-8');
 
   const newCSS = matchedClasses
     .map((className) => {
@@ -80,7 +88,7 @@ const removeUnusedClasses = (matchedClasses) => {
   const existingCSS = fs.readFileSync(cssPath, 'utf-8');
   const unusedClassesRegex = /\.([^\s{]+)(?![^{]*})/g;
   const unusedClasses = existingCSS.match(unusedClassesRegex) || [];
-  matchedClasses = matchedClasses.filter((className) => !unusedClasses.includes(className));
+  return matchedClasses.filter((className) => !unusedClasses.includes(className));
 };
 
 // Define the 'watch' command
