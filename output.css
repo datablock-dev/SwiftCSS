@@ -1,5 +1,15 @@
-.fs-44 {
-  font-size: 44px;
+.test{
+    font-size: 69px;
+}
+
+.bog{
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.bog-2{
+    font-weight: 400;
+}.fs-42 {
+  font-size: 42px;
 }.fw-200 {
   font-weight: 200;
 }.text-center {
@@ -8,10 +18,18 @@
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}.brd-radius-6 {
+  border-radius: 6px;
 }.fw-400 {
   font-weight: 400;
 }.white-space-normal {
   white-space: normal;
-}.fs-42 {
-  font-size: 42px;
+}.brd-width-4 {
+  border-width: 4px;
+}.flex {
+  display: flex;
+}.absolute {
+  position: absolute;
+}.hidden {
+  visibility: hidden;
 }

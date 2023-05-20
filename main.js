@@ -71,7 +71,11 @@ const processFileContents = (fileContents) => {
 };
 
 const updateCSS = async (cssPath, matchedClasses) => {
-  const existingCSS = await fs.promises.readFile(cssPath, 'utf-8');
+  let existingCSS = '';
+
+  if (fs.existsSync(cssPath)) {
+    existingCSS = await fs.promises.readFile(cssPath, 'utf-8');
+  }
 
   const newCSS = matchedClasses
     .map((className) => {
@@ -80,6 +84,13 @@ const updateCSS = async (cssPath, matchedClasses) => {
       return match ? match.join('') : '';
     })
     .join('');
+
+  // Add contents from config.input if provided and it's a CSS file
+  if (config.input && config.input.endsWith('.css')) {
+    const inputPath = path.join(__dirname, config.input);
+    const inputContents = await fs.promises.readFile(inputPath, 'utf-8');
+    return inputContents + newCSS;
+  }
 
   return newCSS;
 };

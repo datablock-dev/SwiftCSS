@@ -1,29 +1,29 @@
 @for $i from 0 through 100 {
     .brd-width-#{$i}{
-        border-width: $i + 'px';
+        border-width: $i + #{'px'};
     }
     .brd-radius-#{$i}{
-        border-radius: $i + 'px';
+        border-radius: $i + #{'px'};
     }
     .brd-radius-tl-#{$i}{
-        border-top-left-radius: $i + 'px';
+        border-top-left-radius: $i + #{'px'};
     }
     .brd-radius-tr-#{$i}{
-        border-top-right-radius: $i + 'px';
+        border-top-right-radius: $i + #{'px'};
     }
     .brd-radius-t-#{$i}{
-        border-top-right-radius: $i + 'px';
-        border-top-left-radius: $i + 'px';
+        border-top-right-radius: $i + #{'px'};
+        border-top-left-radius: $i + #{'px'};
     }
     .brd-radius-bl-#{$i}{
-        border-bottom-left-radius: $i + 'px';
+        border-bottom-left-radius: $i + #{'px'};
     }
     .brd-radius-br-#{$i}{
-        border-bottom-right-radius: $i + 'px';
+        border-bottom-right-radius: $i + #{'px'};
     }
     .brd-radius-b-#{$i}{
-        border-bottom-right-radius: $i + 'px';
-        border-bottom-left-radius: $i + 'px';
+        border-bottom-right-radius: $i + #{'px'};
+        border-bottom-left-radius: $i + #{'px'};
     }
 
     // Percent
