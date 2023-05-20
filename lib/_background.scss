@@ -1,0 +1,56 @@
+.bg{
+
+    @for $i from 0 through 100{
+        &-#{$i}{
+            background-size: $i + #{#{'%'}}
+        }
+        &-x-#{$i}{
+            background-position-x: $i + #{#{'%'}};
+        }
+        &-y-#{$i}{
+            background-position-y: $i + #{#{'%'}};
+        }
+    }
+
+    // Background Size
+    &-contain{
+        background-size: contain;
+    }
+    &-cover{
+        background-size: cover;
+    }
+    &-revert{
+        background-size: revert;
+    }
+
+    // Background Repeat
+    &-repeat{
+        background-repeat: repeat;
+    }
+    &-no-repeat{
+        background-repeat: no-repeat;
+    }
+    &-repeat-x{
+        background-repeat: repeat-x;
+    }
+    &-repeat-y{
+        background-repeat: repeat-y;
+    }
+
+    // Position
+    &-bottom{
+        background-position: bottom;
+    }
+    &-top{
+        background-position: top;
+    }
+    &-left{
+        background-position: left;
+    }
+    &-right{
+        background-position: right;
+    }
+    &-center{
+        background-position: center;
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "chokidar": "^3.5.3",
+    "glob": "^10.2.5",
+    "yargs": "^17.7.2"
+  }
+}
