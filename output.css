@@ -10,8 +10,8 @@
     font-weight: 400;
 }.fs-42 {
   font-size: 42px;
-}.fw-200 {
-  font-weight: 200;
+}.fw-600 {
+  font-weight: 600;
 }.text-center {
   text-align: center;
 }.user-select-none {
@@ -20,8 +20,10 @@
           user-select: none;
 }.brd-radius-6 {
   border-radius: 6px;
-}.fw-400 {
-  font-weight: 400;
+}.z-300 {
+  z-index: 300;
+}.fw-300 {
+  font-weight: 300;
 }.white-space-normal {
   white-space: normal;
 }.brd-width-4 {
