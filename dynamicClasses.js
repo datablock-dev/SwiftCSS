@@ -1,69 +1,71 @@
 const fs = require('fs');
 const path = require('path');
 
-const arrDynamicClasses = [];
+let arrDynamicClasses = [];
 
-async function dynamicClasses(classNames, cssPath, outputPath){
-    console.log("Dynamic", classNames)
+async function dynamicClasses(classNames, cssPath, outputPath) {
+  // Has there been a new class added?
+  let isUpdated = false;
+  const existingOutputCSS = await fs.promises.readFile(outputPath, 'utf-8');
 
-    // Existing output
-    const existingOutputCSS = await fs.promises.readFile(outputPath, 'utf-8');
+  // Regex for dynamic classes
+  const regex = /-\[(#(?:[0-9a-fA-F]{3}){1,2}|[0-9a-fA-F]{6})\]/;
 
-    // Generate css-compatible output based on dynamic classes
-    const output = classNames.map((className) => {
-        const regex = /-\[(#(?:[0-9a-fA-F]{3}){1,2}|[0-9a-fA-F]{6})\]/;
-        const match = className.match(regex);
+  console.log("Dynamic", classNames);
 
-        var css;
-      
-        if(match && !arrDynamicClasses.some(item => item === match.input)){
-            const color = match[1];
+  // Iterate over classNames to find new classes
+  classNames.forEach((className) => {
+    const match = className.match(regex);
+    if (match && !arrDynamicClasses.includes(match.input)) {
+      arrDynamicClasses.push(match.input);
+      isUpdated = true;
+    }
+  });
 
-            const arr = className.split("");
-            let shouldAddBackslash = false;
-            const modifiedArr = arr.reduce((result, char, index) => {
-                if (char === '-') {
-                    shouldAddBackslash = true;
-                    result.push(char, '\\');
-                } else if (char === '[' && shouldAddBackslash) {
-                    result.push(char, '\\');
-                } else if (char === ']' && shouldAddBackslash) {
-                    result.push('\\', char);
-                    shouldAddBackslash = false;
-                } else {
-                    result.push(char);
-                }
-                return result;
-            }, []);
+  if (isUpdated) {
+    const output = arrDynamicClasses.map((className) => {
+      const match = className.match(regex);
+      const color = match[1];
 
-            const str = modifiedArr.join('');
+      const arr = className.split("");
+      let shouldAddBackslash = false;
+      const modifiedArr = arr.reduce((result, char, index) => {
+        if (char === '-') {
+          shouldAddBackslash = true;
+          result.push(char, '\\');
+        } else if (char === '[' && shouldAddBackslash) {
+          result.push(char, '\\');
+        } else if (char === ']' && shouldAddBackslash) {
+          result.push('\\', char);
+          shouldAddBackslash = false;
+        } else {
+          result.push(char);
+        }
+        return result;
+      }, []);
 
-            if(className.substring(0, 2) === "bg"){
-                css = `
+      const str = modifiedArr.join('');
+
+      if (className.substring(0, 2) === "bg") {
+        return `
                  .${str}{
                      background-color: ${color};
                  }`;
-
-                arrDynamicClasses.push(match.input)
-                return css;
-            } else if(className.substring(0, 5) === "color"){
-                css = `
+      } else if (className.substring(0, 5) === "color") {
+        return `
                 .${str}{
                     color: ${color};
                 }`;
+      }
 
-                arrDynamicClasses.push(match.input)
-                return css;
-            }
-        }
-      
-        return '';
+      return '';
     }).join('');
-      
-    const newCSS = existingOutputCSS + '\n' + output;
 
+    const newCSS = existingOutputCSS + '\n' + output;
     await fs.promises.writeFile(outputPath, newCSS, 'utf-8');
-    console.log(arrDynamicClasses)
+  }
+
+  console.log(arrDynamicClasses);
 }
 
 module.exports = dynamicClasses;

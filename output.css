@@ -36,8 +36,25 @@
   position: absolute;
 }.hidden {
   visibility: hidden;
+}.bg-3 {
+  background-size: 3%;
 }
 
-                 .bg-\[\#fff\]{
-                     background-color: #fff;
+                 .bg-\[\#c4c4c4\]{
+                     background-color: #c4c4c4;
                  }
+                .color-\[\#ffffff\]{
+                    color: #ffffff;
+                }
+                 .bg-\[\#fcfcfd\]{
+                     background-color: #fcfcfd;
+                 }
+                 .bg-\[\#333\]{
+                     background-color: #333;
+                 }
+                .color-\[\#98dc88\]{
+                    color: #98dc88;
+                }
+                .color-\[\#98dc84\]{
+                    color: #98dc84;
+                }
