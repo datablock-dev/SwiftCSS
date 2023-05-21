@@ -39,12 +39,14 @@ const processFile = async (filePath) => {
   try {
     const resolvedPath = path.resolve(filePath);
     const fileContents = await fs.promises.readFile(resolvedPath, 'utf-8');
+    // Gets all classNames found
     const processedContents = processFileContents(fileContents);
 
     // Copy contents from config.input if provided and it's a CSS file
     if (config.input && config.input.endsWith('.css')) {
       const inputPath = path.join(__dirname, config.input);
       const inputContents = await fs.promises.readFile(inputPath, 'utf-8');
+      // Adds all content in input file to the beginning
       processedContents.unshift(inputContents);
     }
 

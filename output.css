@@ -22,6 +22,8 @@
   border-radius: 6px;
 }.z-300 {
   z-index: 300;
+}.bg-0 {
+  background-size: 0%;
 }.fw-300 {
   font-weight: 300;
 }.white-space-normal {
