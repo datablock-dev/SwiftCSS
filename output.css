@@ -20,10 +20,10 @@
           user-select: none;
 }.brd-radius-6 {
   border-radius: 6px;
-}.z-300 {
-  z-index: 300;
-}.bg-0 {
-  background-size: 0%;
+}.z-400 {
+  z-index: 400;
+}.bg-4 {
+  background-size: 4%;
 }.fw-300 {
   font-weight: 300;
 }.white-space-normal {
@@ -37,3 +37,7 @@
 }.hidden {
   visibility: hidden;
 }
+
+                 .bg-\[\#fff\]{
+                     background-color: #fff;
+                 }

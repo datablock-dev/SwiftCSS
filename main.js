@@ -7,6 +7,9 @@ const yargs = require('yargs');
 
 const config = require('./smooth.config.js'); // Import the config file
 
+// Functions
+const dynamicClasses = require('./dynamicClasses.js');
+
 let matchedClasses = [];
 
 const cssPath = path.join(__dirname, 'style.css'); // Path to your CSS file
@@ -54,6 +57,15 @@ const processFile = async (filePath) => {
     matchedClasses = removeUnusedClasses(matchedClasses); // Update matchedClasses with filtered list
     const updatedCSS = await updateCSS(cssPath, matchedClasses);
     await fs.promises.writeFile(outputPath, updatedCSS, 'utf-8');
+
+    const dynamicClassRegex = /-\[(#(?:[0-9a-fA-F]{3}){1,2})\]/;
+    const dynamicMatches = processedContents.filter((className) => dynamicClassRegex.test(className));
+
+    // If we find a dynamic class in any of the files
+    if(dynamicMatches.length > 0){
+        dynamicClasses(dynamicMatches, cssPath, outputPath);
+    }
+
     console.log('CSS successfully updated.');
   } catch (error) {
     console.error(`Error processing file: ${filePath}`, error);
@@ -75,6 +87,7 @@ const processFileContents = (fileContents) => {
 const updateCSS = async (cssPath, matchedClasses) => {
   let existingCSS = '';
 
+  // Get style from base style (style.css)
   if (fs.existsSync(cssPath)) {
     existingCSS = await fs.promises.readFile(cssPath, 'utf-8');
   }
