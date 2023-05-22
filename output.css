@@ -66,6 +66,15 @@
 .bg-\[\#fcfcfd\] {
 	background-color: #fcfcfd;
 }
+light.light, body.light { [style-light="color-[#000] fs-14 z-300"] {
+color: #000;
+
+  font-size: 14px;
+
+
+  z-index: 300;
+
+} }
 light.light, body.light { [style-light="color-[#000] fs-19 fw-400"] {
 color: #000;
 

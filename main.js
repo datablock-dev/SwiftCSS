@@ -34,7 +34,10 @@ function parseClassNamesFromHTML(filePath) {
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const classNames = new Set();
     const dynamicClassNames = {};
-    const attributes = {};
+    const attributes = {
+        'style-dark': [],
+        'style-light': [],
+    };
     let match;
   
     while ((match = classRegex.exec(fileContent))) {
@@ -53,9 +56,9 @@ function parseClassNamesFromHTML(filePath) {
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
-      const attributeName = match[1];
-      const attributeValue = match[2];
-      attributes[attributeName] = attributeValue;
+        const attributeName = match[1];
+        const attributeValue = match[2];
+        attributes[attributeName].push(attributeValue);
     }
   
     return { classNames, dynamicClassNames, attributes };
@@ -138,12 +141,16 @@ function runBuildCommand() {
       Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
         dynamicClasses[className] = classProperties;
       });
-      Object.entries(attributes).forEach(([attributeName, attributeValue]) => {
+      Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
         if (attributeName === 'style-dark') {
-          darkStyles[attributeValue] = attributeValue;
+          attributeValues.forEach(attributeValue => {
+            darkStyles[attributeValue] = attributeValue;
+          });
         }
         if (attributeName === 'style-light') {
-          lightStyles[attributeValue] = attributeValue;
+          attributeValues.forEach(attributeValue => {
+            lightStyles[attributeValue] = attributeValue;
+          });
         }
       });
     };
@@ -204,10 +211,10 @@ function runBuildCommand() {
           const cssRule = `[style-${themeClassName}="${className}"] {\n${cssProperties.join('\n')}\n}`;
           finalStyles.push(`${themeClassName}.light, body.${themeClassName} { ${cssRule} }`);
         });
-      };
+    };
     
-      createThemeStyles(lightStyles, 'light');
-      createThemeStyles(darkStyles, 'dark');
+    createThemeStyles(lightStyles, 'light');
+    createThemeStyles(darkStyles, 'dark');
 
   // Include input CSS styles
   finalStyles.push(inputCSS);
@@ -219,14 +226,6 @@ function runBuildCommand() {
   // Append dark and light mode styles
   finalStyles.push(...darkModeStyles);
   finalStyles.push(...lightModeStyles);
-
-  /*
-  // Generate dark and light mode selectors
-  const darkModeSelector = 'html.dark, body.dark { }';
-  const lightModeSelector = 'html.light, body.light { }';
-  finalStyles.unshift(lightModeSelector);
-  finalStyles.unshift(darkModeSelector);
-  */
 
   writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
 }
