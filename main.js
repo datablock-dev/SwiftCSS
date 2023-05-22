@@ -142,17 +142,22 @@ function runBuildCommand() {
         dynamicClasses[className] = classProperties;
       });
       Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
-        if (attributeName === 'style-dark') {
-          attributeValues.forEach(attributeValue => {
-            darkStyles[attributeValue] = attributeValue;
-          });
-        }
-        if (attributeName === 'style-light') {
-          attributeValues.forEach(attributeValue => {
-            lightStyles[attributeValue] = attributeValue;
-          });
-        }
-      });
+        attributeValues.forEach(attributeValue => {
+            if (attributeName === 'style-dark') {
+                if (!darkStyles[attributeValue]) {
+                    darkStyles[attributeValue] = [];
+                }
+                darkStyles[attributeValue].push(attributeValue);
+            }
+    
+            if (attributeName === 'style-light') {
+                if (!lightStyles[attributeValue]) {
+                    lightStyles[attributeValue] = [];
+                }
+                lightStyles[attributeValue].push(attributeValue);
+            }
+        });
+    });
     };
 
   config.fileExtensions.forEach(extension => {
@@ -193,25 +198,32 @@ function runBuildCommand() {
     finalStyles.push(...dynamicClassStyles);
 
     const createThemeStyles = (themeStyles, themeClassName) => {
-        Object.entries(themeStyles).forEach(([className, attribute]) => {
-          const properties = attribute.split(/\s+/);
-          const cssProperties = [];
-    
-          properties.forEach(property => {
-            if (dynamicClasses[property]) {
-              cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
-            } else {
-              const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
-              if (propertyStyleMatch) {
-                cssProperties.push(propertyStyleMatch[1]);
+        const cssRules = [];
+      
+        Object.entries(themeStyles).forEach(([className, attributeValues]) => {
+          attributeValues.forEach(attributeValue => {
+            const properties = attributeValue.split(/\s+/);
+            const cssProperties = [];
+      
+            properties.forEach(property => {
+              if (dynamicClasses[property]) {
+                cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
+              } else {
+                const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
+                if (propertyStyleMatch) {
+                  cssProperties.push(propertyStyleMatch[1].trim());
+                }
               }
-            }
+            });
+      
+            const cssRule = `[style-${themeClassName}="${className}"] {\n${cssProperties.join('\n')}\n}`;
+            cssRules.push(cssRule);
           });
-    
-          const cssRule = `[style-${themeClassName}="${className}"] {\n${cssProperties.join('\n')}\n}`;
-          finalStyles.push(`${themeClassName}.light, body.${themeClassName} { ${cssRule} }`);
         });
-    };
+      
+        finalStyles.push(`${themeClassName}.light, body.${themeClassName} {\n${cssRules.join('\n')}\n}`);
+      };
+      
     
     createThemeStyles(lightStyles, 'light');
     createThemeStyles(darkStyles, 'dark');

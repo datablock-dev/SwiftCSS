@@ -9,7 +9,11 @@
         style-light="color-[#000] fs-19 fw-400"
     >
     </span>
-        <div className="color-[#f4f4f4]">
+        <div 
+            className="color-[#f4f4f4]"
+            style-dark="color-[#fff]"
+            style-light="color-[#000]"
+        >
 
         </div>
         <div className="color-[#fffff2]">
@@ -19,3 +23,8 @@
 
         </div>
 </div>
+
+function test (){
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+    root.classList.add('dark');
+}
