@@ -128,6 +128,8 @@ function runBuildCommand() {
     const dynamicClassNames = new Set();
     const dynamicStyles = new Set();
     const dynamicClasses = {};
+    const lightStyles = {}; 
+    const darkStyles = {};
   
     const processFile = filePath => {
       const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath);
@@ -137,10 +139,11 @@ function runBuildCommand() {
         dynamicClasses[className] = classProperties;
       });
       Object.entries(attributes).forEach(([attributeName, attributeValue]) => {
-        if (attributeName === 'style-dark' || attributeName === 'style-light') {
-          const themeClassName = attributeName === 'style-dark' ? 'dark' : 'light';
-          dynamicClassNames.add(themeClassName);
-          dynamicStyles.add(attributeValue);
+        if (attributeName === 'style-dark') {
+          darkStyles[attributeValue] = attributeValue;
+        }
+        if (attributeName === 'style-light') {
+          lightStyles[attributeValue] = attributeValue;
         }
       });
     };
@@ -182,6 +185,30 @@ function runBuildCommand() {
     // Generate dynamic class styles
     finalStyles.push(...dynamicClassStyles);
 
+    const createThemeStyles = (themeStyles, themeClassName) => {
+        Object.entries(themeStyles).forEach(([className, attribute]) => {
+          const properties = attribute.split(/\s+/);
+          const cssProperties = [];
+    
+          properties.forEach(property => {
+            if (dynamicClasses[property]) {
+              cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
+            } else {
+              const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
+              if (propertyStyleMatch) {
+                cssProperties.push(propertyStyleMatch[1]);
+              }
+            }
+          });
+    
+          const cssRule = `[style-${themeClassName}="${className}"] {\n${cssProperties.join('\n')}\n}`;
+          finalStyles.push(`${themeClassName}.light, body.${themeClassName} { ${cssRule} }`);
+        });
+      };
+    
+      createThemeStyles(lightStyles, 'light');
+      createThemeStyles(darkStyles, 'dark');
+
   // Include input CSS styles
   finalStyles.push(inputCSS);
 
@@ -193,11 +220,13 @@ function runBuildCommand() {
   finalStyles.push(...darkModeStyles);
   finalStyles.push(...lightModeStyles);
 
+  /*
   // Generate dark and light mode selectors
   const darkModeSelector = 'html.dark, body.dark { }';
   const lightModeSelector = 'html.light, body.light { }';
   finalStyles.unshift(lightModeSelector);
   finalStyles.unshift(darkModeSelector);
+  */
 
   writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
 }

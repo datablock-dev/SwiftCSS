@@ -39,10 +39,6 @@
 .z-600 {
   z-index: 600;
 }
-color-[#fff]
-color-[#000]
-html.dark, body.dark { }
-html.light, body.light { }
 .bg-\[\#000\] {
 	background-color: #000;
 }
@@ -58,15 +54,30 @@ html.light, body.light { }
 .color-\[\#f4f4f4\] {
 	color: #f4f4f4;
 }
-.color-\[\#ffffff\] {
-	color: #ffffff;
+.color-\[\#fffff2\] {
+	color: #fffff2;
 }
 .color-\[\#000000\] {
 	color: #000000;
 }
+.color-\[\#fffff3\] {
+	color: #fffff3;
+}
 .bg-\[\#fcfcfd\] {
 	background-color: #fcfcfd;
 }
+light.light, body.light { [style-light="color-[#000] fs-19 fw-400"] {
+color: #000;
+
+  font-size: 19px;
+
+
+  font-weight: 400;
+
+} }
+dark.light, body.dark { [style-dark="color-[#fff]"] {
+color: #fff;
+} }
 .test{
     font-size: 69px;
 }
