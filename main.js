@@ -124,17 +124,18 @@ function writeOutputCSS(outputFilePath, styles) {
   console.log('Output CSS file generated:', outputFilePath);
 }
 
+const classNames = new Set();
+const dynamicClassNames = new Set();
+const dynamicStyles = new Set();
+const dynamicClasses = {};
+const lightStyles = {}; 
+const darkStyles = {};
+
 function runBuildCommand() {
     const styleCSS = fs.readFileSync('style.css', 'utf-8');
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
-    const classNames = new Set();
-    const dynamicClassNames = new Set();
-    const dynamicStyles = new Set();
-    const dynamicClasses = {};
-    const lightStyles = {}; 
-    const darkStyles = {};
-  
-    const processFile = filePath => {
+
+    function processFile(filePath) {
       const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath);
   
       fileClassNames.forEach(className => classNames.add(className));
@@ -143,21 +144,25 @@ function runBuildCommand() {
       });
       Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
         attributeValues.forEach(attributeValue => {
-            if (attributeName === 'style-dark') {
-                if (!darkStyles[attributeValue]) {
-                    darkStyles[attributeValue] = [];
-                }
+          if (attributeName === 'style-dark') {
+            if (!darkStyles[attributeValue]) {
+                darkStyles[attributeValue] = [];
+            }
+            if (!darkStyles[attributeValue].includes(attributeValue)) {
                 darkStyles[attributeValue].push(attributeValue);
             }
-    
-            if (attributeName === 'style-light') {
-                if (!lightStyles[attributeValue]) {
-                    lightStyles[attributeValue] = [];
-                }
+          }
+
+          if (attributeName === 'style-light') {
+            if (!lightStyles[attributeValue]) {
+                lightStyles[attributeValue] = [];
+            }
+            if (!lightStyles[attributeValue].includes(attributeValue)) {
                 lightStyles[attributeValue].push(attributeValue);
             }
+          }
         });
-    });
+      });
     };
 
   config.fileExtensions.forEach(extension => {
@@ -176,14 +181,18 @@ function runBuildCommand() {
   const finalStyles = [];
 
   styleCSS.split('}').forEach(styleBlock => {
-    const classNameMatch = styleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/);
-    if (classNameMatch && classNameMatch[1]) {
-      const className = classNameMatch[1];
-      if (classNames.has(className)) {
-        filteredStyles.push(styleBlock + '}');
+    let shouldIncludeBlock = false;
+    classNames.forEach(className => {
+      const classRegex = new RegExp('\\.' + className + '(?![\\w-])');
+      if (styleBlock.match(classRegex)) {
+        shouldIncludeBlock = true;
       }
+    });
+    if (shouldIncludeBlock) {
+      filteredStyles.push(styleBlock + '}');
     }
   });
+  
 
   dynamicStyles.forEach(style => {
     filteredStyles.push(style);

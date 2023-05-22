@@ -1,3 +1,12 @@
+/*************************** Variables ***************************/
+/*************************** Imports ***************************/
+.bg-0 {
+  background-size: 0%;
+}
+
+.bg-4 {
+  background-size: 4%;
+}
 
 
 .brd-radius-6 {
@@ -7,6 +16,11 @@
 
 .flex {
   display: flex;
+}
+
+.flex-col, .flx-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .text-center {
@@ -54,6 +68,12 @@
 .color-\[\#f4f4f4\] {
 	color: #f4f4f4;
 }
+.color-\[\#f3f3f3\] {
+	color: #f3f3f3;
+}
+.color-\[\#010101\] {
+	color: #010101;
+}
 .color-\[\#fffff2\] {
 	color: #fffff2;
 }
@@ -80,13 +100,16 @@ font-weight: 400;
 [style-light="color-[#000]"] {
 color: #000;
 }
+[style-light="color-[#010101]"] {
+color: #010101;
+}
 }
 dark.light, body.dark {
 [style-dark="color-[#fff]"] {
 color: #fff;
 }
-[style-dark="color-[#fff]"] {
-color: #fff;
+[style-dark="color-[#f3f3f3]"] {
+color: #f3f3f3;
 }
 }
 .test{
