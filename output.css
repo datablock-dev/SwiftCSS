@@ -1,3 +1,72 @@
+
+
+.brd-radius-6 {
+  border-radius: 6px;
+}
+
+
+.flex {
+  display: flex;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.fw-600 {
+  font-weight: 600;
+}
+
+
+.user-select-none {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+
+.fs-42 {
+  font-size: 42px;
+}
+
+
+.z-300 {
+  z-index: 300;
+}
+
+
+.z-600 {
+  z-index: 600;
+}
+color-[#fff]
+color-[#000]
+html.dark, body.dark { }
+html.light, body.light { }
+.bg-\[\#000\] {
+	background-color: #000;
+}
+.color-\[\#fff\] {
+	color: #fff;
+}
+.color-\[\#000\] {
+	color: #000;
+}
+.bg-\[\#c4c4c4\] {
+	background-color: #c4c4c4;
+}
+.color-\[\#f4f4f4\] {
+	color: #f4f4f4;
+}
+.color-\[\#ffffff\] {
+	color: #ffffff;
+}
+.color-\[\#000000\] {
+	color: #000000;
+}
+.bg-\[\#fcfcfd\] {
+	background-color: #fcfcfd;
+}
 .test{
     font-size: 69px;
 }
@@ -8,53 +77,8 @@
 
 .bog-2{
     font-weight: 400;
-}.fs-42 {
-  font-size: 42px;
-}.fw-600 {
-  font-weight: 600;
-}.text-center {
-  text-align: center;
-}.user-select-none {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-}.brd-radius-6 {
-  border-radius: 6px;
-}.z-400 {
-  z-index: 400;
-}.bg-4 {
-  background-size: 4%;
-}.fw-300 {
-  font-weight: 300;
-}.white-space-normal {
-  white-space: normal;
-}.brd-width-4 {
-  border-width: 4px;
-}.flex {
-  display: flex;
-}.absolute {
-  position: absolute;
-}.hidden {
-  visibility: hidden;
-}.bg-3 {
-  background-size: 3%;
 }
 
-                 .bg-\[\#c4c4c4\]{
-                     background-color: #c4c4c4;
-                 }
-                .color-\[\#ffffff\]{
-                    color: #ffffff;
-                }
-                 .bg-\[\#fcfcfd\]{
-                     background-color: #fcfcfd;
-                 }
-                 .bg-\[\#333\]{
-                     background-color: #333;
-                 }
-                .color-\[\#98dc88\]{
-                    color: #98dc88;
-                }
-                .color-\[\#98dc84\]{
-                    color: #98dc84;
-                }
+[style-dark="color-[#fff] fs-16"]{
+    
+}
