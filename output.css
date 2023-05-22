@@ -4,13 +4,31 @@
   background-size: 0%;
 }
 
+.bg-2 {
+  background-size: 2%;
+}
+
+.bg-3 {
+  background-size: 3%;
+}
+
 .bg-4 {
   background-size: 4%;
 }
 
 
+.brd-width-4 {
+  border-width: 4px;
+}
+
+
 .brd-radius-6 {
   border-radius: 6px;
+}
+
+
+.brd-radius-8 {
+  border-radius: 8px;
 }
 
 
@@ -23,8 +41,28 @@
   flex-direction: column;
 }
 
+
+.absolute {
+  position: absolute;
+}
+
+
+.relative {
+  position: relative;
+}
+
+
+.fixed {
+  position: fixed;
+}
+
 .text-center {
   text-align: center;
+}
+
+
+.fw-300 {
+  font-weight: 300;
 }
 
 
@@ -39,6 +77,10 @@
           user-select: none;
 }
 
+.white-space-normal {
+  white-space: normal;
+}
+
 
 .fs-42 {
   font-size: 42px;
@@ -50,8 +92,18 @@
 }
 
 
+.z-400 {
+  z-index: 400;
+}
+
+
 .z-600 {
   z-index: 600;
+}
+
+
+.hidden {
+  visibility: hidden;
 }
 .bg-\[\#000\] {
 	background-color: #000;
@@ -86,6 +138,24 @@
 .bg-\[\#fcfcfd\] {
 	background-color: #fcfcfd;
 }
+.bg-\[\#333\] {
+	background-color: #333;
+}
+.bg-\[\#332\] {
+	background-color: #332;
+}
+.color-\[\#98dc88\] {
+	color: #98dc88;
+}
+.color-\[\#98dc81\] {
+	color: #98dc81;
+}
+.color-\[\#111111\] {
+	color: #111111;
+}
+.color-\[\#313131\] {
+	color: #313131;
+}
 light.light, body.light {
 [style-light="color-[#000] fs-14 z-300"] {
 color: #000;
@@ -103,6 +173,9 @@ color: #000;
 [style-light="color-[#010101]"] {
 color: #010101;
 }
+[style-light="color-[#313131]"] {
+color: #313131;
+}
 }
 dark.light, body.dark {
 [style-dark="color-[#fff]"] {
@@ -110,6 +183,9 @@ color: #fff;
 }
 [style-dark="color-[#f3f3f3]"] {
 color: #f3f3f3;
+}
+[style-dark="color-[#111111]"] {
+color: #111111;
 }
 }
 .test{

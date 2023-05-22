@@ -27,6 +27,25 @@ for (const directory of config.directories) {
   }
 }
 
+function getAllFilesInDir(dir, ext, fileList = []) {
+    const files = fs.readdirSync(dir);
+
+    files.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+
+        if (stat.isDirectory()) {
+            fileList = getAllFilesInDir(filePath, ext, fileList);
+        } else {
+            if (path.extname(file) === `.${ext}`) {
+                fileList.push(filePath);
+            }
+        }
+    });
+
+    return fileList;
+}
+
 function parseClassNamesFromHTML(filePath) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
@@ -165,17 +184,15 @@ function runBuildCommand() {
       });
     };
 
-  config.fileExtensions.forEach(extension => {
-    config.directories.forEach(directory => {
-      const files = fs.readdirSync(directory)
-        .filter(file => path.extname(file) === `.${extension}`)
-        .map(file => path.join(directory, file));
-
-      files.forEach(filePath => {
-        processFile(filePath);
-      });
+    config.fileExtensions.forEach(extension => {
+        config.directories.forEach(directory => {
+            const files = getAllFilesInDir(directory, extension);
+    
+            files.forEach(filePath => {
+                processFile(filePath);
+            });
+        });
     });
-  });
 
   const filteredStyles = [];
   const finalStyles = [];
