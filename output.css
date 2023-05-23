@@ -1,3 +1,18 @@
+@media screen and (max-width: 600px) {
+
+}
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+
+}
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
+
+}
+@media screen and (min-width: 1600px) and (max-width: 2200px) {
+
+}
+@media screen and (min-width: 2200px) {
+
+}
 .brd-width-4 {
   border-width: 4px;}
 .brd-radius-6 {
@@ -9,12 +24,19 @@
 .flex-col {
   display: flex;
   flex-direction: column;}
+.cursor-pointer {
+  cursor: pointer;}
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;}
 .absolute {
   position: absolute;}
 .relative {
   position: relative;}
 .fixed {
   position: fixed;}
+.m-auto {
+  margin: auto;}
 .py-10 {
   padding-top: "10px";
   padding-bottom: "10px";}
@@ -63,6 +85,9 @@
 }
 .color-\[\#f4f4f4\] {
 	color: #f4f4f4;
+}
+.bg-\[\#062698\] {
+	background-color: #062698;
 }
 .color-\[\#f3f3f3\] {
 	color: #f3f3f3;
@@ -117,9 +142,10 @@ color: #000;
 font-size: 19px;
 font-weight: 400;
 }
-[style-light="color-[#000] relative"] {
+[style-light="color-[#000] relative bg-[#062698]"] {
 color: #000;
 position: relative;
+background-color: #062698;
 }
 [style-light="color-[#010101]"] {
 color: #010101;
@@ -150,6 +176,10 @@ color: #111111;
 
 .bog-2{
     font-weight: 400;
+}
+
+.test-2{
+    font-size: 44px;
 }
 
 [style-dark="color-[#fff] fs-16"]{

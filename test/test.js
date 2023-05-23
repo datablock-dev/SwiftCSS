@@ -5,14 +5,14 @@
     style-hover="cursor-pointer"
 >
     <span 
-        className="z-300 bg-[#c4c4c4] flex-col"
+        className="z-300 bg-[#c4c4c4] flex-col cursor-pointer"
         style-light="color-[#000] fs-19 fw-400"
     >
     </span>
         <div 
-            className="color-[#f4f4f4]"
+            className="color-[#f4f4f4] object-cover"
             style-dark="color-[#fff]"
-            style-light="color-[#000] relative"
+            style-light="color-[#000] relative bg-[#062698]"
             style-sd="fs-16"
         >
         </div>

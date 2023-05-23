@@ -7,7 +7,7 @@
             <span className="color-[#98dc88]"></span>
             <span className="color-[#98dc81]"></span>
             <span 
-                className="py-10 mx-20"
+                className="py-10 mx-20 m-auto"
                 style-dark="color-[#111111]"
                 style-light="color-[#313131] bg-[#fff]"
                 style-sd="fs-14 py-10 fs-32"
