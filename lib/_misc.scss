@@ -72,3 +72,18 @@
         cursor: zoom-in;
     }
 }
+
+.resize{
+    &-none{
+        resize: none;   
+    }
+    &-y{
+        resize: vertical;
+    }
+    &-x{ 
+        resize: horizontal;
+    }
+    &-both{
+        resize: both;
+    }
+}

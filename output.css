@@ -1,110 +1,48 @@
-/*************************** Variables ***************************/
-/*************************** Imports ***************************/
-.bg-0 {
-  background-size: 0%;
-}
-
-.bg-2 {
-  background-size: 2%;
-}
-
-.bg-3 {
-  background-size: 3%;
-}
-
-.bg-4 {
-  background-size: 4%;
-}
-
-
 .brd-width-4 {
-  border-width: 4px;
-}
-
-
+  border-width: 4px;}
 .brd-radius-6 {
-  border-radius: 6px;
-}
-
-
+  border-radius: 6px;}
 .brd-radius-8 {
-  border-radius: 8px;
-}
-
-
+  border-radius: 8px;}
 .flex {
+  display: flex;}
+.flex-col {
   display: flex;
-}
-
-.flex-col, .flx-col {
-  display: flex;
-  flex-direction: column;
-}
-
-
+  flex-direction: column;}
 .absolute {
-  position: absolute;
-}
-
-
+  position: absolute;}
 .relative {
-  position: relative;
-}
-
-
+  position: relative;}
 .fixed {
-  position: fixed;
-}
-
+  position: fixed;}
 .text-center {
-  text-align: center;
-}
-
-
+  text-align: center;}
 .fw-300 {
-  font-weight: 300;
-}
-
-
+  font-weight: 300;}
 .fw-600 {
-  font-weight: 600;
-}
-
-
+  font-weight: 600;}
+.fw-900 {
+  font-weight: 900;}
 .user-select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
-          user-select: none;
-}
-
+          user-select: none;}
 .white-space-normal {
-  white-space: normal;
-}
-
-
+  white-space: normal;}
 .fs-42 {
-  font-size: 42px;
-}
-
-
+  font-size: 42px;}
+.fs-100 {
+  font-size: 100px;}
+.fs-120 {
+  font-size: 120px;}
 .z-300 {
-  z-index: 300;
-}
-
-
+  z-index: 300;}
 .z-400 {
-  z-index: 400;
-}
-
-
+  z-index: 400;}
 .z-600 {
-  z-index: 600;
-}
-
-
+  z-index: 600;}
 .hidden {
-  visibility: hidden;
-}
+  visibility: hidden;}
 .bg-\[\#000\] {
 	background-color: #000;
 }
@@ -156,6 +94,12 @@
 .color-\[\#313131\] {
 	color: #313131;
 }
+.bg-\[\#fff\] {
+	background-color: #fff;
+}
+.fill-\[\#f4f4f4\] {
+	fill: #f4f4f4;
+}
 light.light, body.light {
 [style-light="color-[#000] fs-14 z-300"] {
 color: #000;
@@ -173,8 +117,9 @@ color: #000;
 [style-light="color-[#010101]"] {
 color: #010101;
 }
-[style-light="color-[#313131]"] {
+[style-light="color-[#313131] bg-[#fff]"] {
 color: #313131;
+background-color: #fff;
 }
 }
 dark.light, body.dark {

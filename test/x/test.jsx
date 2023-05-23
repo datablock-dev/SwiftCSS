@@ -8,8 +8,11 @@
             <span className="color-[#98dc81]"></span>
             <span 
                 style-dark="color-[#111111]"
-                style-light="color-[#313131]"
+                style-light="color-[#313131] bg-[#fff]"
+                style-sd="fs-14"
             ></span>
+            <span className="fs-100 fw-900"></span>
+            <span className="fill-[#f4f4f4] sd:fs-14"></span>
         </div>
     </div>
 </div>

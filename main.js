@@ -49,7 +49,7 @@ function getAllFilesInDir(dir, ext, fileList = []) {
 function parseClassNamesFromHTML(filePath) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const dynamicClassRegex = /(bg|color)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
+    const dynamicClassRegex = /(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const classNames = new Set();
     const dynamicClassNames = {};
@@ -66,12 +66,12 @@ function parseClassNamesFromHTML(filePath) {
     }
   
     while ((match = dynamicClassRegex.exec(fileContent))) {
-      const property = match[1];
-      const value = match[2];
-      dynamicClassNames[match[0]] = {
-        property: property === 'bg' ? 'background-color' : 'color',
-        value: '#' + value
-      };
+        const property = match[1];
+        const value = match[2];
+        dynamicClassNames[match[0]] = {
+          property: property === 'bg' ? 'background-color' : property === 'color' ? 'color' : 'fill',
+          value: '#' + value
+        };
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
@@ -153,6 +153,8 @@ const darkStyles = {};
 function runBuildCommand() {
     const styleCSS = fs.readFileSync('style.css', 'utf-8');
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
+    const attributes = {};
+    const screenStyles = {};
 
     function processFile(filePath) {
       const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath);
@@ -184,6 +186,65 @@ function runBuildCommand() {
       });
     };
 
+    // Create screen styles object based on config
+    if (config.screens) {
+        Object.entries(config.screens).forEach(([screenName, screenSize]) => {
+            screenStyles[screenName] = {
+                mediaQuery: '',
+                rules: []
+            };
+            
+            if (screenSize.min && screenSize.max) {
+                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px) and (max-width: ${screenSize.max}px)`;
+            } else if (screenSize.min) {
+                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px)`;
+            } else if (screenSize.max) {
+                screenStyles[screenName].mediaQuery = `@media screen and (max-width: ${screenSize.max}px)`;
+            }
+
+            Object.entries(dynamicClasses).forEach(([className, classProperties]) => {
+                if (className.startsWith(screenName)) {
+                    screenStyles[screenName].rules.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+                }
+            });
+        });
+    }
+
+    // Process styles for different screen sizes
+    Object.entries(screenStyles).forEach(([screenName, screenStyleQueries]) => {
+        const cssRules = [];
+    
+        Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
+          if (attributeName === `style-${screenName}`) {
+            attributeValues.forEach(attributeValue => {
+              const properties = attributeValue.split(/\s+/);
+              const cssProperties = [];
+    
+              properties.forEach(property => {
+                if (dynamicClasses[property]) {
+                  cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
+                } else {
+                  const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
+                  if (propertyStyleMatch) {
+                    cssProperties.push(propertyStyleMatch[1].trim());
+                  }
+                }
+              });
+    
+              const cssRule = `[style-${screenName}="${attributeValue}"] {\n${cssProperties.join('\n')}\n}`;
+              cssRules.push(cssRule);
+            });
+          }
+        });
+    
+        screenStyleQueries.push(cssRules.join('\n'));
+    });
+
+    Object.entries(screenStyles).forEach(([screenName, screenStyle]) => {
+        finalStyles.push(screenStyle.mediaQuery + ' {\n' + screenStyle.rules.join('\n') + '\n}');
+    });
+      
+
     config.fileExtensions.forEach(extension => {
         config.directories.forEach(directory => {
             const files = getAllFilesInDir(directory, extension);
@@ -194,32 +255,32 @@ function runBuildCommand() {
         });
     });
 
-  const filteredStyles = [];
-  const finalStyles = [];
+    const filteredStyles = [];
+    const finalStyles = [];
 
-  styleCSS.split('}').forEach(styleBlock => {
-    let shouldIncludeBlock = false;
-    classNames.forEach(className => {
-      const classRegex = new RegExp('\\.' + className + '(?![\\w-])');
-      if (styleBlock.match(classRegex)) {
-        shouldIncludeBlock = true;
-      }
+    styleCSS.split('}').forEach(styleBlock => {
+        const trimmedStyleBlock = styleBlock.trim();
+        const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/);
+        if (classNameMatch && classNameMatch[1]) {
+          const className = classNameMatch[1];
+          if (classNames.has(className)) {
+            // Trim the style block and append '}' at the end
+            filteredStyles.push(trimmedStyleBlock + '}');
+          }
+        }
     });
-    if (shouldIncludeBlock) {
-      filteredStyles.push(styleBlock + '}');
-    }
-  });
   
 
-  dynamicStyles.forEach(style => {
-    filteredStyles.push(style);
-  });
+    dynamicStyles.forEach(style => {
+      filteredStyles.push(style);
+    });
 
     // Create dynamic classes
     const dynamicClassStyles = [];
     Object.entries(dynamicClasses).forEach(([className, classProperties]) => {
-      dynamicClassStyles.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+        dynamicClassStyles.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
     });
+      
     // Generate dynamic class styles
     finalStyles.push(...dynamicClassStyles);
 
@@ -264,6 +325,10 @@ function runBuildCommand() {
   // Append dark and light mode styles
   finalStyles.push(...darkModeStyles);
   finalStyles.push(...lightModeStyles);
+
+    // Include screen styles
+    finalStyles.push(...Object.values(screenStyles).map(style => style.join('\n')));
+
 
   writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
 }
