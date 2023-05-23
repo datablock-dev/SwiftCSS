@@ -262,11 +262,11 @@ function runBuildCommand() {
         const trimmedStyleBlock = styleBlock.trim();
         const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/);
         if (classNameMatch && classNameMatch[1]) {
-          const className = classNameMatch[1];
-          if (classNames.has(className)) {
-            // Trim the style block and append '}' at the end
-            filteredStyles.push(trimmedStyleBlock + '}');
-          }
+            const className = classNameMatch[1];
+            if (classNames.has(className)) {
+                // Trim the style block and append '}' at the end
+                finalStyles.push(trimmedStyleBlock + '}');
+            }
         }
     });
   
@@ -318,6 +318,11 @@ function runBuildCommand() {
   // Include input CSS styles
   finalStyles.push(inputCSS);
 
+    // Include screen styles
+    Object.values(screenStyles).forEach(style => {
+        finalStyles.push(style.mediaQuery + ' {\n' + style.rules.join('\n') + '\n}');
+    });
+
   // Dark and light mode styles
   const darkModeStyles = generateDynamicStyles('dark', Array.from(dynamicClassNames), styleCSS);
   const lightModeStyles = generateDynamicStyles('light', Array.from(dynamicClassNames), styleCSS);
@@ -339,7 +344,14 @@ if (process.argv[2] === 'watch') {
   const watcher = chokidar.watch(config.directories, {
     ignored: /(^|[/\\])\../, // Ignore dotfiles
     persistent: true,
+    depth: "infinity"
   });
+
+    const configWatcher = chokidar.watch(configFile, { persistent: true });
+    configWatcher.on('change', path => {
+        console.log('Compiler stopped due to changes to the config file, please rerun your command once you have finished editing the config file');
+        process.exit();
+    });
 
   watcher.on('change', filePath => {
     console.log(`File changed: ${filePath}`);

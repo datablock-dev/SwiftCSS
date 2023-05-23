@@ -15,6 +15,12 @@
   position: relative;}
 .fixed {
   position: fixed;}
+.py-10 {
+  padding-top: "10px";
+  padding-bottom: "10px";}
+.mx-20 {
+  margin-left: "20px";
+  margin-right: "20px";}
 .text-center {
   text-align: center;}
 .fw-300 {
@@ -111,8 +117,9 @@ color: #000;
 font-size: 19px;
 font-weight: 400;
 }
-[style-light="color-[#000]"] {
+[style-light="color-[#000] relative"] {
 color: #000;
+position: relative;
 }
 [style-light="color-[#010101]"] {
 color: #010101;

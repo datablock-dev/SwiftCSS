@@ -12,7 +12,7 @@
         <div 
             className="color-[#f4f4f4]"
             style-dark="color-[#fff]"
-            style-light="color-[#000]"
+            style-light="color-[#000] relative"
             style-sd="fs-16"
         >
         </div>
@@ -22,14 +22,14 @@
             style-light="color-[#010101]"
         >
         </div>
-        <div className="color-[#fffff2]">
+        <div className="color-[#fffff2] sd:fs-14">
             <span className="color-[#000000]"></span>
         </div>
         <div className="color-[#fffff3] bg-[#fcfcfd]">
             <div className="">
 
             </div>
-            <span className="fs-120"></span>
+            <span className="fs-120 fs-100"></span>
         </div>
 </div>
 
