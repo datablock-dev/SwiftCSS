@@ -12893,29 +12893,29 @@
   filter: contrast(2);
 }
 
-.flex-row, .flx-row {
+.flex-row {
   display: flex;
   flex-direction: row;
 }
-.flex-row-reverse, .flx-row-reverse {
+.flex-row-reverse {
   display: flex;
   flex-direction: row-reverse;
 }
-.flex-col, .flx-col {
+.flex-col {
   display: flex;
   flex-direction: column;
 }
-.flex-col-reverse, .flx-col-reverse {
+.flex-col-reverse {
   display: flex;
   flex-direction: column-reverse;
 }
-.flex-wrap, .flx-wrap {
+.flex-wrap {
   flex-wrap: wrap;
 }
-.flex-nowrap, .flx-nowrap {
+.flex-nowrap {
   flex-wrap: nowrap;
 }
-.flex-wrap-reverse, .flx-wrap-reverse {
+.flex-wrap-reverse {
   flex-wrap: wrap-reverse;
 }
 

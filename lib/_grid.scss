@@ -1,0 +1,10 @@
+.grid{
+    @for $i from 0 through 30 {
+        &-cols-#{$i}{
+            grid-template-columns: repeat($i, minmax(0, 1fr));
+        }
+    }
+    &-cols-none{
+        grid-template-columns: none;
+    }
+}

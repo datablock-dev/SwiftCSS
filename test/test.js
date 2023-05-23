@@ -1,18 +1,39 @@
 <div 
-    className="fs-42 fw-600 text-center user-select-none brd-radius-6"
-    style-dark="test"
-    style-light=""
+    className="fs-42 bg-[#000] fw-600 z-600 text-center user-select-none brd-radius-6 flex"
+    style-dark="color-[#fff]"
+    style-light="color-[#000] fs-14 z-300"
     style-hover="cursor-pointer"
 >
-    <span className="z-400 bg-[#c4c4c4] flex-col">
-        <div className="color-[#ffffff]">
-
-        </div>
-        <div className="color-[#ffffff]">
-
-        </div>
-        <div className="color-[#ffffff] bg-[#fcfcfd]">
-
-        </div>
+    <span 
+        className="z-300 bg-[#c4c4c4] flex-col"
+        style-light="color-[#000] fs-19 fw-400"
+    >
     </span>
+        <div 
+            className="color-[#f4f4f4]"
+            style-dark="color-[#fff]"
+            style-light="color-[#000] relative"
+            style-sd="fs-16"
+        >
+        </div>
+        <div 
+            className="color-[#f4f4f4]"
+            style-dark="color-[#f3f3f3]"
+            style-light="color-[#010101]"
+        >
+        </div>
+        <div className="color-[#fffff2] sd:fs-14">
+            <span className="color-[#000000]"></span>
+        </div>
+        <div className="color-[#fffff3] bg-[#fcfcfd]">
+            <div className="">
+
+            </div>
+            <span className="fs-120 fs-100"></span>
+        </div>
 </div>
+
+function test (){
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+    root.classList.add('dark');
+}

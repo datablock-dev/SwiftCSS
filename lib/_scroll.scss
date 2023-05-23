@@ -1,0 +1,46 @@
+.scroll{
+    &-auto{
+        scroll-behavior: auto;
+    }
+    &-smooth{
+        scroll-behavior: smooth;
+    }
+}
+.snap{
+    &-start{
+        scroll-snap-align: start;
+    }
+    &-end{
+        scroll-snap-align: end;
+    }
+    &-center{
+        scroll-snap-align: center;
+    }
+    &-align-none{
+        scroll-snap-align: none;
+    }
+    &-none{
+        scroll-snap-type: none;
+    }
+    &-x{
+        scroll-snap-type: x;
+    }
+    &-y{
+        scroll-snap-type: y;
+    }
+    &-both{
+        scroll-snap-type: both;
+    }
+    &-mandatory{
+        scroll-snap-type: mandatory;
+    }
+    &-proximity{
+        scroll-snap-type: proximity;
+    }
+    &-normal{
+        scroll-snap-stop: normal;
+    }
+    &-always{
+        scroll-snap-stop: always;
+    }
+}
