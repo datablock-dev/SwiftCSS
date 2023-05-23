@@ -35,31 +35,36 @@ const dynamicStyles = new Set();
 const dynamicClasses = {};
 const lightStyles = {}; 
 const darkStyles = {};
+var screenKeys = [];
 
 if (process.argv[2] === 'watch') {
   console.log('Watching for file changes...');
 
+  
   const watcher = chokidar.watch(config.directories, {
-    ignored: /(^|[/\\])\../, // Ignore dotfiles
-    persistent: true,
-    depth: "infinity"
-  });
-
+      ignored: /(^|[/\\])\../, // Ignore dotfiles
+      persistent: true,
+      depth: "infinity"
+    });
+    
+    // Watch for changes in config file
     const configWatcher = chokidar.watch(configFile, { persistent: true });
     configWatcher.on('change', path => {
         const newConfig = require('./swiftstyle.config.js');
         if (JSON.stringify(newConfig.screens) !== JSON.stringify(currentScreens)) {
             currentScreens = newConfig.screens;
-            parseClass.updateStyles(currentScreens); // Your method to update the parseClass
+            console.log(currentScreens)
         }
         console.log('Compiler stopped due to changes to the config file, please rerun your command once you have finished editing the config file');
         process.exit();
     });
 
-  watcher.on('change', filePath => {
-    console.log(`File changed: ${filePath}`);
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles);
-  });
+    screenKeys = [...Object.keys(config.screens)]
+    
+    watcher.on('change', filePath => {
+        console.log(`File changed: ${filePath}`);
+        runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
+    });
 
   process.on('SIGINT', () => {
     watcher.close();
@@ -67,7 +72,7 @@ if (process.argv[2] === 'watch') {
     process.exit();
   });
 
-  runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles);
+  runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
 } else if (process.argv[2] === 'build') {
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles);
+    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
 }

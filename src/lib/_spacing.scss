@@ -67,27 +67,27 @@
     }
 
     // %
-    .p-#{$i}\%{
+    .p-#{$i}prc{
         padding: $i + #{'%'};
     }
-    .px-#{$i}\%{
+    .px-#{$i}prc{
         padding-left: $i + #{'%'};
         padding-right: $i + #{'%'};
     }
-    .py-#{$i}\%{
+    .py-#{$i}prc{
         padding-top: $i + #{'%'};
         padding-bottom: $i + #{'%'};
     }
-    .pt-#{$i}\%{
+    .pt-#{$i}prc{
         padding-top: $i + #{'%'};
     }
-    .pb-#{$i}\%{
+    .pb-#{$i}prc{
         padding-bottom: $i + #{'%'};
     }
-    .pl-#{$i}\%{
+    .pl-#{$i}prc{
         padding-left: $i + #{'%'};
     }
-    .pr-#{$i}\%{
+    .pr-#{$i}prc{
         padding-right: $i + #{'%'};
     }
 
@@ -167,27 +167,27 @@
     }
 
     // %
-    .m-#{$i}\%{
+    .m-#{$i}prc{
         margin: $i + #{'%'};
     }
-    .mx-#{$i}\%{
+    .mx-#{$i}prc{
         margin-left: $i + #{'%'};
         margin-right: $i + #{'%'};
     }
-    .my-#{$i}\%{
+    .my-#{$i}prc{
         margin-top: $i + #{'%'};
         margin-bottom: $i + #{'%'};
     }
-    .mt-#{$i}\%{
+    .mt-#{$i}prc{
         margin-top: $i + #{'%'};
     }
-    .mb-#{$i}\%{
+    .mb-#{$i}prc{
         margin-bottom: $i + #{'%'};
     }
-    .ml-#{$i}\%{
+    .ml-#{$i}prc{
         margin-left: $i + #{'%'};
     }
-    .mr-#{$i}\%{
+    .mr-#{$i}prc{
         margin-right: $i + #{'%'};
     }
 
@@ -220,31 +220,31 @@
     .w-#{$i}{
         width: #{$i}#{"px"} !important;
     }
-    .w-#{$i}\%{
+    .w-#{$i}prc{
         width: #{$i}#{"%"} !important;
     }
     .min-w-#{$i}{
         min-width: #{$i}#{"px"} !important;
     }
-    .min-w-#{$i}\%{
+    .min-w-#{$i}prc{
         min-width: #{$i}#{"%"};
     }
     .max-w-#{$i}{
         max-width: #{$i}#{"px"};
     }
-    .max-w-#{$i}\%{
+    .max-w-#{$i}prc{
         max-width: #{$i}#{"%"};
     }
     .h-#{$i}{
         height: #{$i}#{"px"} !important;
     }
-    .h-#{$i}\%{
+    .h-#{$i}prc{
         height: #{$i}#{"%"};
     }
     .min-h-#{$i}{
         min-height: #{$i}#{"px"};
     }
-    .min-h-#{$i}\%{
+    .min-h-#{$i}prc{
         min-height: #{$i}#{"%"};
     }
     .min-h-#{$i}vh{
@@ -256,7 +256,7 @@
     .max-h-#{$i}vh{
         max-height: #{$i}#{"vh"};
     }
-    .max-h-#{$i}\%{
+    .max-h-#{$i}prc{
         max-height: #{$i}#{"%"};
     }
 }

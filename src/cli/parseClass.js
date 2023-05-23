@@ -1,13 +1,13 @@
 const fs = require('fs')
 
-let styles = [];
-function parseClassNamesFromHTML(filePath) {
+function parseClassNamesFromHTML(filePath, screenKeys) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
     const dynamicClassRegex = /(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const classNames = new Set();
     const dynamicClassNames = {};
+    const screenClasses = {}
     const attributes = {
         'style-dark': [],
         'style-light': [],
@@ -34,24 +34,20 @@ function parseClassNamesFromHTML(filePath) {
         const attributeValue = match[2];
         attributes[attributeName].push(attributeValue);
     }
-  
-    return { classNames, dynamicClassNames, attributes };
-}
 
-function parseClass(classString) {
-    const classNames = classString.split(' ');
-  
-    classNames.forEach(className => {
-      if (styles.includes(className)) {
-        // Handle the style...
-        // This is where you would insert your logic for handling the style classes.
-      }
+    screenKeys.forEach(screenKey => {
+        const attributeRegex = new RegExp(`\\s+(style-${screenKey})\\s*=\\s*"([^"]+)"`, 'g');
+        while ((match = attributeRegex.exec(fileContent))) {
+            screenClasses[screenKey].push(match[0].trim())
+
+            //const attributeName = match[1];
+            //const attributeValue = match[2];
+            //attributes[attributeName].push(attributeValue);
+        }//
     });
-}
-  
-
-function updateStyles(screens) {
-    styles = Object.keys(screens).map(screen => 'style-' + screen);
+    
+    console.log(screenClasses)
+    return { classNames, dynamicClassNames, attributes };
 }
 
 module.exports = parseClassNamesFromHTML

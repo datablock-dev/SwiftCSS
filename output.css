@@ -40,6 +40,9 @@
 .py-10 {
   padding-top: 10px;
   padding-bottom: 10px;}
+.py-10prc {
+  padding-top: 10%;
+  padding-bottom: 10%;}
 .mx-20 {
   margin-left: 20px;
   margin-right: 20px;}

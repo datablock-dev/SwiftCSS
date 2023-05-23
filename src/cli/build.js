@@ -1,15 +1,16 @@
 const fs = require('fs')
 const path = require('path')
 const parseClassNamesFromHTML = require('./parseClass');
+const mediaQuries = require('./parsers/mediaQueries')
 
-function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles) {
+function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys) {
     const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
     const attributes = {};
     const screenStyles = {};
 
     function processFile(filePath) {
-      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath);
+      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath, screenKeys);
   
       fileClassNames.forEach(className => classNames.add(className));
       Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
@@ -37,62 +38,15 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
           }
         });
       });
+
+      mediaQuries(config.screens, screenStyles, attributes)
     };
 
-    // Create screen styles object based on config
-    if (config.screens) {
-        Object.entries(config.screens).forEach(([screenName, screenSize]) => {
-            screenStyles[screenName] = {
-                mediaQuery: '',
-                rules: []
-            };
-            
-            if (screenSize.min && screenSize.max) {
-                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px) and (max-width: ${screenSize.max}px)`;
-            } else if (screenSize.min) {
-                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px)`;
-            } else if (screenSize.max) {
-                screenStyles[screenName].mediaQuery = `@media screen and (max-width: ${screenSize.max}px)`;
-            }
-        });
-    }
-
-    // Process styles for different screen sizes
-    Object.entries(screenStyles).forEach(([screenName, screenStyle]) => {
-        const cssRules = [];
-    
-        Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
-          if (attributeName === `style-${screenName}`) {
-            attributeValues.forEach(attributeValue => {
-              const properties = attributeValue.split(/\s+/);
-              const cssProperties = [];
-    
-              properties.forEach(property => {
-                if (dynamicClasses[property]) {
-                  cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
-                } else {
-                  const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
-                  if (propertyStyleMatch) {
-                    cssProperties.push(propertyStyleMatch[1].trim());
-                  }
-                }
-              });
-    
-              const cssRule = `[style-${screenName}="${attributeValue}"] {\n${cssProperties.join('\n')}\n}`;
-              cssRules.push(cssRule);
-            });
-          }
-        });
-    
-        screenStyle.rules.push(...cssRules);
-    });
-
-    
     
     config.fileExtensions.forEach(extension => {
         config.directories.forEach(directory => {
             const files = getAllFilesInDir(directory, extension);
-            
+            // Process all files
             files.forEach(filePath => {
                 processFile(filePath);
             });
