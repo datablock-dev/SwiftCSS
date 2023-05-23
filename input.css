@@ -14,6 +14,10 @@
     font-size: 44px;
 }
 
-[style-dark="color-[#fff] fs-16"]{
-    
+.p-40\%{
+    padding: 40%;
+}
+
+.p-50\%{
+    padding: 50%;
 }

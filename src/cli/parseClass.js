@@ -1,5 +1,6 @@
 const fs = require('fs')
 
+let styles = [];
 function parseClassNamesFromHTML(filePath) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
@@ -35,6 +36,22 @@ function parseClassNamesFromHTML(filePath) {
     }
   
     return { classNames, dynamicClassNames, attributes };
+}
+
+function parseClass(classString) {
+    const classNames = classString.split(' ');
+  
+    classNames.forEach(className => {
+      if (styles.includes(className)) {
+        // Handle the style...
+        // This is where you would insert your logic for handling the style classes.
+      }
+    });
+}
+  
+
+function updateStyles(screens) {
+    styles = Object.keys(screens).map(screen => 'style-' + screen);
 }
 
 module.exports = parseClassNamesFromHTML

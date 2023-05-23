@@ -34,6 +34,6 @@
 </div>
 
 function test (){
-    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+    var root = document.getElementsByTagName('html')[0]; // '0' to assign the first (and only `HTML` tag)
     root.classList.add('dark');
 }

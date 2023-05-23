@@ -43,148 +43,220 @@
 @for $i from 0 through 1000 {
     // Padding
     .p-#{$i}{
-        padding: $i + 'px';
+        padding: $i + #{'px'};
     }
     .px-#{$i}{
-        padding-left: $i + 'px';
-        padding-right: $i + 'px';
+        padding-left: $i + #{'px'};
+        padding-right: $i + #{'px'};
     }
     .py-#{$i}{
-        padding-top: $i + 'px';
-        padding-bottom: $i + 'px';
+        padding-top: $i + #{'px'};
+        padding-bottom: $i + #{'px'};
     }
     .pt-#{$i}{
-        padding-top: $i + 'px';
+        padding-top: $i + #{'px'};
     }
     .pb-#{$i}{
-        padding-bottom: $i + 'px';
+        padding-bottom: $i + #{'px'};
     }
     .pl-#{$i}{
-        padding-left: $i + 'px';
+        padding-left: $i + #{'px'};
     }
     .pr-#{$i}{
-        padding-right: $i + 'px';
+        padding-right: $i + #{'px'};
     }
 
     // %
     .p-#{$i}\%{
         padding: $i + #{'%'};
     }
-    .p-#{$i}-perc{
-        padding: $i + #{'%'};
-    }
-    .px-#{$i}-perc{
+    .px-#{$i}\%{
         padding-left: $i + #{'%'};
         padding-right: $i + #{'%'};
     }
-    .py-#{$i}-perc{
+    .py-#{$i}\%{
         padding-top: $i + #{'%'};
         padding-bottom: $i + #{'%'};
     }
-    .pt-#{$i}-perc{
+    .pt-#{$i}\%{
         padding-top: $i + #{'%'};
     }
-    .pb-#{$i}-perc{
+    .pb-#{$i}\%{
         padding-bottom: $i + #{'%'};
     }
-    .pl-#{$i}-perc{
+    .pl-#{$i}\%{
         padding-left: $i + #{'%'};
     }
-    .pr-#{$i}-perc{
+    .pr-#{$i}\%{
         padding-right: $i + #{'%'};
+    }
+
+    // vw
+    .p-#{$i}vw{
+        padding: $i + #{'vw'};
+    }
+    .px-#{$i}vw{
+        padding-left: $i + #{'vw'};
+        padding-right: $i + #{'vw'};
+    }
+    .py-#{$i}vw{
+        padding-top: $i + #{'vw'};
+        padding-bottom: $i + #{'vw'};
+    }
+    .pt-#{$i}vw{
+        padding-top: $i + #{'vw'};
+    }
+    .pb-#{$i}vw{
+        padding-bottom: $i + #{'vw'};
+    }
+    .pl-#{$i}vw{
+        padding-left: $i + #{'vw'};
+    }
+    .pr-#{$i}vw{
+        padding-right: $i + #{'vw'};
+    }
+
+    // vh
+    .p-#{$i}vh{
+        padding: $i + #{'vh'};
+    }
+    .px-#{$i}vh{
+        padding-left: $i + #{'vh'};
+        padding-right: $i + #{'vh'};
+    }
+    .py-#{$i}vh{
+        padding-top: $i + #{'vh'};
+        padding-bottom: $i + #{'vh'};
+    }
+    .pt-#{$i}vh{
+        padding-top: $i + #{'vh'};
+    }
+    .pb-#{$i}vh{
+        padding-bottom: $i + #{'vh'};
+    }
+    .pl-#{$i}vh{
+        padding-left: $i + #{'vh'};
+    }
+    .pr-#{$i}vh{
+        padding-right: $i + #{'vh'};
     }
 
     // Margin
     .m-#{$i}{
-        margin: $i + 'px';
+        margin: $i + #{'px'};
     }
     .mx-#{$i}{
-        margin-left: $i + 'px';
-        margin-right: $i + 'px';
+        margin-left: $i + #{'px'};
+        margin-right: $i + #{'px'};
     }
     .my-#{$i}{
-        margin-top: $i + 'px';
-        margin-bottom: $i + 'px';
+        margin-top: $i + #{'px'};
+        margin-bottom: $i + #{'px'};
     }
     .mt-#{$i}{
-        margin-top: $i + 'px';
+        margin-top: $i + #{'px'};
     }
     .mb-#{$i}{
-        margin-bottom: $i + 'px';
+        margin-bottom: $i + #{'px'};
     }
     .ml-#{$i}{
-        margin-left: $i + 'px';
+        margin-left: $i + #{'px'};
     }
     .mr-#{$i}{
-        margin-right: $i + 'px';
+        margin-right: $i + #{'px'};
     }
 
     // %
-    .m-#{$i}-perc{
+    .m-#{$i}\%{
         margin: $i + #{'%'};
     }
-    .mx-#{$i}-perc{
+    .mx-#{$i}\%{
         margin-left: $i + #{'%'};
         margin-right: $i + #{'%'};
     }
-    .my-#{$i}-perc{
+    .my-#{$i}\%{
         margin-top: $i + #{'%'};
         margin-bottom: $i + #{'%'};
     }
-    .mt-#{$i}-perc{
+    .mt-#{$i}\%{
         margin-top: $i + #{'%'};
     }
-    .mb-#{$i}-perc{
+    .mb-#{$i}\%{
         margin-bottom: $i + #{'%'};
     }
-    .ml-#{$i}-perc{
+    .ml-#{$i}\%{
         margin-left: $i + #{'%'};
     }
-    .mr-#{$i}-perc{
+    .mr-#{$i}\%{
         margin-right: $i + #{'%'};
+    }
+
+    // vw
+    .m-#{$i}vw{
+        margin: $i + #{'vw'};
+    }
+    .mx-#{$i}vw{
+        margin-left: $i + #{'vw'};
+        margin-right: $i + #{'vw'};
+    }
+    .my-#{$i}vw{
+        margin-top: $i + #{'vw'};
+        margin-bottom: $i + #{'vw'};
+    }
+    .mt-#{$i}vw{
+        margin-top: $i + #{'vw'};
+    }
+    .mb-#{$i}vw{
+        margin-bottom: $i + #{'vw'};
+    }
+    .ml-#{$i}vw{
+        margin-left: $i + #{'vw'};
+    }
+    .mr-#{$i}vw{
+        margin-right: $i + #{'vw'};
     }
 
     // Sizes
     .w-#{$i}{
         width: #{$i}#{"px"} !important;
     }
-    .w-#{$i}-perc{
+    .w-#{$i}\%{
         width: #{$i}#{"%"} !important;
     }
     .min-w-#{$i}{
         min-width: #{$i}#{"px"} !important;
     }
-    .min-w-#{$i}-perc{
+    .min-w-#{$i}\%{
         min-width: #{$i}#{"%"};
     }
     .max-w-#{$i}{
         max-width: #{$i}#{"px"};
     }
-    .max-w-#{$i}-perc{
+    .max-w-#{$i}\%{
         max-width: #{$i}#{"%"};
     }
     .h-#{$i}{
         height: #{$i}#{"px"} !important;
     }
-    .h-#{$i}-perc{
+    .h-#{$i}\%{
         height: #{$i}#{"%"};
     }
     .min-h-#{$i}{
         min-height: #{$i}#{"px"};
     }
-    .min-h-#{$i}-perc{
+    .min-h-#{$i}\%{
         min-height: #{$i}#{"%"};
     }
-    .min-h-#{$i}-vh{
+    .min-h-#{$i}vh{
         min-height: #{$i}#{"vh"};
     }
     .max-h-#{$i}{
         max-height: #{$i}#{"px"};
     }
-    .max-h-#{$i}-vh{
+    .max-h-#{$i}vh{
         max-height: #{$i}#{"vh"};
     }
-    .max-h-#{$i}-perc{
+    .max-h-#{$i}\%{
         max-height: #{$i}#{"%"};
     }
 }
