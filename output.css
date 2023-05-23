@@ -181,6 +181,11 @@ color: #111111;
 [style-sd="fs-16"]{
 
  font-size: 16px;
+}[style-sd="fs-14 py-10 fw-200"]{
+font-size: 14px;
+ padding-top: 10px;
+  padding-bottom: 10px;
+ font-weight: 200;
 }[style-sd="fs-14 py-10 fs-32"]{
 font-size: 14px;
  padding-top: 10px;
@@ -189,11 +194,11 @@ font-size: 14px;
 }
 }
 @media screen and (min-width: 600px) and (max-width: 1200px){
-[style-md="fs-18 py-20 fs-44"]{
+[style-md="fs-18 py-20 fw-400"]{
 font-size: 18px;
  padding-top: 20px;
   padding-bottom: 20px;
- font-size: 44px;
+ font-weight: 400;
 }
 }
 @media screen and (min-width: 1200px) and (max-width: 1600px){

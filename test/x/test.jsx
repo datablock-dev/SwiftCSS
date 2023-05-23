@@ -7,8 +7,8 @@
             <span className="color-[#98dc88]"></span>
             <span 
                 className="color-[#98dc81]"
-                style-sd="fs-14 py-10 fs-32"
-                style-md="fs-18 py-20 fs-44"
+                style-sd="fs-14 py-10 fw-200"
+                style-md="fs-18 py-20 fw-400"
             ></span>
             <span 
                 className="py-10 mx-20 m-auto"

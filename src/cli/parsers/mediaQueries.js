@@ -59,7 +59,6 @@ function finalMediaQuery(mediaQueries, screens){
 
     // Create the final output
     Object.entries(finalStyles).forEach(([screenSize, {parent, value}]) => {
-        console.log(parent, value)
         const css = `${parent}${value.join('')}\n}`
         cssOutput.push(css)
     })
