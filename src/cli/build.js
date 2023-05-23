@@ -15,6 +15,7 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
       Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
         dynamicClasses[className] = classProperties;
       });
+      
       Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
         attributeValues.forEach(attributeValue => {
           if (attributeName === 'style-dark') {
