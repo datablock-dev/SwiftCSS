@@ -5,6 +5,7 @@ const runBuildCommand = require('./src/cli/build');
 
 const configFile = 'swiftstyle.config.js';
 let currentScreens = require('./swiftstyle.config.js').screens;
+const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
 const defaultConfig = {
   fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
   directories: ['./src'],
@@ -40,8 +41,18 @@ var screenKeys = [];
 if (process.argv[2] === 'watch') {
   console.log('Watching for file changes...');
 
+    const baseStyle = new Object;
+    styleCSS.split('}').forEach((styleBlock, i) => {
+        const trimmedStyleBlock = styleBlock.trim();
+        try {
+            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
+            const classAttribute = trimmedStyleBlock.split('{')[1].trim()
+            const className = classNameMatch[1]
+            baseStyle[className] = classAttribute
+        } catch (error) {}
+    });
   
-  const watcher = chokidar.watch(config.directories, {
+    const watcher = chokidar.watch(config.directories, {
       ignored: /(^|[/\\])\../, // Ignore dotfiles
       persistent: true,
       depth: "infinity"
@@ -63,16 +74,26 @@ if (process.argv[2] === 'watch') {
     
     watcher.on('change', filePath => {
         console.log(`File changed: ${filePath}`);
-        runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
+        runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
     });
 
-  process.on('SIGINT', () => {
-    watcher.close();
-    console.log('Watch process terminated.');
-    process.exit();
-  });
+    process.on('SIGINT', () => {
+      watcher.close();
+      console.log('Watch process terminated.');
+      process.exit();
+    });
 
-  runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
+    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 } else if (process.argv[2] === 'build') {
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys);
+    const baseStyle = new Object;
+    styleCSS.split('}').forEach((styleBlock, i) => {
+        const trimmedStyleBlock = styleBlock.trim();
+        try {
+            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
+            const classAttribute = trimmedStyleBlock.split('{')[1].trim()
+            const className = classNameMatch[1]
+            baseStyle[className] = classAttribute
+        } catch (error) {}
+    });
+    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 }

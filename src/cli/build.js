@@ -1,17 +1,19 @@
 const fs = require('fs')
 const path = require('path')
 const parseClassNamesFromHTML = require('./parseClass');
-const mediaQuries = require('./parsers/mediaQueries')
+const mediaStyling = require('./parsers/mediaQueries')
 
-function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys) {
+function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
     const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
+    const filteredStyles = [];
+    const finalStyles = [];
+    const mediaQueries = []
     const attributes = {};
-    const screenStyles = {};
 
     function processFile(filePath) {
-      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes } = parseClassNamesFromHTML(filePath, screenKeys);
-  
+      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles } = parseClassNamesFromHTML(config, filePath, screenKeys);
+
       fileClassNames.forEach(className => classNames.add(className));
       Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
         dynamicClasses[className] = classProperties;
@@ -39,9 +41,11 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
         });
       });
 
-      mediaQuries(config.screens, screenStyles, attributes)
+      const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
+      mediaQueries.push(...mediaObject)
     };
 
+    
     
     config.fileExtensions.forEach(extension => {
         config.directories.forEach(directory => {
@@ -52,14 +56,10 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
             });
         });
     });
+
+    const mediaStyles = mediaStyling.finalMediaQuery(mediaQueries, config.screens)
     
-    const filteredStyles = [];
-    const finalStyles = [];
-
-    Object.entries(screenStyles).forEach(([screenName, screenStyle]) => {
-        finalStyles.push(screenStyle.mediaQuery + ' {\n' + screenStyle.rules.join('\n') + '\n}');
-    });
-
+    // To retreive pre-defined classes
     styleCSS.split('}').forEach(styleBlock => {
         const trimmedStyleBlock = styleBlock.trim();
         const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/);
@@ -111,33 +111,28 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
         });
       
         finalStyles.push(`${themeClassName}.light, body.${themeClassName} {\n${cssRules.join('\n')}\n}`);
-      };
+    };
       
     
     createThemeStyles(lightStyles, 'light');
     createThemeStyles(darkStyles, 'dark');
 
-  // Include input CSS styles
-  finalStyles.push(inputCSS);
+    // Include input CSS styles
+    finalStyles.push(inputCSS);
+
+    // Dark and light mode styles
+    const darkModeStyles = generateDynamicStyles('dark', Array.from(dynamicClassNames), styleCSS);
+    const lightModeStyles = generateDynamicStyles('light', Array.from(dynamicClassNames), styleCSS);
+
+    // Append dark and light mode styles
+    finalStyles.push(...darkModeStyles);
+    finalStyles.push(...lightModeStyles);
+    finalStyles.push(...mediaStyles);
 
     // Include screen styles
-    Object.values(screenStyles).forEach(style => {
-        finalStyles.push(style.mediaQuery + ' {\n' + style.rules.join('\n') + '\n}');
-    });
+    //finalStyles.push(...Object.values(screenStyles).map(style => style.rules.join('\n')));
 
-  // Dark and light mode styles
-  const darkModeStyles = generateDynamicStyles('dark', Array.from(dynamicClassNames), styleCSS);
-  const lightModeStyles = generateDynamicStyles('light', Array.from(dynamicClassNames), styleCSS);
-
-  // Append dark and light mode styles
-  finalStyles.push(...darkModeStyles);
-  finalStyles.push(...lightModeStyles);
-
-    // Include screen styles
-    finalStyles.push(...Object.values(screenStyles).map(style => style.rules.join('\n')));
-
-
-  writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
+    writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
 }
 
 function writeOutputCSS(outputFilePath, styles) {

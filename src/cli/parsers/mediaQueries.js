@@ -1,57 +1,78 @@
+// Remove attribute, does not contribute in this function
 
-function mediaQuries(screens, screenStyles, attributes){
-    // screenStyles = {}
+function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseStyle){
 
-    // Create screen styles object based on config
-    if (screens) {
-        Object.entries(screens).forEach(([screenName, screenSize]) => {
-            screenStyles[screenName] = {
-                mediaQuery: '',
-                rules: []
-            };
-            
-            if (screenSize.min && screenSize.max) {
-                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px) and (max-width: ${screenSize.max}px)`;
-            } else if (screenSize.min) {
-                screenStyles[screenName].mediaQuery = `@media screen and (min-width: ${screenSize.min}px)`;
-            } else if (screenSize.max) {
-                screenStyles[screenName].mediaQuery = `@media screen and (max-width: ${screenSize.max}px)`;
-            }
-        });
-    }
+    // Regex
+    const dynamicClassRegex = /string-\[#\d{3,4}\]/; 
+    const trimmedStyleAttribute = /{([^}]+)}/; // Trims and only retreives css attribute and not classname
+    const classNameRegex = /^\s*([^{\s]+)/;
+    const finalMediaQuery = []
 
     // Process styles for different screen sizes
-    Object.entries(screenStyles).forEach(([screenName, screenStyle]) => {
-        const cssRules = [];
-    
-        Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
-            //console.log(attributeName, attributeValues)
-          if (attributeName === `style-${screenName}`) {
-            //console.log(screenName)
-            attributeValues.forEach(attributeValue => {
-              const properties = attributeValue.split(/\s+/);
-              const cssProperties = [];
-    
-              properties.forEach(property => {
-                if (dynamicClasses[property]) {
-                  cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
-                } else {
-                  const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
-                  if (propertyStyleMatch) {
-                    cssProperties.push(propertyStyleMatch[1].trim());
-                  }
-                }
-              });
-    
-              const cssRule = `[style-${screenName}="${attributeValue}"] {\n${cssProperties.join('\n')}\n}`;
-              cssRules.push(cssRule);
-            });
-          }
+
+    screenStyles.forEach(({ screenSize, property, attributes, value, mediaQuery}, index) => {
+        attributes.forEach((attributeValue) => {
+            // Dynamic Class
+            if(dynamicClassRegex.test(attributeValue)){
+
+            } else if(baseStyle[attributeValue]){ // Append css attributes
+                screenStyles[index].value = `${screenStyles[index].value.trim()}\n ${baseStyle[attributeValue].trim()}`
+            }
         });
-    
-        screenStyle.rules.push(...cssRules);
+
+        screenStyles[index].value = `${screenStyles[index].property}{\n${screenStyles[index].value}\n}`
     });
 
+    return screenStyles;
 }
 
-module.exports = mediaQuries
+function finalMediaQuery(mediaQueries, screens){
+    const finalStyles = {}
+    const cssOutput = []
+    const filteredStyles = removeDuplicates(mediaQueries);
+
+    Object.keys(screens).forEach((size) => {
+        const screenSize = screens[size]
+
+        if (screenSize.min && screenSize.max) {
+            finalStyles[size] = {
+                parent: `@media screen and (min-width: ${screenSize.min}px) and (max-width: ${screenSize.max}px){\n`,
+                value: []
+            }
+        } else if (screenSize.min) {
+            finalStyles[size] = {
+                parent: `@media screen and (min-width: ${screenSize.min}px){\n`,
+                value: []
+            }
+        } else if (screenSize.max) {
+            finalStyles[size] = {
+                parent: `@media screen and (max-width: ${screenSize.max}px){\n`,
+                value: []
+            }
+        }
+    })
+
+    // Push all styles into their parent
+    filteredStyles.forEach((style) => {
+        finalStyles[style.screenSize].value.push(style.value)
+    })
+
+    // Create the final output
+    Object.entries(finalStyles).forEach(([screenSize, {parent, value}]) => {
+        console.log(parent, value)
+        const css = `${parent}${value.join('')}\n}`
+        cssOutput.push(css)
+    })
+    
+   return cssOutput;
+}
+
+// Helper function
+function removeDuplicates(arr) {
+    const propertyValues = arr.map(item => item.property);
+    return arr.filter((item, index) => {
+      return propertyValues.indexOf(item.property) === index;
+    });
+}
+
+module.exports = { generateMediaQuries, finalMediaQuery }
