@@ -56,8 +56,6 @@ function createThemeStyles(themeStyles, themeClassName, finalStyles, dynamicClas
     // Iterate through pseudoThemeClasses
     Object.keys(pseudoThemeClasses).forEach((selector) => {
         const attribute = pseudoThemeClasses[selector]
-        console.log(selector, attribute)
-
         const css = `${selector} {\n\t\t${attribute.join('\n\t\t')}\n\t}`
         cssRules.push(css)
     })

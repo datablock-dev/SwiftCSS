@@ -238,20 +238,8 @@ font-size: 18px;
  font-weight: 400;
 }
 }
-@media screen and (min-width: 1200px) and (max-width: 1600px){
+@media screen and (min-width: 1200px){
 	[style-ld="fs-88"]{
-
- font-size: 88px;
-}
-}
-@media screen and (min-width: 1600px) and (max-width: 2200px){
-	[style-xl="fs-88"]{
-
- font-size: 88px;
-}
-}
-@media screen and (min-width: 2200px){
-	[style-mxl="fs-88"]{
 
  font-size: 88px;
 }
