@@ -19,7 +19,8 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
 
         fileClassNames.forEach(className => classNames.add(className));
         Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
-          dynamicClasses[className] = classProperties;
+            // className -> bg-[#000], classProprety -> { property: "fill", value: #bg }
+            dynamicClasses[className] = classProperties;
         });
       
         Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
@@ -84,7 +85,11 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
     // Create dynamic classes
     const dynamicClassStyles = [];
     Object.entries(dynamicClasses).forEach(([className, classProperties]) => {
-        dynamicClassStyles.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+        if(classProperties.pseudoClass){
+            dynamicClassStyles.push(`.${classProperties.pseudoClass}\\:${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')}:hover {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+        } else {
+            dynamicClassStyles.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+        }
     });
       
     // Generate dynamic class styles

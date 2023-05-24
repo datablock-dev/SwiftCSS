@@ -6,7 +6,7 @@
         <div className="bg-[#332]">
             <span className="color-[#98dc88]"></span>
             <span 
-                className="color-[#98dc81]"
+                className="hover:color-[#98dc81]"
                 style-sd="fs-14 py-10 fw-200"
                 style-md="fs-18 py-20 fw-400"
             ></span>

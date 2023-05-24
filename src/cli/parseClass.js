@@ -3,7 +3,7 @@ const fs = require('fs')
 function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const dynamicClassRegex = /(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
+    const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const pseudoRegex = /\b[a-z-]+:[^"\s]+/g;
     const pseudoElementRegex = /\b[a-z-]+::[^"\s]+/g;
@@ -16,6 +16,8 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         'style-light': [],
     };
     let match;
+
+    // 
   
     while ((match = classRegex.exec(fileContent))) {
       const classValue = match[1];
@@ -24,12 +26,27 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     }
   
     while ((match = dynamicClassRegex.exec(fileContent))) {
-        const property = match[1];
-        const value = match[2];
-        dynamicClassNames[match[0]] = {
+        // Format if its not undefined, get pseudo class without ":"
+        const isPseudoClass = match[1] ? match[1].replace(/:/g, '') : undefined
+        let pseudoClass = null;
+
+        if(isPseudoClass && approvedPseudoClasses.includes(isPseudoClass)){
+            pseudoClass = isPseudoClass;
+        }
+
+        //console.log(match[0], match[1], match[2])
+        // bg-[#000] bg 000
+
+        // hover:bg-[#000] hover bg 000
+        const property = match[2];
+        const value = match[3];
+        dynamicClassNames[match[0].replace(/\w+::|\w+:/g, '')] = {
           property: property === 'bg' ? 'background-color' : property === 'color' ? 'color' : 'fill',
-          value: '#' + value
+          value: '#' + value,
+          pseudoClass: pseudoClass
         };
+
+        console.log(dynamicClassNames)
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
@@ -73,5 +90,59 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     
     return { classNames, dynamicClassNames, attributes, screenClasses, pseudoClasses };
 }
+
+
+
+const approvedPseudoClasses = [
+    'active',
+    'any',
+    'any-link',
+    'checked',
+    'default',
+    'defined',
+    'dir',
+    'disabled',
+    'empty',
+    'enabled',
+    'first',
+    'first-child',
+    'first-of-type',
+    'fullscreen',
+    'focus',
+    'focus-visible',
+    'focus-within',
+    'has',
+    'hover',
+    'indeterminate',
+    'in-range',
+    'invalid',
+    'lang',
+    'last-child',
+    'last-of-type',
+    'link',
+    'not',
+    'nth-child',
+    'nth-last-child',
+    'nth-last-of-type',
+    'nth-of-type',
+    'only-child',
+    'only-of-type',
+    'optional',
+    'out-of-range',
+    'placeholder-shown',
+    'read-only',
+    'read-write',
+    'required',
+    'root',
+    'scope',
+    'target',
+    'target-within',
+    'user-invalid',
+    'valid',
+    'visited',
+    // Logical Combinations
+    'is',
+    'where',
+];
 
 module.exports = parseClassNamesFromHTML
