@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "A CSS framework inspired by Tailwindcss with attribute styling to split styling and reduce dependency and size of classes in elements and components.",
   "main": "main.js",
+  "license": "MIT",
+  "homepage": "https://datablock.dev",
   "scripts": {
     "watch": "node main.js watch",
     "build": "node main.js build"
+  },
+  "bin": {
+    "swiftcss-watch": "node ./main.js watch",
+    "swiftcss-build": "node ./main.js build"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
