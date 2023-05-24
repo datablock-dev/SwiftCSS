@@ -6,8 +6,7 @@ const pseudoStyling = require('./parsers/pseudo');
 const createThemeStyles = require('./parsers/themes')
 
 
-function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
-    const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
+function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
     const filteredStyles = [];
     const finalStyles = [];

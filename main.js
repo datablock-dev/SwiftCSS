@@ -7,7 +7,7 @@ const runBuildCommand = require('./src/cli/build');
 
 const configFile = path.join(process.cwd(), 'swiftcss.config.js');
 
-const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
+const styleCSS = fs.readFileSync(path.join(__dirname, 'src', 'style.css'), 'utf-8');
 const defaultConfig = {
     fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
     directories: ['./src'],
@@ -96,7 +96,7 @@ if (process.argv[2] === 'watch') {
     
     watcher.on('change', filePath => {
         console.log(`File changed: ${filePath}`);
-        runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+        runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
     });
 
     process.on('SIGINT', () => {
@@ -105,7 +105,7 @@ if (process.argv[2] === 'watch') {
       process.exit();
     });
 
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 } else if (process.argv[2] === 'build') {
     const baseStyle = new Object;
     styleCSS.split('}').forEach((styleBlock, i) => {
@@ -117,7 +117,7 @@ if (process.argv[2] === 'watch') {
             baseStyle[className] = classAttribute
         } catch (error) {}
     });
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 } else if(process.argv[2] === "init"){
     const configContent = `module.exports = {
         fileExtensions: ["html","js","jsx","ts","tsx"],
