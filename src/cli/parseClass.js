@@ -5,9 +5,12 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
     const dynamicClassRegex = /(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
+    const pseudoRegex = /\b[a-z-]+:[^"\s]+/g;
+    const pseudoElementRegex = /\b[a-z-]+::[^"\s]+/g;
     const classNames = new Set();
     const dynamicClassNames = {};
     const screenClasses = []
+    const rawPseudoClasses = []
     const attributes = {
         'style-dark': [],
         'style-light': [],
@@ -35,6 +38,13 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         attributes[attributeName].push(attributeValue);
     }
 
+    // For pseudo classes
+    while ((match = pseudoRegex.exec(fileContent))){    
+        //console.log(match[0])
+        rawPseudoClasses.push(match[0])
+        //attributes[attributeName].push(attributeValue);
+    }
+
     screenKeys.forEach(screenKey => {
         const attributeRegex = new RegExp(`\\s+(style-${screenKey})\\s*=\\s*"([^"]+)"`, 'g');
         while ((match = attributeRegex.exec(fileContent))){
@@ -57,8 +67,11 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
             screenClasses.push(tempObject)
         }
     });
+
+    // Remove duplicats of pseudo classes
+    const pseudoClasses = [...new Set(rawPseudoClasses)] 
     
-    return { classNames, dynamicClassNames, attributes, screenClasses };
+    return { classNames, dynamicClassNames, attributes, screenClasses, pseudoClasses };
 }
 
 module.exports = parseClassNamesFromHTML

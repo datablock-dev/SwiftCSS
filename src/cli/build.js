@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const parseClassNamesFromHTML = require('./parseClass');
 const mediaStyling = require('./parsers/mediaQueries')
+const pseudoStyling = require('./parsers/pseudo');
 
 function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
     const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
@@ -9,44 +10,47 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
     const filteredStyles = [];
     const finalStyles = [];
     const mediaQueries = []
+    const pseudoClasses = []
+    const pseudoElements = []
     const attributes = {};
 
     function processFile(filePath) {
-      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles } = parseClassNamesFromHTML(config, filePath, screenKeys);
+        const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } = parseClassNamesFromHTML(config, filePath, screenKeys);
 
-      fileClassNames.forEach(className => classNames.add(className));
-      Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
-        dynamicClasses[className] = classProperties;
-      });
-      
-      Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
-        attributeValues.forEach(attributeValue => {
-          if (attributeName === 'style-dark') {
-            if (!darkStyles[attributeValue]) {
-                darkStyles[attributeValue] = [];
-            }
-            if (!darkStyles[attributeValue].includes(attributeValue)) {
-                darkStyles[attributeValue].push(attributeValue);
-            }
-          }
-
-          if (attributeName === 'style-light') {
-            if (!lightStyles[attributeValue]) {
-                lightStyles[attributeValue] = [];
-            }
-            if (!lightStyles[attributeValue].includes(attributeValue)) {
-                lightStyles[attributeValue].push(attributeValue);
-            }
-          }
+        fileClassNames.forEach(className => classNames.add(className));
+        Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
+          dynamicClasses[className] = classProperties;
         });
-      });
+      
+        Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
+            attributeValues.forEach(attributeValue => {
+                if (attributeName === 'style-dark') {
+                  if (!darkStyles[attributeValue]) {
+                    darkStyles[attributeValue] = [];
+                  }
+                  if (!darkStyles[attributeValue].includes(attributeValue)) {
+                    darkStyles[attributeValue].push(attributeValue);
+                  }
+                }
 
-      const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
-      mediaQueries.push(...mediaObject)
+                if (attributeName === 'style-light') {
+                  if (!lightStyles[attributeValue]) {
+                    lightStyles[attributeValue] = [];
+                  }
+                  if (!lightStyles[attributeValue].includes(attributeValue)) {
+                    lightStyles[attributeValue].push(attributeValue);
+                  }
+                }
+            });
+        });
+
+        // Push pseudo classes of a specific file to the array of all pseudo classes
+        pseudoClasses.push(...pseudoClass)
+
+        const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
+        mediaQueries.push(...mediaObject)
     };
 
-    
-    
     config.fileExtensions.forEach(extension => {
         config.directories.forEach(directory => {
             const files = getAllFilesInDir(directory, extension);
@@ -57,6 +61,7 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
         });
     });
 
+    const pseduoClassStyling = pseudoStyling.parsePseudoClasses(pseudoClasses, baseStyle)
     const mediaStyles = mediaStyling.finalMediaQuery(mediaQueries, config.screens)
     
     // To retreive pre-defined classes
@@ -72,7 +77,6 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
         }
     });
   
-
     dynamicStyles.forEach(style => {
       filteredStyles.push(style);
     });
@@ -85,6 +89,7 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
       
     // Generate dynamic class styles
     finalStyles.push(...dynamicClassStyles);
+    finalStyles.push(...pseduoClassStyling)
 
     const createThemeStyles = (themeStyles, themeClassName) => {
         const cssRules = [];
@@ -116,6 +121,9 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
     
     createThemeStyles(lightStyles, 'light');
     createThemeStyles(darkStyles, 'dark');
+    
+    // Include media styles
+    finalStyles.push(...mediaStyles);
 
     // Include input CSS styles
     finalStyles.push(inputCSS);
@@ -127,12 +135,11 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
     // Append dark and light mode styles
     finalStyles.push(...darkModeStyles);
     finalStyles.push(...lightModeStyles);
-    finalStyles.push(...mediaStyles);
 
     // Include screen styles
     //finalStyles.push(...Object.values(screenStyles).map(style => style.rules.join('\n')));
 
-    writeOutputCSS(config.output, [...filteredStyles, ...finalStyles]);
+    writeOutputCSS(config.output, [...finalStyles, ...filteredStyles]);
 }
 
 function writeOutputCSS(outputFilePath, styles) {

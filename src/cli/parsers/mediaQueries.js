@@ -59,7 +59,7 @@ function finalMediaQuery(mediaQueries, screens){
 
     // Create the final output
     Object.entries(finalStyles).forEach(([screenSize, {parent, value}]) => {
-        const css = `${parent}${value.join('')}\n}`
+        const css = `${parent}\t${value.join('')}\n}`
         cssOutput.push(css)
     })
     
@@ -71,6 +71,22 @@ function removeDuplicates(arr) {
     const propertyValues = arr.map(item => item.property);
     return arr.filter((item, index) => {
       return propertyValues.indexOf(item.property) === index;
+    });
+}
+
+// Will be implemented in the future for more advanced parsing of custom attributes
+function uniqueAttributeCombinations(arr) {
+    const seen = new Set();
+    
+    return arr.filter(item => {
+      const sortedAttributes = [...item.attributes].sort().join(',');
+      
+      if (!seen.has(sortedAttributes)) {
+        seen.add(sortedAttributes);
+        return true;
+      }
+      
+      return false;
     });
 }
 

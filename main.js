@@ -36,7 +36,7 @@ const dynamicStyles = new Set();
 const dynamicClasses = {};
 const lightStyles = {}; 
 const darkStyles = {};
-var screenKeys = [];
+const screenKeys = [];
 
 if (process.argv[2] === 'watch') {
   console.log('Watching for file changes...');
@@ -70,7 +70,7 @@ if (process.argv[2] === 'watch') {
         process.exit();
     });
 
-    screenKeys = [...Object.keys(config.screens)]
+    screenKeys.push(...Object.keys(config.screens))
     
     watcher.on('change', filePath => {
         console.log(`File changed: ${filePath}`);

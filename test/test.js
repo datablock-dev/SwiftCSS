@@ -29,7 +29,7 @@
             <div className="">
 
             </div>
-            <span className="fs-120 fs-100"></span>
+            <span className="fs-120 fs-100 hover:fw-400"></span>
         </div>
 </div>
 
