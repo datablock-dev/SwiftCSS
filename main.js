@@ -3,24 +3,27 @@ const path = require('path');
 const chokidar = require('chokidar');
 const runBuildCommand = require('./src/cli/build');
 
-const configFile = 'swiftstyle.config.js';
-let currentScreens = require('./swiftstyle.config.js').screens;
+const configFile = path.join(process.cwd(), 'swiftcss.config.js');
+
 const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
 const defaultConfig = {
-  fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
-  directories: ['./src'],
-  input: '',
-  output: './output.css',
+    fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
+    directories: ['./src'],
+    input: '',
+    output: './output.css',
 };
 
 // Load configuration
 let config;
 if (fs.existsSync(configFile)) {
-  config = require(path.resolve(configFile));
+    config = require(path.resolve(configFile));
 } else {
-  console.error('Configuration file not found. Run "init" command first.');
-  process.exit(1);
+    console.error('Configuration file not found. Run "init" command first.');
+    process.exit(1);
 }
+
+let currentScreens = configFile.screens;
+
 
 // Check if directories exist
 for (const directory of config.directories) {
@@ -61,7 +64,7 @@ if (process.argv[2] === 'watch') {
     // Watch for changes in config file
     const configWatcher = chokidar.watch(configFile, { persistent: true });
     configWatcher.on('change', path => {
-        const newConfig = require('./swiftstyle.config.js');
+        const newConfig = require('./swiftcss.config.js');
         if (JSON.stringify(newConfig.screens) !== JSON.stringify(currentScreens)) {
             currentScreens = newConfig.screens;
             console.log(currentScreens)
