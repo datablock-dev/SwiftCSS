@@ -11,7 +11,7 @@
     </span>
         <div 
             className="color-[#f4f4f4] object-cover"
-            style-dark="color-[#fff]"
+            style-dark="color-[#fff] hover:color-[#f4f4f4]"
             style-light="color-[#000] relative bg-[#062698]"
             style-sd="fs-16"
         >
@@ -22,7 +22,7 @@
             style-light="color-[#010101]"
         >
         </div>
-        <div className="color-[#fffff2] sd:fs-14">
+        <div className="color-[#fffff2] fs-14">
             <span className="color-[#000000]"></span>
         </div>
         <div className="color-[#fffff3] bg-[#fcfcfd]">

@@ -3,7 +3,7 @@ const fs = require('fs')
 function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
+    const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill|brd-color)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const pseudoRegex = /\b[a-z-]+:[^"\s]+/g;
     const pseudoElementRegex = /\b[a-z-]+::[^"\s]+/g;
@@ -28,25 +28,25 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     while ((match = dynamicClassRegex.exec(fileContent))) {
         // Format if its not undefined, get pseudo class without ":"
         const isPseudoClass = match[1] ? match[1].replace(/:/g, '') : undefined
+        const property = match[2];
+        const value = match[3];
         let pseudoClass = null;
+        let finalProperty = '';
 
         if(isPseudoClass && approvedPseudoClasses.includes(isPseudoClass)){
             pseudoClass = isPseudoClass;
         }
 
-        //console.log(match[0], match[1], match[2])
-        // bg-[#000] bg 000
+        if(property === "bg") finalProperty = "background-color"
+        else if(property === "color") finalProperty = "color"
+        else if(property === "fill") finalProperty = "fill"
+        else if(property === "brd-color") finalProperty = "border-color"
 
-        // hover:bg-[#000] hover bg 000
-        const property = match[2];
-        const value = match[3];
         dynamicClassNames[match[0].replace(/\w+::|\w+:/g, '')] = {
-          property: property === 'bg' ? 'background-color' : property === 'color' ? 'color' : 'fill',
+          property: finalProperty,
           value: '#' + value,
           pseudoClass: pseudoClass
         };
-
-        console.log(dynamicClassNames)
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
