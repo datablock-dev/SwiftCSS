@@ -10,7 +10,8 @@
     "build": "node main.js build"
   },
   "bin": {
-    "swiftcss --watch": "./main.js"
+    "swiftcss-watch": "node ./main.js watch",
+    "swiftcss-build": "node ./main.js build"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
