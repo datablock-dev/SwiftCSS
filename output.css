@@ -185,23 +185,11 @@ light.light, body.light {
 	}
 }
 dark.light, body.dark {
-	[style-dark="bg-[#333] color-[#fff] flex-row"] {
-		background-color: #333;
-		color: #fff;
-		display: flex;
-  flex-direction: row;
-	}
-	[style-dark="color-[#fff]"] {
-		color: #fff;
-	}
 	[style-dark="color-[#fff] hover:color-[#f4f4f4]"] {
 		color: #fff;
 	}
 	[style-dark="color-[#f3f3f3]"] {
 		color: #f3f3f3;
-	}
-	[style-dark="color-[#111111]"] {
-		color: #111111;
 	}
 	[style-dark="color-[#fff] hover:color-[#f4f4f4]"]:hover {
 		color: #f4f4f4;

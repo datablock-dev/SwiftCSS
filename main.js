@@ -15,6 +15,26 @@ const defaultConfig = {
     output: './output.css',
 };
 
+// Have the init command recognition in the beginning to allow user to create the config file
+// without triggering errors in the coming steps
+if(process.argv[2] === "init"){
+    const configContent = `module.exports = {
+        fileExtensions: ["html","js","jsx","ts","tsx"],
+        directories: ["./src"], // Specify directories to scan for style changes
+        input: "", // Specify an input file to be appended into the output file
+        output: "./output.css", // Specify the path to where the output file will be generated
+        screens: { // specify media querie cut-offs
+            sd: {max: 600},
+            md: {min: 600, max: 1200},
+            ld: {min: 1200},
+        }
+    };`;
+      
+    fs.writeFileSync(configFile, configContent);
+    console.log(`Configuration file created at ${configFile}`);
+    process.exit(0);
+}
+
 // Load configuration
 let config;
 const directories = []
@@ -23,8 +43,11 @@ if (fs.existsSync(configFile)) {
     if(config.directories.length === 0){
         console.error('Configuration file is missing values in directories. Please specify a directory so the CLI can start scanning.');    
         process.exit(1);
-    } else if(!fs.existsSync(path.join(process.cwd(), config.output))){
-        console.error('Please specify a path to your output file (e.g. output: "./output.css") in swiftcss.config.js to output CSS.');    
+    } else if(!fs.existsSync(path.dirname(path.join(process.cwd(), config.output)))){
+        console.error('Please specify a valid directory path for your output file in swiftcss.config.js.');    
+        process.exit(1);
+    } else if(config.output === ""){
+        console.error('Please specify a valid path for your output file in swiftcss.config.js.');    
         process.exit(1);
     }
 } else {
@@ -118,20 +141,4 @@ if (process.argv[2] === 'watch') {
         } catch (error) {}
     });
     runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
-} else if(process.argv[2] === "init"){
-    const configContent = `module.exports = {
-        fileExtensions: ["html","js","jsx","ts","tsx"],
-        directories: ["./src"], // Specify directories to scan for style changes
-        input: "", // Specify an input file to be appended into the output file
-        output: "./output.css", // Specify the path to where the output file will be generated
-        screens: { // specify media querie cut-offs
-            sd: {max: 600},
-            md: {min: 600, max: 1200},
-            ld: {min: 1200},
-        }
-    };`;
-      
-    fs.writeFileSync(configFile, configContent);
-    console.log(`Configuration file created at ${configFile}`);
-    process.exit(0);
 }
