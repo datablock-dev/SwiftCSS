@@ -185,23 +185,11 @@ light.light, body.light {
 	}
 }
 dark.light, body.dark {
-	[style-dark="bg-[#333] color-[#fff] flex-row"] {
-		background-color: #333;
-		color: #fff;
-		display: flex;
-  flex-direction: row;
-	}
-	[style-dark="color-[#fff]"] {
-		color: #fff;
-	}
 	[style-dark="color-[#fff] hover:color-[#f4f4f4]"] {
 		color: #fff;
 	}
 	[style-dark="color-[#f3f3f3]"] {
 		color: #f3f3f3;
-	}
-	[style-dark="color-[#111111]"] {
-		color: #111111;
 	}
 	[style-dark="color-[#fff] hover:color-[#f4f4f4]"]:hover {
 		color: #f4f4f4;
@@ -238,20 +226,8 @@ font-size: 18px;
  font-weight: 400;
 }
 }
-@media screen and (min-width: 1200px) and (max-width: 1600px){
+@media screen and (min-width: 1200px){
 	[style-ld="fs-88"]{
-
- font-size: 88px;
-}
-}
-@media screen and (min-width: 1600px) and (max-width: 2200px){
-	[style-xl="fs-88"]{
-
- font-size: 88px;
-}
-}
-@media screen and (min-width: 2200px){
-	[style-mxl="fs-88"]{
 
  font-size: 88px;
 }

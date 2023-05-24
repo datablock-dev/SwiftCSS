@@ -1,5 +1,6 @@
 const fs = require('fs')
 
+// This function is being triggered per file
 function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
@@ -16,8 +17,7 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         'style-light': [],
     };
     let match;
-
-    // 
+    let isStyleAttribute = attributeRegex.exec(fileContent);
   
     while ((match = classRegex.exec(fileContent))) {
       const classValue = match[1];
@@ -56,7 +56,7 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     }
 
     // For pseudo classes (without dark/light style)
-    while ((match = pseudoRegex.exec(fileContent) && !attributeRegex.exec(fileContent)[1].includes('style-'))){   
+    while ((match = pseudoRegex.exec(fileContent) && !isStyleAttribute)){   
         rawPseudoClasses.push(match[0])
     }
 

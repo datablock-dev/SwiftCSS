@@ -7,7 +7,7 @@ const runBuildCommand = require('./src/cli/build');
 
 const configFile = path.join(process.cwd(), 'swiftcss.config.js');
 
-const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
+const styleCSS = fs.readFileSync(path.join(__dirname, 'src', 'style.css'), 'utf-8');
 const defaultConfig = {
     fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
     directories: ['./src'],
@@ -15,10 +15,41 @@ const defaultConfig = {
     output: './output.css',
 };
 
+// Have the init command recognition in the beginning to allow user to create the config file
+// without triggering errors in the coming steps
+if(process.argv[2] === "init"){
+    const configContent = `module.exports = {
+        fileExtensions: ["html","js","jsx","ts","tsx"],
+        directories: ["./src"], // Specify directories to scan for style changes
+        input: "", // Specify an input file to be appended into the output file
+        output: "./output.css", // Specify the path to where the output file will be generated
+        screens: { // specify media querie cut-offs
+            sd: {max: 600},
+            md: {min: 600, max: 1200},
+            ld: {min: 1200},
+        }
+    };`;
+      
+    fs.writeFileSync(configFile, configContent);
+    console.log(`Configuration file created at ${configFile}`);
+    process.exit(0);
+}
+
 // Load configuration
 let config;
+const directories = []
 if (fs.existsSync(configFile)) {
     config = require(path.resolve(configFile));
+    if(config.directories.length === 0){
+        console.error('Configuration file is missing values in directories. Please specify a directory so the CLI can start scanning.');    
+        process.exit(1);
+    } else if(!fs.existsSync(path.dirname(path.join(process.cwd(), config.output)))){
+        console.error('Please specify a valid directory path for your output file in swiftcss.config.js.');    
+        process.exit(1);
+    } else if(config.output === ""){
+        console.error('Please specify a valid path for your output file in swiftcss.config.js.');    
+        process.exit(1);
+    }
 } else {
     console.error('Configuration file not found. Run "init" command first.');
     process.exit(1);
@@ -29,11 +60,20 @@ let currentScreens = configFile.screens;
 
 // Check if directories exist
 for (const directory of config.directories) {
-  if (!fs.existsSync(directory)) {
+  if (!fs.existsSync(path.join(process.cwd(), directory))) {
     console.error(`Directory not found: ${directory}`);
     process.exit(1);
+  } else {
+    directories.push(path.join(process.cwd(), directory))
   }
 }
+
+// Update directories & output
+config.directories = directories
+config.output = path.join(process.cwd(), config.output)
+config.input = path.join(process.cwd(), config.input)
+
+
 
 const classNames = new Set();
 const dynamicClassNames = new Set();
@@ -79,7 +119,7 @@ if (process.argv[2] === 'watch') {
     
     watcher.on('change', filePath => {
         console.log(`File changed: ${filePath}`);
-        runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+        runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
     });
 
     process.on('SIGINT', () => {
@@ -88,7 +128,7 @@ if (process.argv[2] === 'watch') {
       process.exit();
     });
 
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 } else if (process.argv[2] === 'build') {
     const baseStyle = new Object;
     styleCSS.split('}').forEach((styleBlock, i) => {
@@ -100,5 +140,5 @@ if (process.argv[2] === 'watch') {
             baseStyle[className] = classAttribute
         } catch (error) {}
     });
-    runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 }
