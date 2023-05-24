@@ -27,26 +27,26 @@
     }
 
     // Percent
-    .brd-radius-#{$i}-perc{
+    .brd-radius-#{$i}prc{
         border-radius: $i + #{'%'};
     }
-    .brd-radius-tl-#{$i}-perc{
+    .brd-radius-tl-#{$i}prc{
         border-top-left-radius: $i + #{'%'};
     }
-    .brd-radius-tr-#{$i}-perc{
+    .brd-radius-tr-#{$i}prc{
         border-top-right-radius: $i + #{'%'};
     }
-    .brd-radius-t-#{$i}-perc{
+    .brd-radius-t-#{$i}prc{
         border-top-right-radius: $i + #{'%'};
         border-top-left-radius: $i + #{'%'};
     }
-    .brd-radius-bl-#{$i}-perc{
+    .brd-radius-bl-#{$i}prc{
         border-bottom-left-radius: $i + #{'%'};
     }
-    .brd-radius-br-#{$i}-perc{
+    .brd-radius-br-#{$i}prc{
         border-bottom-right-radius: $i + #{'%'};
     }
-    .brd-radius-b-#{$i}-perc{
+    .brd-radius-b-#{$i}prc{
         border-bottom-right-radius: $i + #{'%'};
         border-bottom-left-radius: $i + #{'%'};
     }

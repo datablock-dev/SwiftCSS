@@ -1,0 +1,88 @@
+.grid{
+    @for $i from 0 through 200 {
+        &-cols-#{$i}{
+            grid-template-columns: repeat($i, minmax(0, 1fr));
+        }
+        &-rows-#{$i}{
+            grid-template-rows: repeat($i, minmax(0, 1fr));
+        }
+    }
+    &-cols-none{
+        grid-template-columns: none;
+    }
+    &-rows-none{
+        grid-template-rows: none;
+    }
+    &-flow{
+        &-row{
+            grid-auto-flow: row;
+        }
+        &-col{
+            grid-auto-flow: column;
+        }
+        &-dense{
+            grid-auto-flow: dense;
+        }
+        &-row-dense{
+            grid-auto-flow: row dense;
+        }
+        &-col-dense{
+            grid-auto-flow: column dense;
+        }
+    }
+}
+
+.auto-cols{
+    &-auto{
+        grid-auto-columns: auto;
+    }
+    &-min{
+        grid-auto-columns: min-content;
+    }
+    &-max{
+        grid-auto-columns: max-content;
+    }
+    &-fr{
+        grid-auto-columns: minmax(0, 1fr);
+    }
+}
+
+.gap{
+    @for $i from 0 through 400 {
+        &-#{$i}{
+            gap: $i + #{'px'};
+        }
+        &-x-#{$i}{
+            column-gap: $i + #{'px'};
+        }
+        &-y-#{$i}{
+            row-gap: $i + #{'px'};
+        }
+    }
+}
+
+.col{
+    @for $i from 1 through 50 {
+        &-span-#{$i}{
+            grid-column: span $i / span $i;
+        }
+        &-start-#{$i}{
+            grid-column-start: $i;
+        }
+        &-end-#{$i}{
+            grid-column-end: $i;
+        }
+    }
+    &-soan-full{
+        grid-column: 1 / -1;
+    }
+    &-start-auto{
+        grid-column-start: auto;
+    }
+    &-end-auto{
+        grid-column-end: auto;
+    }
+    &-auto{
+        grid-column: auto;
+    }
+}

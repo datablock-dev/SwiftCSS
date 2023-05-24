@@ -115,3 +115,11 @@
         align-items: stretch;
     }
 }
+
+.grow{
+    @for $i from 0 through 100 {
+        &-#{$i}{
+            flex-grow: $i;
+        }
+    }
+}
