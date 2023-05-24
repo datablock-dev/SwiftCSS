@@ -98,6 +98,9 @@
 .bg-\[\#fff\] {
 	background-color: #fff;
 }
+.hover\:color-\[\#a414a4\]:hover {
+	color: #a414a4;
+}
 .brd-color-\[\#a414a4\] {
 	border-color: #a414a4;
 }
@@ -149,69 +152,66 @@
 .fill-\[\#f4f4f4\] {
 	fill: #f4f4f4;
 }
-.hover\:cursor-pointer:hover{
- cursor: pointer; 
-}
-.hover\:fw-400:hover{
- font-weight: 400; 
-}
-.hover\:brd-radius-6:hover{
- border-radius: 6px; 
-}
-.hover\:py-14:hover{
- padding-top: 14px;
-  padding-bottom: 14px; 
-}
 light.light, body.light {
-[style-light="color-[#000] bg-[#fff]"] {
-color: #000;
-background-color: #fff;
-}
-[style-light="color-[#000] fs-14 z-300"] {
-color: #000;
-font-size: 14px;
-z-index: 300;
-}
-[style-light="color-[#000] fs-19 fw-400"] {
-color: #000;
-font-size: 19px;
-font-weight: 400;
-}
-[style-light="color-[#000] relative bg-[#062698]"] {
-color: #000;
-position: relative;
-background-color: #062698;
-}
-[style-light="color-[#010101]"] {
-color: #010101;
-}
-[style-light="color-[#313131] bg-[#fff]"] {
-color: #313131;
-background-color: #fff;
-}
+	[style-light="color-[#000] bg-[#fff] hover:color-[#a414a4] hover:fs-14"] {
+		color: #000;
+		background-color: #fff;
+	}
+	[style-light="color-[#000] fs-14 z-300"] {
+		color: #000;
+		font-size: 14px;
+		z-index: 300;
+	}
+	[style-light="color-[#000] fs-19 fw-400"] {
+		color: #000;
+		font-size: 19px;
+		font-weight: 400;
+	}
+	[style-light="color-[#000] relative bg-[#062698]"] {
+		color: #000;
+		position: relative;
+		background-color: #062698;
+	}
+	[style-light="color-[#010101]"] {
+		color: #010101;
+	}
+	[style-light="color-[#313131] bg-[#fff]"] {
+		color: #313131;
+		background-color: #fff;
+	}
+	[style-light="color-[#000] bg-[#fff] hover:color-[#a414a4] hover:fs-14"]:hover {
+		color: #a414a4;
+		font-size: 14px;
+	}
 }
 dark.light, body.dark {
-[style-dark="bg-[#333] color-[#fff]"] {
-background-color: #333;
-color: #fff;
-}
-[style-dark="color-[#fff]"] {
-color: #fff;
-}
-[style-dark="color-[#fff] hover:color-[#f4f4f4]"] {
-color: #fff;
-}
-[style-dark="color-[#f3f3f3]"] {
-color: #f3f3f3;
-}
-[style-dark="color-[#111111]"] {
-color: #111111;
-}
+	[style-dark="bg-[#333] color-[#fff] flex-row"] {
+		background-color: #333;
+		color: #fff;
+		display: flex;
+  flex-direction: row;
+	}
+	[style-dark="color-[#fff]"] {
+		color: #fff;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4]"] {
+		color: #fff;
+	}
+	[style-dark="color-[#f3f3f3]"] {
+		color: #f3f3f3;
+	}
+	[style-dark="color-[#111111]"] {
+		color: #111111;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4]"]:hover {
+		color: #f4f4f4;
+	}
 }
 @media screen and (max-width: 600px){
-	[style-sd="fs-24"]{
-
- font-size: 24px;
+	[style-sd="fs-24 flex-row"]{
+font-size: 24px;
+ display: flex;
+  flex-direction: row;
 }[style-sd="fs-16"]{
 
  font-size: 16px;
