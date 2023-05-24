@@ -50,16 +50,14 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
-        const attributeName = match[1];
-        const attributeValue = match[2];
+        const attributeName = match[1]; // style-dark / style-light
+        const attributeValue = match[2]; // attributeValue
         attributes[attributeName].push(attributeValue);
     }
 
-    // For pseudo classes
-    while ((match = pseudoRegex.exec(fileContent))){    
-        //console.log(match[0])
+    // For pseudo classes (without dark/light style)
+    while ((match = pseudoRegex.exec(fileContent) && !attributeRegex.exec(fileContent)[1].includes('style-'))){   
         rawPseudoClasses.push(match[0])
-        //attributes[attributeName].push(attributeValue);
     }
 
     screenKeys.forEach(screenKey => {

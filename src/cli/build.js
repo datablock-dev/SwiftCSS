@@ -3,6 +3,8 @@ const path = require('path')
 const parseClassNamesFromHTML = require('./parseClass');
 const mediaStyling = require('./parsers/mediaQueries')
 const pseudoStyling = require('./parsers/pseudo');
+const createThemeStyles = require('./parsers/themes')
+
 
 function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
     const styleCSS = fs.readFileSync('./src/style.css', 'utf-8');
@@ -94,38 +96,10 @@ function runBuildCommand(config, classNames, dynamicClassNames, dynamicStyles, d
       
     // Generate dynamic class styles
     finalStyles.push(...dynamicClassStyles);
-    finalStyles.push(...pseduoClassStyling)
-
-    const createThemeStyles = (themeStyles, themeClassName) => {
-        const cssRules = [];
-      
-        Object.entries(themeStyles).forEach(([className, attributeValues]) => {
-          attributeValues.forEach(attributeValue => {
-            const properties = attributeValue.split(/\s+/);
-            const cssProperties = [];
-      
-            properties.forEach(property => {
-              if (dynamicClasses[property]) {
-                cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
-              } else {
-                const propertyStyleMatch = styleCSS.match(new RegExp(`.${property} {([^}]*)}`));
-                if (propertyStyleMatch) {
-                  cssProperties.push(propertyStyleMatch[1].trim());
-                }
-              }
-            });
-      
-            const cssRule = `[style-${themeClassName}="${className}"] {\n${cssProperties.join('\n')}\n}`;
-            cssRules.push(cssRule);
-          });
-        });
-      
-        finalStyles.push(`${themeClassName}.light, body.${themeClassName} {\n${cssRules.join('\n')}\n}`);
-    };
-      
+    finalStyles.push(...pseduoClassStyling)      
     
-    createThemeStyles(lightStyles, 'light');
-    createThemeStyles(darkStyles, 'dark');
+    createThemeStyles(lightStyles, 'light', finalStyles, dynamicClasses, styleCSS, baseStyle);
+    createThemeStyles(darkStyles, 'dark', finalStyles, dynamicClasses, styleCSS, baseStyle);
     
     // Include media styles
     finalStyles.push(...mediaStyles);
