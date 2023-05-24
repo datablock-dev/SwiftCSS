@@ -15,6 +15,9 @@ function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynami
     const pseudoElements = []
     const attributes = {};
 
+    // Include input CSS styles (has to be appended in the beginning)
+    finalStyles.push(inputCSS);
+
     function processFile(filePath) {
         const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } = parseClassNamesFromHTML(config, filePath, screenKeys);
 
@@ -102,9 +105,6 @@ function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynami
     
     // Include media styles
     finalStyles.push(...mediaStyles);
-
-    // Include input CSS styles
-    finalStyles.push(inputCSS);
 
     // Dark and light mode styles
     const darkModeStyles = generateDynamicStyles('dark', Array.from(dynamicClassNames), styleCSS);
