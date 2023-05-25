@@ -119,7 +119,7 @@ if (process.argv[2] === 'watch') {
     
     watcher.on('change', filePath => {
         console.log(`File changed: ${filePath}`);
-        runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+        runBuildCommand('watch', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
     });
 
     process.on('SIGINT', () => {
@@ -128,7 +128,7 @@ if (process.argv[2] === 'watch') {
       process.exit();
     });
 
-    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand('watch', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 } else if (process.argv[2] === 'build') {
     const baseStyle = new Object;
     styleCSS.split('}').forEach((styleBlock, i) => {
@@ -140,5 +140,5 @@ if (process.argv[2] === 'watch') {
             baseStyle[className] = classAttribute
         } catch (error) {}
     });
-    runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand('build', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
 }

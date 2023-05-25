@@ -16,11 +16,11 @@ function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseS
             if(dynamicClassRegex.test(attributeValue)){
 
             } else if(baseStyle[attributeValue]){ // Append css attributes
-                screenStyles[index].value = `${screenStyles[index].value.trim()}\n ${baseStyle[attributeValue].trim()}`
+                screenStyles[index].value = `\t\t${screenStyles[index].value.trim()}\n ${baseStyle[attributeValue].trim()}`
             }
         });
 
-        screenStyles[index].value = `${screenStyles[index].property}{\n${screenStyles[index].value}\n}`
+        screenStyles[index].value = `\t${screenStyles[index].property}{\n${screenStyles[index].value.trim()}\n\t}\n`
     });
 
     return screenStyles;
@@ -59,7 +59,7 @@ function finalMediaQuery(mediaQueries, screens){
 
     // Create the final output
     Object.entries(finalStyles).forEach(([screenSize, {parent, value}]) => {
-        const css = `${parent}\t${value.join('')}\n}`
+        const css = `${parent}${value.join('')}\t\n}`
         cssOutput.push(css)
     })
     

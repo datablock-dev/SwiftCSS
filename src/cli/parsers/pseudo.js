@@ -1,4 +1,5 @@
 function parsePseudoClasses(classes, baseStyle){
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const css = [];
 
     classes.forEach((element, index) => {
@@ -9,6 +10,15 @@ function parsePseudoClasses(classes, baseStyle){
                 const cssAttribute = baseStyle[attribute]
                 const output = `.${selector}\\:${attribute}:${selector}{\n ${cssAttribute} \n}`
                 css.push(output)
+            } else if(pseudoElements.includes(selector) && baseStyle[attribute]){
+                const cssAttribute = baseStyle[attribute]
+                const output = `.${selector}\\:${attribute}::${selector}{\n ${cssAttribute} \n}`
+                css.push(output)
+            } else if(pseudoElements.includes(selector) && attribute.includes('content-')){
+                console.log(attribute)
+                const contentValue = attribute.split('-')[1].replace(/\[|\]/g, "")
+                const output = `.${selector}\\:${attribute.replace(specialChars, "\\$&")}::${selector}{\n content: ${contentValue} \n}`
+                css.push(output)
             }
         } catch (err) {}
     });
@@ -17,7 +27,7 @@ function parsePseudoClasses(classes, baseStyle){
 }
 
 function parsePseudoElements(){
-    
+
 }
 
 const pseudoClasses = [
@@ -71,5 +81,18 @@ const pseudoClasses = [
     'is',
     'where',
 ];
+
+const pseudoElements = [
+    'after',
+    'before',
+    'first-line',
+    'selection',
+    'placeholder',
+    'marker',
+    'backdrop',
+    'cue',
+    'part',
+    'slotted'
+]
 
 module.exports = { parsePseudoClasses, parsePseudoElements }

@@ -1,12 +1,17 @@
 const fs = require('fs')
 const path = require('path')
+const cssnano = require('cssnano')
+const postcss = require('postcss')
+const litePreset = require('cssnano-preset-lite')
+const autoprefixer = require('autoprefixer')
+const preset = litePreset({ discardComments: false });
 const parseClassNamesFromHTML = require('./parseClass');
 const mediaStyling = require('./parsers/mediaQueries')
 const pseudoStyling = require('./parsers/pseudo');
 const createThemeStyles = require('./parsers/themes')
 
 
-function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
+function runBuildCommand(command, styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle) {
     const inputCSS = config.input ? fs.readFileSync(config.input, 'utf-8') : '';
     const filteredStyles = [];
     const finalStyles = [];
@@ -14,6 +19,9 @@ function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynami
     const pseudoClasses = []
     const pseudoElements = []
     const attributes = {};
+
+    // Regex
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 
     // Include input CSS styles (has to be appended in the beginning)
     finalStyles.push(inputCSS);
@@ -90,9 +98,10 @@ function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynami
     const dynamicClassStyles = [];
     Object.entries(dynamicClasses).forEach(([className, classProperties]) => {
         if(classProperties.pseudoClass){
-            dynamicClassStyles.push(`.${classProperties.pseudoClass}\\:${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')}:hover {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+            dynamicClassStyles.push(`.${classProperties.pseudoClass}\\:${className.replace(specialChars, "\\$&")}:${classProperties.pseudoClass} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
         } else {
-            dynamicClassStyles.push(`.${className.replace(/[[]/g, '\\[').replace(/[\]]/g, '\\]').replace(/#/g, '\\#')} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
+            //console.log(className, classProperties)
+            dynamicClassStyles.push(`.${className.replace(specialChars, "\\$&")} {\n\t${classProperties.property}: ${classProperties.value};\n}`);
         }
     });
       
@@ -117,13 +126,24 @@ function runBuildCommand(styleCSS, config, classNames, dynamicClassNames, dynami
     // Include screen styles
     //finalStyles.push(...Object.values(screenStyles).map(style => style.rules.join('\n')));
 
-    writeOutputCSS(config.output, [...finalStyles, ...filteredStyles]);
+    writeOutputCSS(command, config.output, [...finalStyles, ...filteredStyles]);
 }
 
-function writeOutputCSS(outputFilePath, styles) {
+function writeOutputCSS(command, outputFilePath, styles) {
     const uniqueStyles = [...new Set(styles)];
   
-    fs.writeFileSync(outputFilePath, uniqueStyles.join('\n'));
+    if(command === "build"){
+        postcss([cssnano])
+        .process(uniqueStyles.join(''))
+        .then(compressCSS => {
+            fs.writeFileSync(outputFilePath, compressCSS.css);
+        })
+        .catch((err) => {
+            console.error(err)
+        })   
+    } else {
+        fs.writeFileSync(outputFilePath, uniqueStyles.join('\n'));
+    }
     console.log('Output CSS file generated:', outputFilePath);
 }
 

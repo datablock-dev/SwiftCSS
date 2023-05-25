@@ -1,13 +1,13 @@
 {
   "name": "swiftcss",
-  "version": "1.1.6",
+  "version": "1.2.7",
   "description": "A CSS framework inspired by Tailwindcss with attribute styling to split styling and reduce dependency and size of classes in elements and components.",
   "main": "main.js",
   "license": "MIT",
   "homepage": "https://datablock.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/https://github.com/pannoury/SwiftCSS.git"
+    "url": "https://github.com/pannoury/SwiftCSS"
   },
   "scripts": {
     "watch": "node main.js watch",
@@ -18,9 +18,13 @@
     "swiftcss": "./main.js"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.14",
     "cheerio": "^1.0.0-rc.12",
     "chokidar": "^3.5.3",
+    "cssnano": "^6.0.1",
+    "cssnano-preset-lite": "^3.0.0",
     "glob": "^10.2.5",
+    "postcss": "^8.4.23",
     "yargs": "^17.7.2"
   }
 }
