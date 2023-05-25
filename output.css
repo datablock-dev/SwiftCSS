@@ -53,6 +53,8 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+.brd-dotted {
+  border-style: dotted;}
 .brd-solid {
   border-style: solid;}
 .brd-radius-3 {
@@ -138,74 +140,102 @@ time, mark, audio, video {
   z-index: 600;}
 .hidden {
   visibility: hidden;}
-.bg-\[\#000\] {
+.bg\-\[\#000\] {
 	background-color: #000;
 }
-.bg-\[\#333\] {
+.bg\-\[\#333\] {
 	background-color: #333;
 }
-.color-\[\#fff\] {
+.color\-\[\#fff\] {
 	color: #fff;
 }
-.color-\[\#000\] {
+.color\-\[\#000\] {
 	color: #000;
 }
-.bg-\[\#fff\] {
+.bg\-\[\#fff\] {
 	background-color: #fff;
 }
-.hover\:color-\[\#a414a4\]:hover {
+.hover\:color\-\[\#a414a4\]:hover {
 	color: #a414a4;
 }
-.brd-color-\[\#a414a4\] {
+.visited\:color\-\[\#c4c4c4\]:visited {
+	color: #c4c4c4;
+}
+.content\-\[\'\*\'\] {
+	content: '*';
+}
+.brd\-color\-\[\#a414a4\] {
 	border-color: #a414a4;
 }
-.hover\:color-\[\#ffffff\]:hover {
+.hover\:color\-\[\#ffffff\]:hover {
 	color: #ffffff;
 }
-.bg-\[\#c4c4c4\] {
+.bg\-\[\#c4c4c4\] {
 	background-color: #c4c4c4;
 }
-.color-\[\#f4f4f4\] {
+.color\-\[\#f4f4f4\] {
 	color: #f4f4f4;
 }
-.bg-\[\#062698\] {
+.bg\-\[\#062698\] {
 	background-color: #062698;
 }
-.color-\[\#f3f3f3\] {
+.color\-\[\#f3f3f3\] {
 	color: #f3f3f3;
 }
-.color-\[\#010101\] {
+.color\-\[\#010101\] {
 	color: #010101;
 }
-.color-\[\#fffff2\] {
+.color\-\[\#fffff2\] {
 	color: #fffff2;
 }
-.color-\[\#000000\] {
+.color\-\[\#000000\] {
 	color: #000000;
 }
-.color-\[\#fffff3\] {
+.color\-\[\#fffff3\] {
 	color: #fffff3;
 }
-.bg-\[\#fcfcfd\] {
+.bg\-\[\#fcfcfd\] {
 	background-color: #fcfcfd;
 }
-.bg-\[\#332\] {
+.bg\-\[\#332\] {
 	background-color: #332;
 }
-.color-\[\#98dc88\] {
+.color\-\[\#98dc88\] {
 	color: #98dc88;
 }
-.hover\:color-\[\#98dc81\]:hover {
+.hover\:color\-\[\#98dc81\]:hover {
 	color: #98dc81;
 }
-.color-\[\#111111\] {
+.color\-\[\#111111\] {
 	color: #111111;
 }
-.color-\[\#313131\] {
+.color\-\[\#313131\] {
 	color: #313131;
 }
-.fill-\[\#f4f4f4\] {
+.fill\-\[\#f4f4f4\] {
 	fill: #f4f4f4;
+}
+.hover\:fs-14:hover{
+ font-size: 14px; 
+}
+.after\:content\-\[\'\*\'\]::after{
+ content: '*' 
+}
+.hover\:cursor-pointer:hover{
+ cursor: pointer; 
+}
+.hover\:brd-solid:hover{
+ border-style: solid; 
+}
+.hover\:fw-400:hover{
+ font-weight: 400; 
+}
+.hover\:brd-radius-6:hover{
+ border-radius: 6px; 
+}
+.hover\:py-14:hover{
+ padding-top: 14px;
+  padding-bottom: 14px; 
 }
 light.light, body.light {
 	[style-light="color-[#000] bg-[#fff] hover:color-[#a414a4] hover:fs-14"] {
@@ -255,35 +285,39 @@ dark.light, body.dark {
 font-size: 24px;
  display: flex;
   flex-direction: row;
-}[style-sd="fs-16"]{
-
- font-size: 16px;
-}[style-sd="fs-14 py-10 fw-200"]{
+	}
+	[style-sd="fs-16"]{
+font-size: 16px;
+	}
+	[style-sd="fs-14 py-10 fw-200"]{
 font-size: 14px;
  padding-top: 10px;
   padding-bottom: 10px;
  font-weight: 200;
-}[style-sd="fs-14 py-10 fs-32"]{
+	}
+	[style-sd="fs-14 py-10 fs-32"]{
 font-size: 14px;
  padding-top: 10px;
   padding-bottom: 10px;
  font-size: 32px;
-}
+	}
+	
 }
 @media screen and (min-width: 600px) and (max-width: 1200px){
 	[style-md="fs-44"]{
-
- font-size: 44px;
-}[style-md="fs-18 py-20 fw-400"]{
+font-size: 44px;
+	}
+	[style-md="fs-18 py-20 fw-400"]{
 font-size: 18px;
  padding-top: 20px;
   padding-bottom: 20px;
  font-weight: 400;
-}
+	}
+	
 }
 @media screen and (min-width: 1200px){
 	[style-ld="fs-88"]{
-
- font-size: 88px;
-}
+font-size: 88px;
+	}
+	
 }

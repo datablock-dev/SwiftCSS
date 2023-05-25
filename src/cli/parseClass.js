@@ -4,10 +4,11 @@ const fs = require('fs')
 function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill|brd-color)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]/g;
+    const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill|brd-color)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]|content-\[(.*?)\]/g;
     const attributeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
     const pseudoRegex = /\b[a-z-]+:[^"\s]+/g;
     const pseudoElementRegex = /\b[a-z-]+::[^"\s]+/g;
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const classNames = new Set();
     const dynamicClassNames = {};
     const screenClasses = []
@@ -26,12 +27,14 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     }
   
     while ((match = dynamicClassRegex.exec(fileContent))) {
+
         // Format if its not undefined, get pseudo class without ":"
         const isPseudoClass = match[1] ? match[1].replace(/:/g, '') : undefined
         const property = match[2];
         const value = match[3];
         let pseudoClass = null;
         let finalProperty = '';
+        let contentValue = ''; // If user defines content, then get the value
 
         if(isPseudoClass && approvedPseudoClasses.includes(isPseudoClass)){
             pseudoClass = isPseudoClass;
@@ -41,10 +44,19 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         else if(property === "color") finalProperty = "color"
         else if(property === "fill") finalProperty = "fill"
         else if(property === "brd-color") finalProperty = "border-color"
+        else if(property === "content") finalProperty = "content"
+
+        
+        if(!property){
+            try {
+                finalProperty = match[0].split('-')[0] === "content" ? "content" : undefined
+                contentValue = match[0].split('-')[1].replace(/\[|\]/g, "");
+            } catch (error) {}
+        }
 
         dynamicClassNames[match[0].replace(/\w+::|\w+:/g, '')] = {
           property: finalProperty,
-          value: '#' + value,
+          value: finalProperty === "content" ? contentValue : '#' + value,
           pseudoClass: pseudoClass
         };
     }
@@ -56,7 +68,9 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     }
 
     // For pseudo classes (without dark/light style)
-    while ((match = pseudoRegex.exec(fileContent) && !isStyleAttribute)){   
+    while ((match = pseudoRegex.exec(fileContent))){   
+        const altRegex = /(\w+=")?([a-z-]+:[^"\s]+)(")?/g;
+        const attribute = altRegex.exec(match.input) // attribute[0] -> (class/className)
         rawPseudoClasses.push(match[0])
     }
 
