@@ -23,7 +23,7 @@ if(process.argv[2] === "init"){
         directories: ["./src"], // Specify directories to scan for style changes
         input: "", // Specify an input file to be appended into the output file
         output: "./output.css", // Specify the path to where the output file will be generated
-        screens: { // specify media querie cut-offs
+        screens: { // specify media query cut-offs
             sd: {max: 600},
             md: {min: 600, max: 1200},
             ld: {min: 1200},
@@ -109,7 +109,7 @@ if (process.argv[2] === 'watch') {
         const newConfig = require('./swiftcss.config.js');
         if (JSON.stringify(newConfig.screens) !== JSON.stringify(currentScreens)) {
             currentScreens = newConfig.screens;
-            console.log(currentScreens)
+            console.log(`Current Screens: ${currentScreens}`)
         }
         console.log('Compiler stopped due to changes to the config file, please rerun your command once you have finished editing the config file');
         process.exit();

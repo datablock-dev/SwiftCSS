@@ -59,6 +59,8 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
           value: finalProperty === "content" ? contentValue : '#' + value,
           pseudoClass: pseudoClass
         };
+
+        //console.log(dynamicClassNames)
     }
   
     while ((match = attributeRegex.exec(fileContent))) {
