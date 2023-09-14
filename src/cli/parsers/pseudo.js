@@ -1,3 +1,7 @@
+/*
+    The following query parses Pseudo Classes of CSS
+*/
+
 function parsePseudoClasses(classes, baseStyle){
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const css = [];
@@ -15,12 +19,24 @@ function parsePseudoClasses(classes, baseStyle){
                 const output = `.${selector}\\:${attribute}::${selector}{\n ${cssAttribute} \n}`
                 css.push(output)
             } else if(pseudoElements.includes(selector) && attribute.includes('content-')){
-                console.log(attribute)
+                //console.log(attribute)
                 const contentValue = attribute.split('-')[1].replace(/\[|\]/g, "")
                 const output = `.${selector}\\:${attribute.replace(specialChars, "\\$&")}::${selector}{\n content: ${contentValue} \n}`
                 css.push(output)
+
+                // Temporary fix to include pseudoClasses with dynamic attribute (e.g. hover:color-[#000])
+                // Those attributes like the example above, wont match with baseStyle
+            } else if(pseudoClasses.includes(selector) && !baseStyle[attribute]){
+                //console.log(selector, attribute)
+                const contentValue = attribute.split('-')[1].replace(/\[|\]/g, "")
+                const attributeValue = attribute.split('-')[0].replace(/\[|\]/g, "")
+
+                const output = `.${selector}\\:${attribute.replace(specialChars, "\\$&")}:${selector}{\n ${attributeValue}: ${contentValue} \n}`
+                css.push(output)
             }
-        } catch (err) {}
+        } catch (err) {
+            console.log(`Error: ${err}`)
+        }
     });
 
     return css

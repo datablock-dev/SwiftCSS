@@ -27,41 +27,42 @@ function runBuildCommand(command, styleCSS, config, classNames, dynamicClassName
     finalStyles.push(inputCSS);
 
     function processFile(filePath) {
-        const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } = parseClassNamesFromHTML(config, filePath, screenKeys);
+      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } = parseClassNamesFromHTML(config, filePath, screenKeys);
 
-        fileClassNames.forEach(className => classNames.add(className));
-        Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
-            // className -> bg-[#000], classProprety -> { property: "fill", value: #bg }
-            dynamicClasses[className] = classProperties;
-        });
+      fileClassNames.forEach(className => classNames.add(className));
+      Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
+        // className -> bg-[#000], classProprety -> { property: "fill", value: #bg }
+        dynamicClasses[className] = classProperties;
+      });
       
-        Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
-            attributeValues.forEach(attributeValue => {
-                if (attributeName === 'style-dark') {
-                  if (!darkStyles[attributeValue]) {
-                    darkStyles[attributeValue] = [];
-                  }
-                  if (!darkStyles[attributeValue].includes(attributeValue)) {
-                    darkStyles[attributeValue].push(attributeValue);
-                  }
+      Object.entries(attributes).forEach(([attributeName, attributeValues]) => {
+          attributeValues.forEach(attributeValue => {
+              if (attributeName === 'style-dark') {
+                if (!darkStyles[attributeValue]) {
+                  darkStyles[attributeValue] = [];
                 }
-
-                if (attributeName === 'style-light') {
-                  if (!lightStyles[attributeValue]) {
-                    lightStyles[attributeValue] = [];
-                  }
-                  if (!lightStyles[attributeValue].includes(attributeValue)) {
-                    lightStyles[attributeValue].push(attributeValue);
-                  }
+                if (!darkStyles[attributeValue].includes(attributeValue)) {
+                  darkStyles[attributeValue].push(attributeValue);
                 }
-            });
-        });
+              }
 
-        // Push pseudo classes of a specific file to the array of all pseudo classes
-        pseudoClasses.push(...pseudoClass)
+              if (attributeName === 'style-light') {
+                if (!lightStyles[attributeValue]) {
+                  lightStyles[attributeValue] = [];
+                }
+                if (!lightStyles[attributeValue].includes(attributeValue)) {
+                  lightStyles[attributeValue].push(attributeValue);
+                }
+              }
+          });
+      });
 
-        const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
-        mediaQueries.push(...mediaObject)
+      // Push pseudo classes of a specific file to the array of all pseudo classes
+      //console.log(pseudoClasses)
+      pseudoClasses.push(...pseudoClass)
+
+      const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
+      mediaQueries.push(...mediaObject)
     };
 
     config.fileExtensions.forEach(extension => {
@@ -200,6 +201,9 @@ function parseDynamicStyles(style) {
     return parsedStyle;
 }
 
+/*
+  The following function find all files that exists across the 
+*/
 function getAllFilesInDir(dir, ext, fileList = []) {
     const files = fs.readdirSync(dir);
 
