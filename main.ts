@@ -9,9 +9,9 @@ const runBuildCommand = require('./src/cli/build');
 // Types
 import { Config, modeStyle } from "types";
 
-const cpus = os.cpus()
-const numThreads = cpus.length;
-console.log(numThreads) 
+//const cpus = os.cpus()
+//const numThreads = cpus.length;
+//console.log(numThreads) 
 
 const configFile = path.join(process.cwd(), 'swiftcss.config.js');
 
