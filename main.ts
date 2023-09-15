@@ -7,7 +7,7 @@ const os = require('os');
 const runBuildCommand = require('./src/cli/build');
 
 // Types
-import { Config } from "types";
+import { Config, modeStyle } from "types";
 
 const cpus = os.cpus()
 const numThreads = cpus.length;
@@ -92,7 +92,7 @@ const dynamicClassNames = new Set();
 const dynamicStyles = new Set();
 const dynamicClasses = new Object;
 const lightStyles = new Object; 
-const darkStyles = new Object;
+const darkStyles = new Object as modeStyle;
 const screenKeys = new Array;
 
 // We define the commands here and the actions that occurrs for each command

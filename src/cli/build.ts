@@ -1,4 +1,4 @@
-import { Config, DynamicClasses } from "types"
+import { Config, DynamicClasses, modeStyle } from "types"
 
 const fs = require('fs')
 const path = require('path')
@@ -13,7 +13,7 @@ const pseudoStyling = require('./parsers/pseudo');
 const createThemeStyles = require('./parsers/themes')
 const {parseDynamicStyles, generateDynamicStyles} = require('./parsers/dynamicStyles');
 
-function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: Object, darkStyles: Object, screenKeys: any[string], baseStyle: string) {
+function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: string) {
     const inputCSS = (config.input && config.input !== '') ? fs.readFileSync(config.input, 'utf-8') : '';
     const filteredStyles = new Array;
     const finalStyles = new Array;
@@ -44,43 +44,40 @@ function runBuildCommand(command: string, styleCSS:string, config: Config, class
     });
 
     function processFile(filePath: string) {
-      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } 
+      const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, modeAttributes: attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } 
       = parseClassNamesFromHTML(config, filePath, screenKeys);
 
       fileClassNames.forEach((className: string) => classNames.add(className));
-      Object.entries(fileDynamicClassNames).forEach(([className, classProperties]) => {
+      Object.entries(fileDynamicClassNames).forEach(([className, classProperties]: any[string]) => {
         // className -> bg-[#000], classProprety -> { property: "fill", value: #bg }
         dynamicClasses[className as keyof DynamicClasses] = classProperties;
       });
       
+      /************************** Mode Styling **************************/
+      // This loop goes through all attributes for each of the mode styling (light or dark)
       Object.entries(attributes).forEach(([attributeName, attributeValues]: any[string]) => {
-          attributeValues.forEach((attributeValue: string) => {
-              if (attributeName === 'style-dark') {
-                // @ts-ignore
-                if (!darkStyles[attributeValue]) {
-                  // @ts-ignore
-                  darkStyles[attributeValue] = new Array;
-                }
-                // @ts-ignore
-                if (!darkStyles[attributeValue].includes(attributeValue)) {
-                  // @ts-ignore
-                  darkStyles[attributeValue].push(attributeValue);
-                }
-              }
+        // attributeName -> style-dark or style-light
+        // attributeValues -> [bg-[#fff], fs-14] etc.
+        attributeValues.forEach((attributeValue: string) => {
+          if (attributeName === 'style-dark') {
+            if (!darkStyles[attributeValue as keyof modeStyle]) {
+              // Create new key with an empty array
+              darkStyles[attributeValue] = new Array;
+            }
+            if (!darkStyles[attributeValue as keyof modeStyle].includes(attributeValue)) {
+              darkStyles[attributeValue].push(attributeValue);
+            }
+          }
 
-              if (attributeName === 'style-light') {
-                // @ts-ignore
-                if (!lightStyles[attributeValue]) {
-                  // @ts-ignore
-                  lightStyles[attributeValue] = [];
-                }
-                // @ts-ignore
-                if (!lightStyles[attributeValue].includes(attributeValue)) {
-                  // @ts-ignore
-                  lightStyles[attributeValue].push(attributeValue);
-                }
-              }
-          });
+          if (attributeName === 'style-light') {
+            if (!lightStyles[attributeValue]) {
+              lightStyles[attributeValue] = new Array;
+            }
+            if (!lightStyles[attributeValue].includes(attributeValue)) {
+              lightStyles[attributeValue].push(attributeValue);
+            }
+          }
+        });
       });
 
       // Push pseudo classes of a specific file to the array of all pseudo classes

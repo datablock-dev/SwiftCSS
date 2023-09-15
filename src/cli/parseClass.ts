@@ -1,7 +1,15 @@
+import { Config, modeAttributes, DynamicClasses } from "types";
+
 const fs = require('fs')
 
-// This function is being triggered per file
-function parseClassNamesFromHTML(config, filePath, screenKeys) {
+/**
+    * This function is being triggered per file
+    * @param config Config object specified in swiftcss.config.js
+    * @param filePath Path of the current file being processed
+    * @param screenKeys Array of screen keys provided in the config.screens
+    * @returns classNames, dynamicClassNames, attributes, screenClasses, pseudoClasses
+**/
+function parseClassNamesFromHTML(config: Config, filePath: string, screenKeys: any[string]) {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
     const dynamicClassRegex = /(\w+::|\w+:)?(bg|color|fill|brd-color)-\[\#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\]|content-\[(.*?)\]/g;
@@ -10,10 +18,10 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     const pseudoElementRegex = /\b[a-z-]+::[^"\s]+/g;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const classNames = new Set();
-    const dynamicClassNames = {};
-    const screenClasses = []
-    const rawPseudoClasses = []
-    const attributes = {
+    const dynamicClassNames = new Object;
+    const screenClasses = new Array
+    const rawPseudoClasses = new Array
+    const modeAttributes: modeAttributes = {
         'style-dark': [],
         'style-light': [],
     };
@@ -22,10 +30,12 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
   
     // For attributes specified in class="" or className="" (for JSX or TSX)
     while ((match = classRegex.exec(fileContent))) {
-        // match[0] -> 'className="fill-[#f4f4f4] py-10prc"'
-        // match[1] -> 'fill-[#f4f4f4] py-10prc'
-        // match.input -> Entire String
-        // match.index -> number, index of where the match was found
+        /*
+            match[0] -> 'className="fill-[#f4f4f4] py-10prc"'
+            match[1] -> 'fill-[#f4f4f4] py-10prc'
+            match.input -> Entire String
+            match.index -> number, index of where the match was found
+        */
         const classValue = match[1];
         const individualClassNames = classValue.split(/\s+/);
         individualClassNames.forEach(className => {
@@ -40,13 +50,21 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
 
     // If we have a dynamic styling
     while ((match = dynamicClassRegex.exec(fileContent))) {
+        /*
+            match[0] -> color-[#f4f4f4]
+            match[1] -> psuedoclass if exists like hover:color-[#f4f4f4] then -> hover:
+            match[2] -> color
+            match[3] -> #f4f4f4
+        */
+
+        type FinalProperty = string | undefined
 
         // Format if its not undefined, get pseudo class without ":"
         const isPseudoClass = match[1] ? match[1].replace(/:/g, '') : undefined
         const property = match[2];
         const value = match[3];
         let pseudoClass = null;
-        let finalProperty = '';
+        let finalProperty: FinalProperty = '';
         let contentValue = ''; // If user defines content, then get the value
 
         if(isPseudoClass && approvedPseudoClasses.includes(isPseudoClass)){
@@ -67,19 +85,30 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
             } catch (error) {}
         }
 
+        //@ts-ignore
         dynamicClassNames[match[0].replace(/\w+::|\w+:/g, '')] = {
           property: finalProperty,
           value: finalProperty === "content" ? contentValue : '#' + value,
           pseudoClass: pseudoClass
         };
-
-        //console.log(dynamicClassNames)
     }
   
+    // style-dark or style-light
     while ((match = attributeRegex.exec(fileContent))) {
-        const attributeName = match[1]; // style-dark / style-light
-        const attributeValue = match[2]; // attributeValue
-        attributes[attributeName].push(attributeValue);
+        /*
+            match[0] -> style-light="bg-[#fff]"
+            match[1] -> style-light
+            match[2] -> bg-[#fff]
+
+            index -> number where match was found
+            input -> entire string
+        */
+
+        type AttributeName = "style-dark" | "style-light"
+
+        const attributeName = match[1] as AttributeName; // style-dark / style-light
+        const attributeValue = match[2] as string; // attributeValue (eg. bg-[#fff])
+        modeAttributes[attributeName].push(attributeValue);
     }
 
     // For pseudo classes (without dark/light style)
@@ -89,7 +118,7 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         rawPseudoClasses.push(match[0])
     }
 
-    screenKeys.forEach((screenKey) => {
+    screenKeys.forEach((screenKey: string) => {
         const attributeRegex = new RegExp(`\\s+(style-${screenKey})\\s*=\\s*"([^"]+)"`, 'g');
         while ((match = attributeRegex.exec(fileContent))){
             const screenSize = config.screens[screenKey]
@@ -97,7 +126,8 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
                 property: `[${match[0].trim()}]`, // The name of the dynamic class
                 attributes: match[2].split(' '), // Create an array of attributes
                 value: '',
-                screenSize: screenKey
+                screenSize: screenKey,
+                mediaQuery: ""
             };
             
             if (screenSize.min && screenSize.max) {
@@ -114,11 +144,13 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
 
     // Remove duplicats of pseudo classes
     const pseudoClasses = [...new Set(rawPseudoClasses)] 
+
+    console.log(modeAttributes)
     
     return { 
         classNames, 
         dynamicClassNames, 
-        attributes, 
+        modeAttributes, 
         screenClasses, 
         pseudoClasses 
     };

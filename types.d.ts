@@ -9,8 +9,22 @@ export interface Config {
 }
 
 export interface DynamicClasses {
-    [key: string]: any
+    [key: string]: {
+        property: string
+        value: string
+        pseudoClass: string | null
+    }
 }
+
+export interface modeAttributes {
+    "style-dark": string[]
+    "style-light": string[]
+}
+
+export interface modeStyle { // One exists for style-dark and one for style-light
+    [key: string]: string[]
+}
+
 
 type approvedPseudoClasses = 
 'active'|
