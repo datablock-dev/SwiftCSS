@@ -306,8 +306,18 @@ dark.light, body.dark {
 	[style-dark="color-[#f3f3f3]"] {
 		color: #f3f3f3;
 	}
+	[style-dark="color-[#f3f3f3] "] {
+		color: #f3f3f3;
+		background-size: 0%;
+	}
+	[style-dark="color-[#f3f3f3] hover:cursor-pointer"] {
+		color: #f3f3f3;
+	}
 	[style-dark="color-[#fff] hover:color-[#f4f4f4]"]:hover {
 		color: #f4f4f4;
+	}
+	[style-dark="color-[#f3f3f3] hover:cursor-pointer"]:hover {
+		cursor: pointer;
 	}
 }
 @media screen and (max-width: 600px){
