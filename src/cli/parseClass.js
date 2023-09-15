@@ -20,12 +20,25 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     let match;
     let isStyleAttribute = attributeRegex.exec(fileContent);
   
+    // For attributes specified in class="" or className="" (for JSX or TSX)
     while ((match = classRegex.exec(fileContent))) {
-      const classValue = match[1];
-      const individualClassNames = classValue.split(/\s+/);
-      individualClassNames.forEach(className => classNames.add(className));
+        // match[0] -> 'className="fill-[#f4f4f4] py-10prc"'
+        // match[1] -> 'fill-[#f4f4f4] py-10prc'
+        // match.input -> Entire String
+        // match.index -> number, index of where the match was found
+        const classValue = match[1];
+        const individualClassNames = classValue.split(/\s+/);
+        individualClassNames.forEach(className => {
+            classNames.add(className)
+        });
     }
   
+    /*
+        We should probably add a split for this function, where we also identify if
+        it was within a class or in style-dark, style-light and others.
+    */
+
+    // If we have a dynamic styling
     while ((match = dynamicClassRegex.exec(fileContent))) {
 
         // Format if its not undefined, get pseudo class without ":"
@@ -76,7 +89,7 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
         rawPseudoClasses.push(match[0])
     }
 
-    screenKeys.forEach(screenKey => {
+    screenKeys.forEach((screenKey) => {
         const attributeRegex = new RegExp(`\\s+(style-${screenKey})\\s*=\\s*"([^"]+)"`, 'g');
         while ((match = attributeRegex.exec(fileContent))){
             const screenSize = config.screens[screenKey]
@@ -102,7 +115,13 @@ function parseClassNamesFromHTML(config, filePath, screenKeys) {
     // Remove duplicats of pseudo classes
     const pseudoClasses = [...new Set(rawPseudoClasses)] 
     
-    return { classNames, dynamicClassNames, attributes, screenClasses, pseudoClasses };
+    return { 
+        classNames, 
+        dynamicClassNames, 
+        attributes, 
+        screenClasses, 
+        pseudoClasses 
+    };
 }
 
 
