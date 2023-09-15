@@ -59,6 +59,7 @@ function runBuildCommand(command: string, styleCSS:string, config: Config, class
         // attributeName -> style-dark or style-light
         // attributeValues -> [bg-[#fff], fs-14] etc.
         attributeValues.forEach((attributeValue: string) => {
+          console.log(attributeValue)
           if (attributeName === 'style-dark') {
             if (!darkStyles[attributeValue as keyof modeStyle]) {
               // Create new key with an empty array
@@ -161,6 +162,8 @@ function writeOutputCSS(command: string, outputFilePath: string, styles: any[]) 
     } else {
       fs.writeFileSync(outputFilePath, uniqueStyles.join('\n'));
     }
+
+    // Maybe remove this
     console.log('Output CSS file generated:', outputFilePath);
 }
 

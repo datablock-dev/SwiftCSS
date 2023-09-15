@@ -18,7 +18,7 @@
         </div>
         <div 
             className="color-[#f4f4f4]"
-            style-dark="color-[#f3f3f3]"
+            style-dark="color-[#f3f3f3] hover:cursor-pointer"
             style-light="color-[#010101]"
         >
         </div>

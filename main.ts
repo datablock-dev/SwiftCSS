@@ -135,7 +135,10 @@ if (process.argv[2] === 'watch') {
     
     watcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
+        startLoadingAnimation()
         runBuildCommand('watch', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+        stopLoadingAnimation()
+        console.log('Changes generated')
     });
 
     process.on('SIGINT', () => {
@@ -162,4 +165,24 @@ if (process.argv[2] === 'watch') {
     });
 
     runBuildCommand('build', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+}
+
+
+
+// Create a loading animation
+let animationInterval: ReturnType<typeof setTimeout>;
+const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+let animationIndex = 0;
+
+function startLoadingAnimation() {
+  animationInterval = setInterval(() => {
+    process.stdout.write('\r'); // Move cursor to the beginning of the line
+    process.stdout.write(loadingSymbols[animationIndex]);
+    animationIndex = (animationIndex + 1) % loadingSymbols.length;
+  }, 100);
+}
+
+function stopLoadingAnimation() {
+  clearInterval(animationInterval);
+  process.stdout.write('\n'); // Move to the next line
 }
