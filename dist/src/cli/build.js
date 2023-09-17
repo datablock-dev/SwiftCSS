@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const cssnano_1 = __importDefault(require("cssnano"));
 const postcss_1 = __importDefault(require("postcss"));
 const parseClass_1 = __importDefault(require("./parseClass"));
 const mediaQueries_1 = require("./parsers/mediaQueries");
@@ -131,7 +130,7 @@ function writeOutputCSS(command, outputFilePath, styles) {
     // The build command compresses the css into a single row to reduce size
     // Processed through postcss
     if (command === "build") {
-        (0, postcss_1.default)([cssnano_1.default])
+        (0, postcss_1.default)()
             .process(uniqueStyles.join(''))
             .then((compressCSS) => {
             fs_1.default.writeFileSync(outputFilePath, compressCSS.css);
