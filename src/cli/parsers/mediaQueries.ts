@@ -1,21 +1,32 @@
 // Remove attribute, does not contribute in this function
 
-function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseStyle){
+import { BaseStyle, Config, MediaQueries, modeStyle } from "types";
+
+export function generateMediaQuries(screens: Config["screens"], screenStyles: any, finalStyles: any[], styleCSS: string, baseStyle: BaseStyle){
 
     // Regex
     const dynamicClassRegex = /string-\[#\d{3,4}\]/; 
     const trimmedStyleAttribute = /{([^}]+)}/; // Trims and only retreives css attribute and not classname
     const classNameRegex = /^\s*([^{\s]+)/;
-    const finalMediaQuery = []
+    const finalMediaQuery = new Array;
 
     // Process styles for different screen sizes
 
-    screenStyles.forEach(({ screenSize, property, attributes, value, mediaQuery}, index) => {
-        attributes.forEach((attributeValue) => {
+    interface test {
+        screenSize: number
+        property: string
+        attributes: any[]
+        value: string
+        mediaQuery: MediaQueries
+    }
+
+    screenStyles.forEach(({ screenSize, property, attributes, value, mediaQuery}: test, index: number) => {
+        attributes.forEach((attributeValue: string) => {
             // Dynamic Class
             if(dynamicClassRegex.test(attributeValue)){
 
             } else if(baseStyle[attributeValue]){ // Append css attributes
+                // @ts-ignore
                 screenStyles[index].value = `\t\t${screenStyles[index].value.trim()}\n ${baseStyle[attributeValue].trim()}`
             }
         });
@@ -26,16 +37,16 @@ function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseS
     return screenStyles;
 }
 
-function finalMediaQuery(mediaQueries, screens){
-    const finalStyles = {}
-    const cssOutput = []
+export function finalMediaQuery(mediaQueries: any, screens: Config["screens"]){
+    const finalStyles = new Object as MediaQueries;
+    const cssOutput = new Array;
     const filteredStyles = removeDuplicates(mediaQueries);
 
     Object.keys(screens).forEach((size) => {
         const screenSize = screens[size]
 
         if (screenSize.min && screenSize.max) {
-            finalStyles[size] = {
+            finalStyles[size as keyof MediaQueries] = {
                 parent: `@media screen and (min-width: ${screenSize.min}px) and (max-width: ${screenSize.max}px){\n`,
                 value: []
             }
@@ -67,7 +78,7 @@ function finalMediaQuery(mediaQueries, screens){
 }
 
 // Helper function
-function removeDuplicates(arr) {
+function removeDuplicates(arr: any[]) {
     const propertyValues = arr.map(item => item.property);
     return arr.filter((item, index) => {
       return propertyValues.indexOf(item.property) === index;
@@ -75,7 +86,7 @@ function removeDuplicates(arr) {
 }
 
 // Will be implemented in the future for more advanced parsing of custom attributes
-function uniqueAttributeCombinations(arr) {
+function uniqueAttributeCombinations(arr: any[]) {
     const seen = new Set();
     
     return arr.filter(item => {
@@ -89,5 +100,3 @@ function uniqueAttributeCombinations(arr) {
       return false;
     });
 }
-
-module.exports = { generateMediaQuries, finalMediaQuery }

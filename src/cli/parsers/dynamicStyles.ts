@@ -1,4 +1,4 @@
-function parseDynamicStyles(style) {
+export function parseDynamicStyles(style: string) {
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
     let match;
     let parsedStyle = style;
@@ -24,6 +24,7 @@ function parseDynamicStyles(style) {
   
       if (dynamicStyleValue) {
         parsedStyle = parsedStyle.replace(
+          // @ts-ignore
           RegExp.escape(dynamicClassName),
           dynamicStyleValue
         );
@@ -33,22 +34,20 @@ function parseDynamicStyles(style) {
     return parsedStyle;
 }
 
-function generateDynamicStyles(themeClassName, classNames, styleCSS) {
-    const dynamicStyles = [];
-    classNames.forEach(className => {
-      const dynamicStyleRegex = new RegExp(`\\.${className}-(?:\\[([\\w#-]+)\\])`, 'g');
-      const dynamicStyleMatches = styleCSS.match(dynamicStyleRegex);
+export function generateDynamicStyles(themeClassName: string, classNames: any[], styleCSS: string) {
+  const dynamicStyles = new Array;
+  classNames.forEach((className: string) => {
+    const dynamicStyleRegex = new RegExp(`\\.${className}-(?:\\[([\\w#-]+)\\])`, 'g');
+    const dynamicStyleMatches = styleCSS.match(dynamicStyleRegex);
   
-      if (dynamicStyleMatches) {
-        dynamicStyleMatches.forEach(match => {
-          const dynamicStyle = match.replace(`.${className}`, '').trim();
-          const parsedStyle = parseDynamicStyles(dynamicStyle);
-          dynamicStyles.push(`.${className}${parsedStyle}`);
-        });
-      }
-    });
+    if (dynamicStyleMatches) {
+      dynamicStyleMatches.forEach((match: string) => {
+        const dynamicStyle = match.replace(`.${className}`, '').trim();
+        const parsedStyle = parseDynamicStyles(dynamicStyle);
+        dynamicStyles.push(`.${className}${parsedStyle}`);
+      });
+    }
+  });
   
-    return dynamicStyles;
+  return dynamicStyles;
 }
-
-module.exports = {parseDynamicStyles, generateDynamicStyles}

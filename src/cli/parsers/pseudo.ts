@@ -2,11 +2,13 @@
     The following query parses Pseudo Classes of CSS
 */
 
-function parsePseudoClasses(classes, baseStyle){
-    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
-    const css = [];
+import { BaseStyle } from "types";
 
-    classes.forEach((element, index) => {
+export default function parsePseudoClasses(classes: any[], baseStyle: BaseStyle){
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const css = new Array;
+
+    classes.forEach((element, index: number) => {
         try {
             const [selector, attribute] = element.split(':')
 
@@ -110,5 +112,3 @@ const pseudoElements = [
     'part',
     'slotted'
 ]
-
-module.exports = { parsePseudoClasses, parsePseudoElements }

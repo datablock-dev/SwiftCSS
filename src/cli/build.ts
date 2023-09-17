@@ -1,16 +1,16 @@
-import { Config, DynamicClasses, modeStyle } from "types"
+import { BaseStyle, Config, DynamicClasses, modeStyle } from "types"
 
 import fs from 'fs'
 import path from 'path'
 import cssnano from 'cssnano'
 import postcss from 'postcss'
 import parseClassNamesFromHTML from './parseClass'
-import mediaStyling from './parsers/mediaQueries'
-import pseudoStyling from './parsers/pseudo'
+import { generateMediaQuries, finalMediaQuery } from './parsers/mediaQueries'
+import parsePseudoClasses from './parsers/pseudo'
 import createThemeStyles from './parsers/themes'
 import { parseDynamicStyles, generateDynamicStyles } from './parsers/dynamicStyles'
 
-export default function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: string) {
+export default function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: BaseStyle) {
     const inputCSS = (config.input && config.input !== '') ? fs.readFileSync(config.input, 'utf-8') : '';
     const filteredStyles = new Array;
     const finalStyles = new Array;
@@ -83,12 +83,12 @@ export default function runBuildCommand(command: string, styleCSS:string, config
       //console.log(pseudoClasses)
       pseudoClasses.push(...pseudoClass)
 
-      const mediaObject = mediaStyling.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
+      const mediaObject = generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle)
       mediaQueries.push(...mediaObject)
     };
 
-    const pseduoClassStyling = pseudoStyling.parsePseudoClasses(pseudoClasses, baseStyle)
-    const mediaStyles = mediaStyling.finalMediaQuery(mediaQueries, config.screens)
+    const pseduoClassStyling = parsePseudoClasses(pseudoClasses, baseStyle)
+    const mediaStyles = finalMediaQuery(mediaQueries, config.screens)
     
     // To retreive pre-defined classes
     styleCSS.split('}').forEach(styleBlock => {

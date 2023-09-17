@@ -6,7 +6,7 @@ import chokidar from 'chokidar';
 import runBuildCommand from './src/cli/build';
 
 // Types
-import { Config, DynamicClasses, modeStyle } from "types";
+import { BaseStyle, Config, DynamicClasses, modeStyle } from "types";
 
 //const cpus = os.cpus()
 //const numThreads = cpus.length;
@@ -98,15 +98,15 @@ const screenKeys = new Array;
 if (process.argv[2] === 'watch') {
   console.log('Watching for file changes...');
 
-    const baseStyle = new Object;
+    const baseStyle = new Object as BaseStyle;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
         const trimmedStyleBlock = styleBlock.trim();
         try {
             const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
             const classAttribute = trimmedStyleBlock.split('{')[1].trim()
             if(classNameMatch){
-                const className = classNameMatch[1]
-                //@ts-ignore
+                const className = classNameMatch[1] as keyof BaseStyle
+                // @ts-ignore
                 baseStyle[className] = classAttribute
             }
         } catch (error) {}
@@ -136,7 +136,7 @@ if (process.argv[2] === 'watch') {
     watcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation()
-        runBuildCommand('watch', styleCSS, config as Config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
+        runBuildCommand('watch', styleCSS, config as Config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
         stopLoadingAnimation()
         console.log('Changes generated')
     });
@@ -147,9 +147,9 @@ if (process.argv[2] === 'watch') {
       process.exit();
     });
 
-    runBuildCommand('watch', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
+    runBuildCommand('watch', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
 } else if (process.argv[2] === 'build') {
-    const baseStyle = new Object;
+    const baseStyle = new Object as BaseStyle;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
         const trimmedStyleBlock = styleBlock.trim();
         try {
@@ -164,7 +164,7 @@ if (process.argv[2] === 'watch') {
         } catch (error) {}
     });
 
-    runBuildCommand('build', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
+    runBuildCommand('build', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
 }
 
 
