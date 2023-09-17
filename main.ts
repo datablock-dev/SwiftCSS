@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const chokidar = require('chokidar');
-const os = require('os');
-const runBuildCommand = require('./src/cli/build');
+import fs from 'fs';
+import path from 'path';
+import chokidar from 'chokidar';
+import runBuildCommand from './src/cli/build';
 
 // Types
-import { Config, modeStyle } from "types";
+import { Config, DynamicClasses, modeStyle } from "types";
 
 //const cpus = os.cpus()
 //const numThreads = cpus.length;
 //console.log(numThreads) 
 
-const configFile = path.join(process.cwd(), 'swiftcss.config.js');
+const configFile = path.join(process.cwd(), 'swiftcss.config.js') as string
 
 // Gets all available pre-defined styles/classes that can be used
 const styleCSS = fs.readFileSync(path.join(__dirname, 'src', 'style.css'), 'utf-8');
@@ -67,7 +66,7 @@ if (fs.existsSync(configFile)) {
     process.exit(1);
 }
 
-let currentScreens = configFile.screens;
+let currentScreens = config.screens;
 
 
 // Check if directories exist
@@ -88,10 +87,10 @@ config.input = path.join(process.cwd(), config.input)
 
 
 const classNames = new Set();
-const dynamicClassNames = new Set();
-const dynamicStyles = new Set();
-const dynamicClasses = new Object;
-const lightStyles = new Object; 
+const dynamicClassNames = new Set() as Set<String>;
+const dynamicStyles = new Set() as Set<String>;
+const dynamicClasses = new Object as DynamicClasses;
+const lightStyles = new Object as modeStyle; 
 const darkStyles = new Object as modeStyle;
 const screenKeys = new Array;
 
@@ -116,6 +115,7 @@ if (process.argv[2] === 'watch') {
     const watcher = chokidar.watch(config.directories, {
       ignored: /(^|[/\\])\../, // Ignore dotfiles
       persistent: true,
+      // @ts-ignore
       depth: "infinity"
     });
     
@@ -136,7 +136,7 @@ if (process.argv[2] === 'watch') {
     watcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation()
-        runBuildCommand('watch', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+        runBuildCommand('watch', styleCSS, config as Config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
         stopLoadingAnimation()
         console.log('Changes generated')
     });
@@ -147,7 +147,7 @@ if (process.argv[2] === 'watch') {
       process.exit();
     });
 
-    runBuildCommand('watch', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand('watch', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
 } else if (process.argv[2] === 'build') {
     const baseStyle = new Object;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
@@ -164,7 +164,7 @@ if (process.argv[2] === 'watch') {
         } catch (error) {}
     });
 
-    runBuildCommand('build', styleCSS, config, classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle);
+    runBuildCommand('build', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle as string);
 }
 
 

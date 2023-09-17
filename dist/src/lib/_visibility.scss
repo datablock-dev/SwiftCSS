@@ -1,0 +1,15 @@
+@for $i from 0 through 1000 {
+    .z-#{$i}{
+        z-index: $i;
+    }
+}
+
+.visible{
+    visibility: visible;
+}
+.hidden{
+    visibility: hidden;
+}
+.collapse{
+    visibility: collapse;
+}

@@ -1,0 +1,69 @@
+@for $i from 0 through 100 {
+    .brd-width-#{$i}{
+        border-width: $i + #{'px'};
+    }
+    .brd-radius-#{$i}{
+        border-radius: $i + #{'px'};
+    }
+    .brd-radius-tl-#{$i}{
+        border-top-left-radius: $i + #{'px'};
+    }
+    .brd-radius-tr-#{$i}{
+        border-top-right-radius: $i + #{'px'};
+    }
+    .brd-radius-t-#{$i}{
+        border-top-right-radius: $i + #{'px'};
+        border-top-left-radius: $i + #{'px'};
+    }
+    .brd-radius-bl-#{$i}{
+        border-bottom-left-radius: $i + #{'px'};
+    }
+    .brd-radius-br-#{$i}{
+        border-bottom-right-radius: $i + #{'px'};
+    }
+    .brd-radius-b-#{$i}{
+        border-bottom-right-radius: $i + #{'px'};
+        border-bottom-left-radius: $i + #{'px'};
+    }
+
+    // Percent
+    .brd-radius-#{$i}prc{
+        border-radius: $i + #{'%'};
+    }
+    .brd-radius-tl-#{$i}prc{
+        border-top-left-radius: $i + #{'%'};
+    }
+    .brd-radius-tr-#{$i}prc{
+        border-top-right-radius: $i + #{'%'};
+    }
+    .brd-radius-t-#{$i}prc{
+        border-top-right-radius: $i + #{'%'};
+        border-top-left-radius: $i + #{'%'};
+    }
+    .brd-radius-bl-#{$i}prc{
+        border-bottom-left-radius: $i + #{'%'};
+    }
+    .brd-radius-br-#{$i}prc{
+        border-bottom-right-radius: $i + #{'%'};
+    }
+    .brd-radius-b-#{$i}prc{
+        border-bottom-right-radius: $i + #{'%'};
+        border-bottom-left-radius: $i + #{'%'};
+    }
+
+    // Border Style
+    .brd{
+        &-none{
+            border-style: none;
+        }
+        &-dotted{
+            border-style: dotted;
+        }
+        &-dashed{
+            border-style: dashed;
+        }
+        &-solid{
+            border-style: solid;
+        }
+    }
+}

@@ -1,0 +1,66 @@
+@for $i from 0 through 100 {
+    @if $i > 0 {
+        .blur-#{$i}{
+            filter: blur($i + px);
+        }
+        .grayscale-#{$i}{
+            filter: grayscale(calc($i / 10));
+        }
+        .invert-#{$i}{
+            filter: invert(calc($i / 10));
+        }
+    } @else {
+        .blur-#{$i}{
+            filter: blur(0);
+        }
+        .grayscale-#{$i}{
+            filter: grayscale(0);
+        }
+        .invert-#{$i}{
+            filter: invert(0);
+        }
+    }
+}
+
+@for $i from 0 through 360 {
+    $value: $i + 'deg';
+    .hue-rotate-#{$i}{
+        filter: hue-rotate-($value);
+    }
+    .rotate-#{$i}{
+        transform: rotate($value);
+    }
+}
+
+.contrast{
+    &-0{
+        filter: contrast(0);
+    }
+    &-10{
+        filter: contrast(0.1);
+    }
+    &-20{
+        filter: contrast(0.2);
+    }
+    &-30{
+        filter: contrast(0.3);
+    }
+    &-40{
+        filter: contrast(0.4);
+    }
+    &-50{
+        filter: contrast(0.5);
+    }
+    &-100{
+        filter: contrast(1);
+    }
+    &-110{
+        filter: contrast(1.1);
+    }
+    &-150{
+        filter: contrast(1.5);
+    }
+    &-200{
+        filter: contrast(2);
+    }
+}

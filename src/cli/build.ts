@@ -1,19 +1,19 @@
 import { Config, DynamicClasses, modeStyle } from "types"
 
-const fs = require('fs')
-const path = require('path')
-const cssnano = require('cssnano')
-const postcss = require('postcss')
-const litePreset = require('cssnano-preset-lite')
-const autoprefixer = require('autoprefixer')
+import fs from 'fs'
+import path from 'path'
+import cssnano from 'cssnano'
+import postcss from 'postcss'
+import litePreset from 'cssnano-preset-lite'
+import autoprefixer from 'autoprefixer'
 const preset = litePreset({ discardComments: false });
-const parseClassNamesFromHTML = require('./parseClass');
-const mediaStyling = require('./parsers/mediaQueries')
-const pseudoStyling = require('./parsers/pseudo');
-const createThemeStyles = require('./parsers/themes')
-const {parseDynamicStyles, generateDynamicStyles} = require('./parsers/dynamicStyles');
+import parseClassNamesFromHTML from './parseClass'
+import mediaStyling from './parsers/mediaQueries'
+import pseudoStyling from './parsers/pseudo'
+import createThemeStyles from './parsers/themes'
+import { parseDynamicStyles, generateDynamicStyles } from './parsers/dynamicStyles'
 
-function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: string) {
+export default function runBuildCommand(command: string, styleCSS:string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: string) {
     const inputCSS = (config.input && config.input !== '') ? fs.readFileSync(config.input, 'utf-8') : '';
     const filteredStyles = new Array;
     const finalStyles = new Array;
@@ -47,6 +47,7 @@ function runBuildCommand(command: string, styleCSS:string, config: Config, class
       const { classNames: fileClassNames, dynamicClassNames: fileDynamicClassNames, modeAttributes: attributes, screenClasses: screenStyles, pseudoClasses: pseudoClass } 
       = parseClassNamesFromHTML(config, filePath, screenKeys);
 
+      // @ts-ignore
       fileClassNames.forEach((className: string) => classNames.add(className));
       Object.entries(fileDynamicClassNames).forEach(([className, classProperties]: any[string]) => {
         // className -> bg-[#000], classProprety -> { property: "fill", value: #bg }
