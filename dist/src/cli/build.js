@@ -8,7 +8,7 @@ const path_1 = __importDefault(require("path"));
 const cssnano_1 = __importDefault(require("cssnano"));
 const postcss_1 = __importDefault(require("postcss"));
 const parseClass_1 = __importDefault(require("./parseClass"));
-const mediaQueries_1 = __importDefault(require("./parsers/mediaQueries"));
+const mediaQueries_1 = require("./parsers/mediaQueries");
 const pseudo_1 = __importDefault(require("./parsers/pseudo"));
 const themes_1 = __importDefault(require("./parsers/themes"));
 const dynamicStyles_1 = require("./parsers/dynamicStyles");
@@ -75,12 +75,12 @@ function runBuildCommand(command, styleCSS, config, classNames, dynamicClassName
         // Push pseudo classes of a specific file to the array of all pseudo classes
         //console.log(pseudoClasses)
         pseudoClasses.push(...pseudoClass);
-        const mediaObject = mediaQueries_1.default.generateMediaQuries(config.screens, screenStyles, finalStyles, styleCSS, baseStyle);
+        const mediaObject = (0, mediaQueries_1.generateMediaQuries)(config.screens, screenStyles, finalStyles, styleCSS, baseStyle);
         mediaQueries.push(...mediaObject);
     }
     ;
-    const pseduoClassStyling = pseudo_1.default.parsePseudoClasses(pseudoClasses, baseStyle);
-    const mediaStyles = mediaQueries_1.default.finalMediaQuery(mediaQueries, config.screens);
+    const pseduoClassStyling = (0, pseudo_1.default)(pseudoClasses, baseStyle);
+    const mediaStyles = (0, mediaQueries_1.finalMediaQuery)(mediaQueries, config.screens);
     // To retreive pre-defined classes
     styleCSS.split('}').forEach(styleBlock => {
         const trimmedStyleBlock = styleBlock.trim();

@@ -1,18 +1,20 @@
 "use strict";
 // Remove attribute, does not contribute in this function
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.finalMediaQuery = exports.generateMediaQuries = void 0;
 function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseStyle) {
     // Regex
     const dynamicClassRegex = /string-\[#\d{3,4}\]/;
     const trimmedStyleAttribute = /{([^}]+)}/; // Trims and only retreives css attribute and not classname
     const classNameRegex = /^\s*([^{\s]+)/;
-    const finalMediaQuery = [];
-    // Process styles for different screen sizes
+    const finalMediaQuery = new Array;
     screenStyles.forEach(({ screenSize, property, attributes, value, mediaQuery }, index) => {
         attributes.forEach((attributeValue) => {
             // Dynamic Class
             if (dynamicClassRegex.test(attributeValue)) {
             }
             else if (baseStyle[attributeValue]) { // Append css attributes
+                // @ts-ignore
                 screenStyles[index].value = `\t\t${screenStyles[index].value.trim()}\n ${baseStyle[attributeValue].trim()}`;
             }
         });
@@ -20,9 +22,10 @@ function generateMediaQuries(screens, screenStyles, finalStyles, styleCSS, baseS
     });
     return screenStyles;
 }
+exports.generateMediaQuries = generateMediaQuries;
 function finalMediaQuery(mediaQueries, screens) {
-    const finalStyles = {};
-    const cssOutput = [];
+    const finalStyles = new Object;
+    const cssOutput = new Array;
     const filteredStyles = removeDuplicates(mediaQueries);
     Object.keys(screens).forEach((size) => {
         const screenSize = screens[size];
@@ -56,6 +59,7 @@ function finalMediaQuery(mediaQueries, screens) {
     });
     return cssOutput;
 }
+exports.finalMediaQuery = finalMediaQuery;
 // Helper function
 function removeDuplicates(arr) {
     const propertyValues = arr.map(item => item.property);
@@ -75,4 +79,3 @@ function uniqueAttributeCombinations(arr) {
         return false;
     });
 }
-module.exports = { generateMediaQuries, finalMediaQuery };

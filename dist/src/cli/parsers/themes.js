@@ -1,12 +1,13 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function createThemeStyles(themeStyles, themeClassName, finalStyles, dynamicClasses, styleCSS, baseStyle) {
-    const cssRules = [];
-    const pseudoThemeClasses = {};
+    const cssRules = new Array;
+    const pseudoThemeClasses = new Object;
     Object.entries(themeStyles).forEach(([className, attributeValues]) => {
         attributeValues.forEach(attributeValue => {
             // attributeValue --> color-[#000] bg-[#fff] hover:color-[#a414a4]
             const properties = attributeValue.split(/\s+/); // [color-[#000], bg-[#fff], hover:color-[#a414a4]]
-            const cssProperties = [];
+            const cssProperties = new Array;
             properties.forEach(property => {
                 if (dynamicClasses[property]) {
                     cssProperties.push(`${dynamicClasses[property].property}: ${dynamicClasses[property].value};`);
@@ -22,6 +23,8 @@ function createThemeStyles(themeStyles, themeClassName, finalStyles, dynamicClas
                         // If class doesnt exist
                         if (!pseudoThemeClasses[selector]) {
                             if (!pseudoThemeClasses[selector]) {
+                                // If selector does not exist (i.e. key does not exist)
+                                // Then we create an array with the css value
                                 pseudoThemeClasses[selector] = [css];
                             }
                             else {
@@ -34,10 +37,10 @@ function createThemeStyles(themeStyles, themeClassName, finalStyles, dynamicClas
                         const cssAttribute = baseStyle[property.split(':')[1]]; // font-size: 14px;
                         const selector = `[style-${themeClassName}="${className}"]:${pseudoClass}`;
                         if (!pseudoThemeClasses[selector]) {
-                            pseudoThemeClasses[selector] = [cssAttribute];
+                            pseudoThemeClasses[selector] = [...cssAttribute];
                         }
                         else {
-                            pseudoThemeClasses[selector].push(cssAttribute);
+                            pseudoThemeClasses[selector].push(...cssAttribute);
                         }
                     }
                     if (propertyStyleMatch) {
@@ -57,6 +60,7 @@ function createThemeStyles(themeStyles, themeClassName, finalStyles, dynamicClas
     });
     finalStyles.push(`${themeClassName}.light, body.${themeClassName} {\n\t${cssRules.join('\n\t')}\n}`);
 }
+exports.default = createThemeStyles;
 const pseudoClasses = [
     'active',
     'any',
@@ -108,4 +112,3 @@ const pseudoClasses = [
     'is',
     'where',
 ];
-module.exports = createThemeStyles;

@@ -94,7 +94,7 @@ if (process.argv[2] === 'watch') {
             const classAttribute = trimmedStyleBlock.split('{')[1].trim();
             if (classNameMatch) {
                 const className = classNameMatch[1];
-                //@ts-ignore
+                // @ts-ignore
                 baseStyle[className] = classAttribute;
             }
         }

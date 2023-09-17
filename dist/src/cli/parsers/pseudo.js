@@ -2,9 +2,10 @@
 /*
     The following query parses Pseudo Classes of CSS
 */
+Object.defineProperty(exports, "__esModule", { value: true });
 function parsePseudoClasses(classes, baseStyle) {
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
-    const css = [];
+    const css = new Array;
     classes.forEach((element, index) => {
         try {
             const [selector, attribute] = element.split(':');
@@ -40,6 +41,7 @@ function parsePseudoClasses(classes, baseStyle) {
     });
     return css;
 }
+exports.default = parsePseudoClasses;
 function parsePseudoElements() {
 }
 const pseudoClasses = [
@@ -105,4 +107,3 @@ const pseudoElements = [
     'part',
     'slotted'
 ];
-module.exports = { parsePseudoClasses, parsePseudoElements };
