@@ -2,7 +2,6 @@ import { BaseStyle, Config, DynamicClasses, modeStyle } from "types"
 
 import fs from 'fs'
 import path from 'path'
-import cssnano from 'cssnano'
 import postcss from 'postcss'
 import parseClassNamesFromHTML from './parseClass'
 import { generateMediaQuries, finalMediaQuery } from './parsers/mediaQueries'
@@ -149,7 +148,7 @@ function writeOutputCSS(command: string, outputFilePath: string, styles: any[]) 
     // The build command compresses the css into a single row to reduce size
     // Processed through postcss
     if(command === "build"){
-      postcss([cssnano])
+      postcss()
       .process(uniqueStyles.join(''))
       .then((compressCSS: any) => { // Needs to be specified
         fs.writeFileSync(outputFilePath, compressCSS.css);
