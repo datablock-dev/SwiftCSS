@@ -51,12 +51,14 @@ function runBuildCommand(command, styleCSS, config, classNames, dynamicClassName
             // attributeName -> style-dark or style-light
             // attributeValues -> [bg-[#fff], fs-14] etc.
             attributeValues.forEach((attributeValue) => {
+                //console.log(attributeValue.split(' '))
                 if (attributeName === 'style-dark') {
                     if (!darkStyles[attributeValue]) {
                         // Create new key with an empty array
                         darkStyles[attributeValue] = new Array;
                     }
                     if (!darkStyles[attributeValue].includes(attributeValue)) {
+                        //console.log(attributeValue)
                         darkStyles[attributeValue].push(attributeValue);
                     }
                 }

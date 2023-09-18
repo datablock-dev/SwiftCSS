@@ -63,6 +63,25 @@ module.exports = {
 };
 ```
 
+With the example config displayed above, the compiler will accept the following labels: style-sd, style-md & style-ld. Would you add for instance xl:
+
+```
+module.exports = {
+    fileExtensions: ["html", "js", "jsx", "ts", "tsx"],
+    directories: ["./src"],
+    input: "", // Specify an input file to be appended into the output file
+    output: "./output.css",
+    screens: {
+        sd: { max: 600 },
+        md: { min: 600, max: 1200 },
+        ld: { min: 1200, max: 1800 },
+        xl: { min: 1800 }
+    },
+};
+```
+
+Then style-xl will be accepted.
+
 This configuration allows you to customize SwiftCSS to suit your project's specific needs by specifying input files, output file paths, supported screen sizes, and more.
 
 Get started with SwiftCSS and simplify your web styling today! For detailed usage instructions, please refer to the official documentation.
