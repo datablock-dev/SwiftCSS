@@ -13,6 +13,9 @@
     "watch": "node ./dist/main.js watch",
     "build": "node ./dist/main.js build",
     "init": "node ./dist/main.js init",
+    "dev": "ts-node main.ts watch",
+    "dev-build": "ts-node main.ts build",
+    "dev-init": "ts-node main.ts init",
     "install": "tsc"
   },
   "bin": {

@@ -11,8 +11,8 @@
     </span>
         <div 
             className="color-[#f4f4f4] object-cover"
-            style-dark="color-[#fff] hover:color-[#f4f4f4]"
-            style-light="color-[#000] relative bg-[#062698]"
+            style-dark="color-[#fff] hover:color-[#f4f4f4] py-10"
+            style-light="color-[#000] relative bg-[#062698] bfg"
             style-sd="fs-16"
         >
         </div>

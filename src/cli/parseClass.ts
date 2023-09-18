@@ -143,8 +143,6 @@ export default function parseClassNamesFromHTML(config: Config, filePath: string
 
     // Remove duplicats of pseudo classes
     const pseudoClasses = [...new Set(rawPseudoClasses)] 
-
-    console.log(modeAttributes)
     
     return { 
         classNames, 

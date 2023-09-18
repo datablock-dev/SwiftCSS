@@ -56,13 +56,17 @@ export default function runBuildCommand(command: string, styleCSS:string, config
         // attributeName -> style-dark or style-light
         // attributeValues -> [bg-[#fff], fs-14] etc.
         attributeValues.forEach((attributeValue: string) => {
-          console.log(attributeValue)
+          console.log(attributeValue.split(' '))
+
+          
+
           if (attributeName === 'style-dark') {
             if (!darkStyles[attributeValue as keyof modeStyle]) {
               // Create new key with an empty array
               darkStyles[attributeValue] = new Array;
             }
             if (!darkStyles[attributeValue as keyof modeStyle].includes(attributeValue)) {
+              console.log(attributeValue)
               darkStyles[attributeValue].push(attributeValue);
             }
           }
