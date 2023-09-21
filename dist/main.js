@@ -155,8 +155,8 @@ const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', 
 let animationIndex = 0;
 function startLoadingAnimation() {
     animationInterval = setInterval(() => {
-        process.stdout.write('\r'); // Move cursor to the beginning of the line
-        process.stdout.write(loadingSymbols[animationIndex]);
+        //process.stdout.write('\r'); // Move cursor to the beginning of the line
+        console.log(loadingSymbols[animationIndex]);
         animationIndex = (animationIndex + 1) % loadingSymbols.length;
     }, 100);
 }

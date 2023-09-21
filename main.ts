@@ -96,7 +96,7 @@ const screenKeys = new Array;
 
 // We define the commands here and the actions that occurrs for each command
 if (process.argv[2] === 'watch') {
-  console.log('Watching for file changes...');
+    console.log('Watching for file changes...');
 
     const baseStyle = new Object as BaseStyle;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
@@ -176,8 +176,8 @@ let animationIndex = 0;
 
 function startLoadingAnimation() {
   animationInterval = setInterval(() => {
-    process.stdout.write('\r'); // Move cursor to the beginning of the line
-    process.stdout.write(loadingSymbols[animationIndex]);
+    //process.stdout.write('\r'); // Move cursor to the beginning of the line
+    console.log(loadingSymbols[animationIndex]);
     animationIndex = (animationIndex + 1) % loadingSymbols.length;
   }, 100);
 }

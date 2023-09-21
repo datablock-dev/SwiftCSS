@@ -1,5 +1,5 @@
 .cursor{
-    &-alias, [style-hover="cursor-alias"]:hover{
+    &-alias{
         cursor: alias;
     }
     &-all-scroll{
