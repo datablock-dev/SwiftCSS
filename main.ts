@@ -3,7 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 import chokidar from 'chokidar';
-import runBuildCommand from './src/cli/build';
+import runBuildCommand from '@cli/build';
 
 // Types
 import { BaseStyle, Config, DynamicClasses, modeStyle } from "types";
