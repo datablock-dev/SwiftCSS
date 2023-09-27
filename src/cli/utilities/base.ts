@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { BaseStyle, Config } from "types";
-import classParser from '../parsers_new/classParser';
-import dynamicParser from '../parsers_new/dynamicParser';
+import classParser from '../parsers/classParser';
+import dynamicParser from '../parsers/dynamicParser';
 
 export default function classCSS(classArray: string[], baseStyle: BaseStyle, config: Config){
     const finalBaseCSS = new Set();
@@ -15,14 +15,18 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
             if(baseStyle[className]){
                 var cssString = `.${className}{\n`
 
-                baseStyle[className].forEach((e, i, arr) => {
-                    if((i +1) === arr.length){
-                        cssString += `\t${e};`;
-                        cssString += '\n}'
-                    } else if(i + 1 !== arr.length) {
-                        cssString += `\t${e};\n`;
-                    }
-                })
+                if(Array.isArray(baseStyle[className])){
+                    baseStyle[className].forEach((e, i, arr) => {
+                        if((i +1) === arr.length){
+                            cssString += `\t${e};`;
+                            cssString += '\n}'
+                        } else if(i + 1 !== arr.length) {
+                            cssString += `\t${e};\n`;
+                        }
+                    })
+                } else {
+                    console.log(baseStyle[className])
+                }
 
                 finalBaseCSS.add(cssString);
             } else {

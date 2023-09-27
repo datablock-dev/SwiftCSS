@@ -3,7 +3,6 @@
 import fs from 'fs';
 import path from 'path';
 import chokidar from 'chokidar';
-import runBuildCommand from './src/cli/build';
 import funnel from './src/cli/funnel';
 
 // Types
@@ -135,7 +134,7 @@ if (process.argv[2] === 'watch') {
     watcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation()
-        runBuildCommand('watch', styleCSS, config as Config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
+        funnel('watch', styleCSS, config as Config, baseStyle);
         stopLoadingAnimation()
         console.log('Changes generated')
     });
@@ -146,7 +145,7 @@ if (process.argv[2] === 'watch') {
         process.exit();
     });
 
-    runBuildCommand('watch', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
+    funnel('watch', styleCSS, config, baseStyle);
 } else if (process.argv[2] === 'build') {
     const baseStyle = new Object as BaseStyle;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
@@ -154,10 +153,6 @@ if (process.argv[2] === 'watch') {
         try {
             const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
             const classAttribute = trimmedStyleBlock.split('{')[1].trim()
-
-            if (i < 100) {
-                console.log(classNameMatch, classAttribute);
-            }
 
             if (!classNameMatch) return;
 
@@ -169,7 +164,7 @@ if (process.argv[2] === 'watch') {
 
     screenKeys.push(...Object.keys(config.screens))
 
-    runBuildCommand('build', styleCSS, config, classNames as Set<String>, dynamicClassNames as Set<String>, dynamicStyles as Set<String>, dynamicClasses as DynamicClasses, lightStyles as modeStyle, darkStyles, screenKeys, baseStyle);
+    funnel('build', styleCSS, config, baseStyle);
 } else if (process.argv[2] === "dev") {
     const baseStyle = new Object as BaseStyle;
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
@@ -234,10 +229,10 @@ if (process.argv[2] === 'watch') {
 
 // Create a loading animation
 let animationInterval: ReturnType<typeof setTimeout>;
-const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-let animationIndex = 0;
 
-function startLoadingAnimation() {
+export function startLoadingAnimation() {
+    const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+    let animationIndex = 0;
     animationInterval = setInterval(() => {
         //process.stdout.write('\r'); // Move cursor to the beginning of the line
         console.log(loadingSymbols[animationIndex]);
@@ -245,7 +240,7 @@ function startLoadingAnimation() {
     }, 100);
 }
 
-function stopLoadingAnimation() {
+export function stopLoadingAnimation() {
     clearInterval(animationInterval);
     process.stdout.write('\n'); // Move to the next line
 }

@@ -1,109 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Roboto", sans-serif;
-  background-color: #22344E;
-  color: #fff;
-  overflow-x: hidden;
-}
 
-.test{
-    font-size: 69px;
-}
-
-.bog{
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.bog-2{
-    font-weight: 400;
-}
-
-.test-2{
-    font-size: 44px;
-}
-
-.p-40\%{
-    padding: 40%;
-}
-
-.p-50\%{
-    padding: 50%;
-}
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;}
-.py-20 {
-  padding-top: 20px;
-  padding-bottom: 20px;}
-.mr-20 {
-  margin-right: 20px;}
-.mt-40 {
-  margin-top: 40px;}
-.text-center {
-  text-align: center;}
-.fs-60 {
-  font-size: 60px;}
-.opacity-80 {
-  opacity: 0.8;}
-.bg\-\[\#000\] {
-	background-color: #000;
-}
-.color\-\[\#fff\] {
-	color: #fff;
-}
-.color\-\[\#000\] {
-	color: #000;
-}
-.bg\-\[\#f4f4f4\] {
-	background-color: #f4f4f4;
-}
-.hover\:color\-\[\#f4f4f4\]:hover {
-	color: #f4f4f4;
-}
-.hover\:cursor-pointer:hover{
- cursor: pointer 
-}
-.hover\:color\-\[\#f4f4f4\]:hover{
- color: #f4f4f4 
+dark.dark, body.dark {
+	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:hover {
+		cursor: pointer;;
+		color: #f4f4f4;
+	}
+	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:checked {
+		color: #49e31b;
+	}
+	[style-dark="color-[#fff]"] {
+		color: #fff;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"]:hover {
+		color: #f4f4f4;
+		cursor: pointer;;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"] {
+		color: #fff;
+	}
 }
 light.light, body.light {
 	[style-light="color-[#000]"] {
 		color: #000;
 	}
-}
-dark.light, body.dark {
-	
-}
-@media screen and (max-width: 600px){
-	
-}
-@media screen and (min-width: 600px) and (max-width: 1200px){
-	
-}
-@media screen and (min-width: 1200px){
-	
 }

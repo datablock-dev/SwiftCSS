@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { classNames, dynamicClassNames, dynamicStyles, dynamicClasses, lightStyles, darkStyles, screenKeys, baseStyle } from "../../main"
+import { startLoadingAnimation, stopLoadingAnimation } from "../../main"
 import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
 
 import { BaseStyle, Config } from "types"
@@ -25,6 +25,7 @@ export type AttributeObject = { // This object is for style-<dark, light & media
 }
 
 export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle) {
+    startLoadingAnimation;
     const baseCSS = new Set(); // Can be removed?
     const classArray = new Array;
     const mediaObject = new Object;
@@ -125,10 +126,11 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
         classCSS -> classes defined in class="" or className=""
         themeCSS -> classes defined in style-dark="" or style-light=""
         mediaCSS -> classes defined in style-<size> attributes defined in the
-            config file.
+        config file.
     */
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
 
-    fs.writeFileSync(config.output.replace('output.css', 'test.css'), CSS.join('\n'));
+    fs.writeFileSync(config.output, CSS.join('\n'));
+    stopLoadingAnimation;
 }

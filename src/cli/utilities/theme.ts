@@ -1,7 +1,7 @@
 import { BaseStyle, Config } from "types";
 import { AttributeObject } from "../funnel";
-import { PSEUDO_CLASSES, PSEUDO_ELEMENTS } from "../parsers_new/classParser";
-import { dynamicRegistry } from "../parsers_new/dynamicParser";
+import { PSEUDO_CLASSES, PSEUDO_ELEMENTS } from "../parsers/classParser";
+import { dynamicRegistry } from "../parsers/dynamicParser";
 
 export default function themeCSS(themeObject: AttributeObject, baseStyle: BaseStyle, config: Config){
     var cssStringDark = 'dark.dark, body.dark {\n'
