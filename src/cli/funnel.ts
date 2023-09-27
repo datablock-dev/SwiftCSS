@@ -25,10 +25,11 @@ export type AttributeObject = { // This object is for style-<dark, light & media
 }
 
 export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle) {
-    const baseCSS = new Set();
+    const baseCSS = new Set(); // Can be removed?
     const classArray = new Array;
     const mediaObject = new Object;
     const themeObject = new Object;
+    const CSS = new Array;
     
     // Regex
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
@@ -126,6 +127,8 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
         mediaCSS -> classes defined in style-<size> attributes defined in the
             config file.
     */
-    classCSS([...new Set(classArray.flat())], baseStyle, config)
-    themeCSS(themeObject as AttributeObject, baseStyle, config);
+    CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
+    CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
+
+    fs.writeFileSync(config.output.replace('output.css', 'test.css'), CSS.join('\n'));
 }

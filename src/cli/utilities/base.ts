@@ -10,8 +10,6 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     
-    console.log(classArray);
-    
     try{
         classArray.forEach((className) => {
             if(baseStyle[className]){
@@ -79,5 +77,7 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
 
     //console.log(finalBaseCSS);
     //console.log(config.output.replace('output.css', 'test.css'));
-    fs.writeFileSync(config.output.replace('output.css', 'test.css'), Array.from(finalBaseCSS).join('\n'));
+    const css = Array.from(finalBaseCSS).join('\n')
+    
+    return css;
 }

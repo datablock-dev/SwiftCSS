@@ -6,13 +6,12 @@ export default function classParser(className: string, baseStyle: BaseStyle){
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 
     var cssString: null | string = null;
-    console.log(className)
     /******************* Pseudo Classes *******************/
     if(className.includes(':') && !className.includes('::')){ 
         const pseudoClass = className.split(':')[0]
         const attribute = className.split(':')[1]
 
-        if(pseudoClasses.includes(pseudoClass) && baseStyle[attribute]){
+        if(PSEUDO_CLASSES.includes(pseudoClass) && baseStyle[attribute]){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:${attribute}`,
@@ -21,7 +20,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
                 pseudo: pseudoClass,
                 pseudoSeparator: ':'
             }
-        } else if(pseudoClasses.includes(pseudoClass) && !baseStyle[attribute]){
+        } else if(PSEUDO_CLASSES.includes(pseudoClass) && !baseStyle[attribute]){
             // Here would dynamicClasses combined with pseudoClass/Elements end up
 
             if(attribute.includes('-[')){
@@ -47,7 +46,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
         const pseudoClass = className.split('::')[0]
         const attribute = className.split('::')[1]
 
-        if(pseudoElements.includes(pseudoClass) && baseStyle[attribute]){
+        if(PSEUDO_ELEMENTS.includes(pseudoClass) && baseStyle[attribute]){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:\\:${attribute}`,
@@ -56,7 +55,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
                 pseudo: pseudoClass,
                 pseudoSeparator: '::'
             }
-        } else if(pseudoElements.includes(pseudoClass) && !baseStyle[attribute]){
+        } else if(PSEUDO_ELEMENTS.includes(pseudoClass) && !baseStyle[attribute]){
             // Here would dynamicClasses combined with pseudoClass/Elements end up
 
             if(attribute.includes('-[')){
@@ -80,7 +79,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
     return null;
 }
 
-const pseudoClasses = [
+export const PSEUDO_CLASSES = [
     'active',
     'any',
     'any-link',
@@ -132,7 +131,7 @@ const pseudoClasses = [
     'where',
 ];
 
-const pseudoElements = [
+export const PSEUDO_ELEMENTS = [
     'after',
     'before',
     'first-line',
