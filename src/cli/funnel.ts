@@ -1,5 +1,4 @@
 import fs from 'fs';
-import { startLoadingAnimation, stopLoadingAnimation } from "../../main"
 import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
 
 import { BaseStyle, Config } from "types"
@@ -25,7 +24,6 @@ export type AttributeObject = { // This object is for style-<dark, light & media
 }
 
 export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle) {
-    startLoadingAnimation;
     const baseCSS = new Set(); // Can be removed?
     const classArray = new Array;
     const mediaObject = new Object;
@@ -132,5 +130,4 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
 
     fs.writeFileSync(config.output, CSS.join('\n'));
-    stopLoadingAnimation;
 }

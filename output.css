@@ -1,14 +1,11 @@
 .text-center{
 	text-align: center;
-
 }
 .fs-60{
 	font-size: 60px;
-
 }
 .mt-40{
 	margin-top: 40px;
-
 }
 .hover\:cursor-pointer:hover{
 	cursor: pointer;
@@ -25,7 +22,6 @@
 .py-20{
 	padding-top: 20px;
   padding-bottom: 20px;
-
 }
 .hover\:py-20:hover{
 	padding-top: 20px;
@@ -33,19 +29,23 @@
 }
 .mr-20{
 	margin-right: 20px;
-
-}
-.bg\-\[\#f4f4f4\]{
-	background-color: #f4f4f4;
 }
 .flex-row{
 	display: flex;
   flex-direction: row;
-
+}
+.ml-10{
+	margin-left: 10px;
+}
+.py-69{
+	padding-top: 69px;
+  padding-bottom: 69px;
+}
+.bg\-\[\#f4f4f4\]{
+	background-color: #f4f4f4;
 }
 .opacity-80{
 	opacity: 0.8;
-
 }
 .selection\:\:cursor-pointer::selection{
 	cursor: pointer;
@@ -53,6 +53,7 @@
 .hover\:bg\-\[\#000\]:hover{
 	background-color: #000;
 }
+
 dark.dark, body.dark {
 	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:hover {
 		cursor: pointer;;
@@ -72,6 +73,7 @@ dark.dark, body.dark {
 		color: #fff;
 	}
 }
+
 light.light, body.light {
 	[style-light="color-[#000]"] {
 		color: #000;

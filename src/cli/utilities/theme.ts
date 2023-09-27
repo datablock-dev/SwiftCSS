@@ -4,8 +4,8 @@ import { PSEUDO_CLASSES, PSEUDO_ELEMENTS } from "../parsers/classParser";
 import { dynamicRegistry } from "../parsers/dynamicParser";
 
 export default function themeCSS(themeObject: AttributeObject, baseStyle: BaseStyle, config: Config){
-    var cssStringDark = 'dark.dark, body.dark {\n'
-    var cssStringLight = 'light.light, body.light {\n'
+    var cssStringDark = '\ndark.dark, body.dark {\n'
+    var cssStringLight = '\nlight.light, body.light {\n'
     var css = '';
 
     var styleDark: FinalObject = {};
