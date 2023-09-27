@@ -1,9 +1,11 @@
 import fs from 'fs';
+import path from 'path';
 import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
 
 import { BaseStyle, Config } from "types"
 import classCSS from './utilities/base';
 import themeCSS from './utilities/theme';
+import mediaCSS from './utilities/media';
 
 type Command = "watch" | "build" | "dev"
 export interface Funnel {
@@ -24,7 +26,6 @@ export type AttributeObject = { // This object is for style-<dark, light & media
 }
 
 export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle) {
-    const baseCSS = new Set(); // Can be removed?
     const classArray = new Array;
     const mediaObject = new Object;
     const themeObject = new Object;
@@ -125,9 +126,17 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
         themeCSS -> classes defined in style-dark="" or style-light=""
         mediaCSS -> classes defined in style-<size> attributes defined in the
         config file.
+
+        Also include input file (files, in the future we need to add support for multifile support)
     */
+    if(config.input){
+        const inputCSS = fs.readFileSync(config.input).toString();
+        CSS.push(inputCSS);
+        CSS.push('/************* Inserted from input file *************/')
+    }
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
+    mediaCSS(mediaObject as AttributeObject, baseStyle, config)
 
     fs.writeFileSync(config.output, CSS.join('\n'));
 }
