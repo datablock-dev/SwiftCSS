@@ -53,17 +53,47 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
+.flex-row {
+  display: flex;
+  flex-direction: row;}
+.py-20 {
+  padding-top: 20px;
+  padding-bottom: 20px;}
+.mr-20 {
+  margin-right: 20px;}
 .mt-40 {
   margin-top: 40px;}
 .text-center {
   text-align: center;}
 .fs-60 {
   font-size: 60px;}
+.opacity-80 {
+  opacity: 0.8;}
 .bg\-\[\#000\] {
 	background-color: #000;
 }
+.color\-\[\#fff\] {
+	color: #fff;
+}
+.color\-\[\#000\] {
+	color: #000;
+}
+.bg\-\[\#f4f4f4\] {
+	background-color: #f4f4f4;
+}
+.hover\:color\-\[\#f4f4f4\]:hover {
+	color: #f4f4f4;
+}
+.hover\:cursor-pointer:hover{
+ cursor: pointer 
+}
+.hover\:color\-\[\#f4f4f4\]:hover{
+ color: #f4f4f4 
+}
 light.light, body.light {
-	
+	[style-light="color-[#000]"] {
+		color: #000;
+	}
 }
 dark.light, body.dark {
 	

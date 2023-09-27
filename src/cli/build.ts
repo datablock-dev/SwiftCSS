@@ -8,7 +8,7 @@ import { generateMediaQuries, finalMediaQuery } from './parsers/mediaQueries'
 import parsePseudoClasses from './parsers/pseudo'
 import createThemeStyles from './parsers/themes'
 import { parseDynamicStyles, generateDynamicStyles } from './parsers/dynamicStyles'
-import getAllFilesInDir from "@misc/getAllFilesInDir"
+import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
 
 export default function runBuildCommand(command: string, styleCSS: string, config: Config, classNames: Set<String>, dynamicClassNames: Set<String>, dynamicStyles: Set<String>, dynamicClasses: DynamicClasses, lightStyles: modeStyle, darkStyles: modeStyle, screenKeys: any[string], baseStyle: BaseStyle) {
   const inputCSS = (config.input && config.input !== '') ? fs.readFileSync(config.input, 'utf-8') : '';
@@ -168,5 +168,3 @@ function writeOutputCSS(command: string, outputFilePath: string, styles: any[]) 
   // Maybe remove this
   console.log('Output CSS file generated:', outputFilePath);
 }
-
-module.exports = runBuildCommand

@@ -16,6 +16,7 @@
     "dev": "ts-node main.ts watch",
     "dev-build": "ts-node main.ts build",
     "dev-init": "ts-node main.ts init",
+    "new-dev": "ts-node main.ts dev",
     "install": "tsc"
   },
   "bin": {
@@ -29,6 +30,7 @@
     "glob": "^10.2.5",
     "postcss": "^8.4.29",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
