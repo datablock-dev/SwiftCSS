@@ -15,7 +15,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:${attribute}`,
-                cssAttribute: value.map((e) => { return `${e};`}),
+                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e};`}) : `${value}`,
                 name: null,
                 pseudo: pseudoClass,
                 pseudoSeparator: ':'
@@ -50,7 +50,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:\\:${attribute}`,
-                cssAttribute: value.map((e) => { return `${e};`}),
+                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e};`}) : `${value}`,
                 name: null,
                 pseudo: pseudoClass,
                 pseudoSeparator: '::'

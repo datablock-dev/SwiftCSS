@@ -25,7 +25,9 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
                         }
                     })
                 } else {
-                    console.log(baseStyle[className])
+                    const value = baseStyle[className]
+                    cssString += `\t${value}\n`;
+                    cssString += '\n}'
                 }
 
                 finalBaseCSS.add(cssString);
