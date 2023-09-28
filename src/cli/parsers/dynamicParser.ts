@@ -28,6 +28,13 @@ export default function dynamicParser(className: string){
                     name: name,
                     value: value
                 }
+            } else {
+                return {
+                    className: escapedClassName,
+                    cssAttribute: `${name}: ${value};`,
+                    name: name,
+                    value: value
+                }
             }
         }
     }

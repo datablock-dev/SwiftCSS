@@ -79,6 +79,9 @@ time, mark, audio, video {
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
+.content\-\[\'\*\'\]{
+	content: '*';
+}
 .hover\:py-20:hover{
 	padding-top: 20px;
 	padding-bottom: 20px;
