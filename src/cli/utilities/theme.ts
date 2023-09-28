@@ -105,15 +105,19 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                             }
                         } else { // Not a dynamic class
                             const value = baseStyle[currValue];
-
-                            value.forEach((item) => {
-                                if(!finalObject[finalKey]){
-                                    finalObject[finalKey] = new Set();
-                                    finalObject[finalKey].add(`${item}`);
-                                } else {
-                                    finalObject[finalKey].add(`${item}`);
-                                }
-                            })
+                            
+                            try {
+                                value.forEach((item) => {
+                                    if(!finalObject[finalKey]){
+                                        finalObject[finalKey] = new Set();
+                                        finalObject[finalKey].add(`${item}`);
+                                    } else {
+                                        finalObject[finalKey].add(`${item}`);
+                                    }
+                                })
+                            } catch (error) {
+                                // Most likely the user hasnt finished typing
+                            }
                         }
                     })
                 }
@@ -148,14 +152,18 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                 } else { // Not a dynamic class
                     const value = baseStyle[cssAttribute];
 
-                    value.forEach((item) => {
-                        if(!finalObject[finalKey]){
-                            finalObject[finalKey] = new Set();
-                            finalObject[finalKey].add(`${item}`);
-                        } else {
-                            finalObject[finalKey].add(`${item}`);
-                        }
-                    })
+                    try {
+                        value.forEach((item) => {
+                            if(!finalObject[finalKey]){
+                                finalObject[finalKey] = new Set();
+                                finalObject[finalKey].add(`${item}`);
+                            } else {
+                                finalObject[finalKey].add(`${item}`);
+                            }
+                        })
+                    } catch (error) {
+                        // Most likely the user hasnt finished typing   
+                    }
                 }
             })
         }
