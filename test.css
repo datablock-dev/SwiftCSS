@@ -1,0 +1,48 @@
+.text-center{
+	text-align: center;
+}
+.fs-60{
+	font-size: 60px;
+}
+.mt-40{
+	margin-top: 40px;
+}
+.hover\:cursor-pointer:hover{
+	cursor: pointer;
+}
+.brd\-color\-\[\#f4f4f4\]{
+	border-color: #f4f4f4;
+}
+.hover\:bg\-\[\#fff\]:hover{
+	background-color: #fff;
+}
+.bg\-\[\#000\]{
+	background-color: #000;
+}
+.py-20{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.hover\:py-20:hover{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.mr-20{
+	margin-right: 20px;
+}
+.bg\-\[\#f4f4f4\]{
+	background-color: #f4f4f4;
+}
+.flex-row{
+	display: flex;
+	flex-direction: row;
+}
+.opacity-80{
+	opacity: 0.8;
+}
+.selection\:\:cursor-pointer::selection{
+	cursor: pointer;
+}
+.hover\:bg\-\[\#000\]:hover{
+	background-color: #000;
+}

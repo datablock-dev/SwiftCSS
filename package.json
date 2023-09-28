@@ -1,6 +1,6 @@
 {
   "name": "swiftcss",
-  "version": "1.13.0",
+  "version": "2.0.0",
   "description": "A CSS framework inspired by Tailwindcss with attribute styling to split styling and reduce dependency and size of classes in elements and components.",
   "main": "./dist/main.js",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "dev": "ts-node main.ts watch",
     "dev-build": "ts-node main.ts build",
     "dev-init": "ts-node main.ts init",
+    "new-dev": "ts-node main.ts dev",
     "install": "tsc"
   },
   "bin": {
@@ -29,6 +30,7 @@
     "glob": "^10.2.5",
     "postcss": "^8.4.29",
     "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {

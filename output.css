@@ -53,27 +53,117 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
-.mt-40 {
-  margin-top: 40px;}
-.text-center {
-  text-align: center;}
-.fs-60 {
-  font-size: 60px;}
-.bg\-\[\#000\] {
+/************* Inserted from input file [Above] *************/
+.text-center{
+	text-align: center;
+}
+.fs-60{
+	font-size: 60px;
+}
+.mt-40{
+	margin-top: 40px;
+}
+.hover\:cursor-pointer:hover{
+	cursor: pointer;
+}
+.brd\-color\-\[\#f4f4f4\]{
+	border-color: #f4f4f4;
+}
+.hover\:bg\-\[\#fff\]:hover{
+	background-color: #fff;
+}
+.bg\-\[\#000\]{
 	background-color: #000;
 }
+.py-20{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.hover\:py-20:hover{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+.mr-20{
+	margin-right: 20px;
+}
+.flex-row{
+	display: flex;
+	flex-direction: row;
+}
+.ml-10{
+	margin-left: 10px;
+}
+.py-69{
+	padding-top: 69px;
+	padding-bottom: 69px;
+}
+.bg\-\[\#f4f4f4\]{
+	background-color: #f4f4f4;
+}
+.opacity-80{
+	opacity: 0.8;
+}
+.selection\:\:cursor-pointer::selection{
+	cursor: pointer;
+}
+.hover\:bg\-\[\#000\]:hover{
+	background-color: #000;
+}
+
+dark.dark, body.dark {
+	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:hover {
+		cursor: pointer;
+		color: #f4f4f4;
+	}
+	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:checked {
+		color: #49e31b;
+	}
+	[style-dark="color-[#fff]"] {
+		color: #fff;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"]:hover {
+		color: #f4f4f4;
+		cursor: pointer;
+	}
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"] {
+		color: #fff;
+	}
+}
+
 light.light, body.light {
-	
+	[style-light="color-[#000]"] {
+		color: #000;
+	}
 }
-dark.light, body.dark {
-	
-}
+
+/************* style-sd *************/
 @media screen and (max-width: 600px){
-	
+	[style-sd="w-100 h-40"]{
+		width: 100px !important;
+		height: 40px !important;
+	}
+	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]{
+		margin-right: 20px;
+		color: #f4f4f4;
+	}
 }
+
+/************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
-	
+	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
+		padding-top: 20px;
+		padding-bottom: 20px;
+		cursor: pointer;
+		color: #acacac;
+	}
+	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]{
+		margin-right: 40px;
+	}
 }
+
+/************* style-ld *************/
 @media screen and (min-width: 1200px){
-	
+	[style-ld="max-w-100"]{
+		max-width: 100px;
+	}
 }
