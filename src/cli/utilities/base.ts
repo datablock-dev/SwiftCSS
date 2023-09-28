@@ -18,10 +18,10 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
                 if(Array.isArray(baseStyle[className])){
                     baseStyle[className].forEach((e, i, arr) => {
                         if((i +1) === arr.length){
-                            cssString += `\t${e};`;
+                            cssString += `\t${e}`;
                             cssString += '\n}'
                         } else if(i + 1 !== arr.length) {
-                            cssString += `\t${e};\n`;
+                            cssString += `\t${e}\n`;
                         }
                     })
                 } else {

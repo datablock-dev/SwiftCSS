@@ -106,23 +106,14 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                         } else { // Not a dynamic class
                             const value = baseStyle[currValue];
 
-                            if(Array.isArray(value)){
-                                value.forEach((item) => {
-                                    if(!finalObject[finalKey]){
-                                        finalObject[finalKey] = new Set();
-                                        finalObject[finalKey].add(`${item};`);
-                                    } else {
-                                        finalObject[finalKey].add(`${item};`);
-                                    }
-                                })
-                            } else {
+                            value.forEach((item) => {
                                 if(!finalObject[finalKey]){
                                     finalObject[finalKey] = new Set();
-                                    finalObject[finalKey].add(`${value};`);
+                                    finalObject[finalKey].add(`${item}`);
                                 } else {
-                                    finalObject[finalKey].add(`${value};`);
+                                    finalObject[finalKey].add(`${item}`);
                                 }
-                            }
+                            })
                             //console.log(`DynamicMatch not found: ${currValue}. New value: ${value}`);
                         }
                     })
@@ -158,23 +149,14 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                 } else { // Not a dynamic class
                     const value = baseStyle[cssAttribute];
 
-                    if(Array.isArray(value)){
-                        value.forEach((item) => {
-                            if(!finalObject[finalKey]){
-                                finalObject[finalKey] = new Set();
-                                finalObject[finalKey].add(`${item};`);
-                            } else {
-                                finalObject[finalKey].add(`${item};`);
-                            }
-                        })
-                    } else {
+                    value.forEach((item) => {
                         if(!finalObject[finalKey]){
                             finalObject[finalKey] = new Set();
-                            finalObject[finalKey].add(`${value};`);
+                            finalObject[finalKey].add(`${item}`);
                         } else {
-                            finalObject[finalKey].add(`${value};`);
+                            finalObject[finalKey].add(`${item}`);
                         }
-                    }
+                    })
                     //console.log(`DynamicMatch not found: ${currValue}. New value: ${value}`);
                 }
             })

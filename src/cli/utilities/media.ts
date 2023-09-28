@@ -100,11 +100,8 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             //console.log(cssClasses)
 
         })
-        if (key = 'style-sd') {
-            //console.log(finalMediaObject['style-sd'])
-        }
     })
-
+    console.log(finalMediaObject['style-sd'])
 }
 
 function createParents(screens: Config['screens'], finalMediaObject: FinalMediaObject) {
