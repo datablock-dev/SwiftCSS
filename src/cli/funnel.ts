@@ -129,10 +129,16 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
 
         Also include input file (files, in the future we need to add support for multifile support)
     */
-    if(config.input){
-        const inputCSS = fs.readFileSync(config.input).toString();
-        CSS.push(inputCSS);
-        CSS.push('/************* Inserted from input file [Above] *************/')
+
+    // Fetch input file
+    if(config.input && config.input !== ''){
+        try {
+            const inputCSS = fs.readFileSync(config.input).toString();
+            CSS.push(inputCSS);
+            CSS.push('/************* Inserted from input file [Above] *************/')
+        } catch (error) {
+            console.log(`An error occurred while fetching CSS from ${config.input}: ${error}`)
+        }
     }
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
