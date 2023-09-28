@@ -324575,25 +324575,25 @@
     transform: rotate(360deg);
   }
 }
-.animate.up {
+.animate-up {
   transform: translateY(100px);
   opacity: 0;
 }
-.animate.up.animation {
+.animate-up-animation {
   animation: up 800ms ease forwards;
 }
-.animate.left {
+.animate-left {
   transform: translateX(-100px);
   opacity: 0;
 }
-.animate.left.animation {
+.animate-left-animation {
   animation: left 800ms ease forwards;
 }
-.animate.right {
+.animate-right {
   transform: translateX(100px);
   opacity: 0;
 }
-.animate.right.animation {
+.animate-right-animation {
   animation: right 800ms ease forwards;
 }
 

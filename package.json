@@ -17,7 +17,7 @@
     "dev-build": "ts-node main.ts build",
     "dev-init": "ts-node main.ts init",
     "new-dev": "ts-node main.ts dev",
-    "install": "tsc"
+    "install": "bash installation.bash"
   },
   "bin": {
     "swiftcss": "./dist/main.js"

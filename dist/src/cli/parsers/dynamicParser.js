@@ -27,6 +27,14 @@ function dynamicParser(className) {
                     value: value
                 };
             }
+            else {
+                return {
+                    className: escapedClassName,
+                    cssAttribute: `${name}: ${value};`,
+                    name: name,
+                    value: value
+                };
+            }
         }
     }
     return null;
