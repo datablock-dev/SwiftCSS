@@ -71,7 +71,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                             if (className.includes(pseudoWithoutSelector)) {
                                 const newClass = className.replace(pseudoWithoutSelector, '').replace(/:+/g, '')
                                 const baseMatch = baseStyle[newClass]
-                                
+
                                 if(baseMatch){
                                     baseMatch.forEach((item) => { 
                                         finalMediaObject[key].css[finalSelector].add(item)
@@ -90,13 +90,9 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
 
                     const baseMatch = baseStyle[className]
                     if(baseMatch){
-                        if(Array.isArray(baseMatch)){
-                            baseMatch.forEach((item) => { 
-                                finalMediaObject[key].css[selector].add(item)
-                            })
-                        } else {
-                            finalMediaObject[key].css[selector].add(baseMatch)
-                        }
+                        baseMatch.forEach((item) => { 
+                            finalMediaObject[key].css[selector].add(item)
+                        })
                     }
                 })
             }
@@ -105,7 +101,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
 
         })
         if (key = 'style-sd') {
-            console.log(finalMediaObject['style-sd'])
+            //console.log(finalMediaObject['style-sd'])
         }
     })
 

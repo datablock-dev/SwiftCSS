@@ -96,19 +96,8 @@ config.input = path.join(process.cwd(), config.input)
 // We define the commands here and the actions that occurrs for each command
 if (process.argv[2] === 'watch') {
     console.log('Watching for file changes...');
-
-    styleCSS.split('}').forEach((styleBlock: string, i: number) => {
-        const trimmedStyleBlock = styleBlock.trim();
-        try {
-            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
-            const classAttribute = trimmedStyleBlock.split('{')[1].trim().split('\n  ')
-            if (classNameMatch) {
-                const className = classNameMatch[1] as keyof BaseStyle
-                // @ts-ignore
-                baseStyle[className] = classAttribute
-            }
-        } catch (error) { }
-    });
+    // Generate baseStyle
+    generateBaseStyle(styleCSS, process);
 
     const watcher = chokidar.watch(config.directories, {
         ignored: /(^|[/\\])\../, // Ignore dotfiles
@@ -147,41 +136,13 @@ if (process.argv[2] === 'watch') {
 
     funnel('watch', styleCSS, config, baseStyle);
 } else if (process.argv[2] === 'build') {
-    const baseStyle = new Object as BaseStyle;
-    styleCSS.split('}').forEach((styleBlock: string, i: number) => {
-        const trimmedStyleBlock = styleBlock.trim();
-        try {
-            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
-            const classAttribute = trimmedStyleBlock.split('{')[1].trim()
-
-            if (!classNameMatch) return;
-
-            const className = classNameMatch[1]
-            //@ts-ignore
-            baseStyle[className] = classAttribute
-        } catch (error) { }
-    });
-
+    generateBaseStyle(styleCSS, process)
     screenKeys.push(...Object.keys(config.screens))
 
     funnel('build', styleCSS, config, baseStyle);
 } else if (process.argv[2] === "dev") {
-    const baseStyle = new Object as BaseStyle;
-    styleCSS.split('}').forEach((styleBlock: string, i: number) => {
-        const trimmedStyleBlock = styleBlock.trim();
-        try {
-            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
-            const classAttribute = trimmedStyleBlock.split('{')[1].trim()
 
-            if (!classNameMatch) return;
-
-            const className = classNameMatch[1]
-            //@ts-ignore
-            baseStyle[className] = classAttribute.split(';').filter((e) => e !== '').map((e) => e.replace('\n', '').trim())
-
-
-        } catch (error) { }
-    });
+    generateBaseStyle(styleCSS, process);
 
     /********************** WATCHER CONFIG **********************/
     const watcher = chokidar.watch(config.directories, {
@@ -229,6 +190,29 @@ if (process.argv[2] === 'watch') {
 
 // Create a loading animation
 let animationInterval: ReturnType<typeof setTimeout>;
+
+export function generateBaseStyle(styleCSS: string, process: NodeJS.Process){
+    styleCSS.split('}').forEach((styleBlock: string, i: number) => {
+        const trimmedStyleBlock = styleBlock.trim();
+        try {
+            const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
+            if(classNameMatch){
+                const classAttribute = trimmedStyleBlock
+                    .replace(classNameMatch[0], '')
+                    .trim()
+                    .split('\n  ')
+
+                const className = classNameMatch[1] as keyof BaseStyle
+
+                // Append style to baseStyle
+                baseStyle[className] = classAttribute
+            }
+        } catch (error) {
+            console.error(`An error occurred when generating CSS backbone: ${error}`)
+            process.exit()
+        }
+    });
+}
 
 export function startLoadingAnimation() {
     const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
