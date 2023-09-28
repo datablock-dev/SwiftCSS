@@ -101,7 +101,7 @@ if (process.argv[2] === 'watch') {
         const trimmedStyleBlock = styleBlock.trim();
         try {
             const classNameMatch = trimmedStyleBlock.match(/\.([a-zA-Z0-9_-]+)\s*\{/); // Class Name without the leading "."
-            const classAttribute = trimmedStyleBlock.split('{')[1].trim()
+            const classAttribute = trimmedStyleBlock.split('{')[1].trim().split('\n  ')
             if (classNameMatch) {
                 const className = classNameMatch[1] as keyof BaseStyle
                 // @ts-ignore

@@ -1,7 +1,16 @@
 import { BaseStyle } from "types";
 import dynamicParser from "./dynamicParser";
 
-export default function classParser(className: string, baseStyle: BaseStyle){
+interface ClassParser {
+    className: string,
+    cssAttribute: string | string[],
+    name: string | null,
+    value?: string,
+    pseudo: string,
+    pseudoSeparator: ':' | '::'
+}
+
+export default function classParser(className: string, baseStyle: BaseStyle): ClassParser | null {
     const finalCSS = new Set();
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 
@@ -15,7 +24,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:${attribute}`,
-                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e};`}) : `${value}`,
+                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e}`}) : `${value}`,
                 name: null,
                 pseudo: pseudoClass,
                 pseudoSeparator: ':'
@@ -50,7 +59,7 @@ export default function classParser(className: string, baseStyle: BaseStyle){
             const value = baseStyle[attribute]
             return {
                 className: `${pseudoClass}\\:\\:${attribute}`,
-                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e};`}) : `${value}`,
+                cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e}`}) : `${value}`,
                 name: null,
                 pseudo: pseudoClass,
                 pseudoSeparator: '::'

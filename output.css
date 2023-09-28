@@ -55,13 +55,13 @@ time, mark, audio, video {
 }
 /************* Inserted from input file *************/
 .text-center{
-	text-align: center;
+	text-align: center;;
 }
 .fs-60{
-	font-size: 60px;
+	font-size: 60px;;
 }
 .mt-40{
-	margin-top: 40px;
+	margin-top: 40px;;
 }
 .hover\:cursor-pointer:hover{
 	cursor: pointer;
@@ -76,32 +76,32 @@ time, mark, audio, video {
 	background-color: #000;
 }
 .py-20{
-	padding-top: 20px;
-  padding-bottom: 20px;
+	padding-top: 20px;;
+	padding-bottom: 20px;;
 }
 .hover\:py-20:hover{
 	padding-top: 20px;
-  padding-bottom: 20px;
+	padding-bottom: 20px;
 }
 .mr-20{
-	margin-right: 20px;
+	margin-right: 20px;;
 }
 .flex-row{
-	display: flex;
-  flex-direction: row;
+	display: flex;;
+	flex-direction: row;;
 }
 .ml-10{
-	margin-left: 10px;
+	margin-left: 10px;;
 }
 .py-69{
-	padding-top: 69px;
-  padding-bottom: 69px;
+	padding-top: 69px;;
+	padding-bottom: 69px;;
 }
 .bg\-\[\#f4f4f4\]{
 	background-color: #f4f4f4;
 }
 .opacity-80{
-	opacity: 0.8;
+	opacity: 0.8;;
 }
 .selection\:\:cursor-pointer::selection{
 	cursor: pointer;
