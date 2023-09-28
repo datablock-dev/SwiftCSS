@@ -132,7 +132,7 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
     if(config.input){
         const inputCSS = fs.readFileSync(config.input).toString();
         CSS.push(inputCSS);
-        CSS.push('/************* Inserted from input file *************/')
+        CSS.push('/************* Inserted from input file [Above] *************/')
     }
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));

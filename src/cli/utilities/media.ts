@@ -126,6 +126,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
         var cssOutput = ''
 
         const { parentString, css } = finalMediaObject[key]
+        cssOutput += `/************* ${key} *************/\n`
         cssOutput += parentString 
 
         // Loop through classSelectors of the current media query

@@ -53,7 +53,7 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
-/************* Inserted from input file *************/
+/************* Inserted from input file [Above] *************/
 .text-center{
 	text-align: center;
 }
@@ -136,6 +136,7 @@ light.light, body.light {
 	}
 }
 
+/************* style-sd *************/
 @media screen and (max-width: 600px){
 	[style-sd="w-100 h-40"]{
 		width: 100px !important;
@@ -147,6 +148,7 @@ light.light, body.light {
 	}
 }
 
+/************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
@@ -159,6 +161,7 @@ light.light, body.light {
 	}
 }
 
+/************* style-ld *************/
 @media screen and (min-width: 1200px){
 	[style-ld="max-w-100"]{
 		max-width: 100px;
