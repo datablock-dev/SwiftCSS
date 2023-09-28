@@ -136,7 +136,7 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
     }
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
-    mediaCSS(mediaObject as AttributeObject, baseStyle, config)
+    CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
 
     fs.writeFileSync(config.output, CSS.join('\n'));
 }

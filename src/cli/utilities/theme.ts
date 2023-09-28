@@ -114,7 +114,6 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                                     finalObject[finalKey].add(`${item}`);
                                 }
                             })
-                            //console.log(`DynamicMatch not found: ${currValue}. New value: ${value}`);
                         }
                     })
                 }
@@ -157,23 +156,20 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                             finalObject[finalKey].add(`${item}`);
                         }
                     })
-                    //console.log(`DynamicMatch not found: ${currValue}. New value: ${value}`);
                 }
             })
-
-            //console.log(nonPseudoAttributes)
         }
 
     })
 
-   return finalObject
+    return finalObject
 }
 
 // This function builds the final CSS for theme styling
 function buildTheme(cssString: String, styleObject: FinalObject){
     var finalCssString = cssString;
 
-    Object.keys(styleObject).forEach((key, index: number) => {
+    Object.keys(styleObject).forEach((key) => {
         const styleArray = styleObject[key];
 
         var currString = `\t${key} {\n`

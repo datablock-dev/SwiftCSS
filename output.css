@@ -135,3 +135,32 @@ light.light, body.light {
 		color: #000;
 	}
 }
+
+@media screen and (max-width: 600px){
+	[style-sd="w-100 h-40"]{
+		width: 100px !important;
+		height: 40px !important;
+	}
+	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]{
+		margin-right: 20px;
+		color: #f4f4f4;
+	}
+}
+
+@media screen and (min-width: 600px) and (max-width: 1200px){
+	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
+		padding-top: 20px;
+		padding-bottom: 20px;
+		cursor: pointer;
+		color: #acacac;
+	}
+	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]{
+		margin-right: 40px;
+	}
+}
+
+@media screen and (min-width: 1200px){
+	[style-ld="max-w-100"]{
+		max-width: 100px;
+	}
+}

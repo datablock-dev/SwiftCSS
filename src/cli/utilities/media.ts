@@ -13,12 +13,8 @@ export interface FinalMediaObject {
 }
 
 export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseStyle, config: Config) {
-    var css = '';
+    var finalBaseCSS = new Array;
     const finalMediaObject: FinalMediaObject = {}
-
-    // Regex
-    const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
 
     createParents(config.screens, finalMediaObject)
     //console.log(finalMediaObject)
@@ -32,9 +28,10 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
 
             const pseudoClasses = new Set<string>
             const cssClasses = new Set<string>
+            const dynamicClasses = new Set<string>
 
             // Iterate through array and process individual classes
-            cssAttributes.forEach((className, index) => {
+            cssAttributes.forEach((className) => {
                 if (className.includes(':') || className.includes('::')) {
                     const classParsed = classParser(className, baseStyle)
                     if (classParsed) {
@@ -47,13 +44,16 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                         }
                     }
                 } else if (className.includes('-[')) { // Dynamic classes
-                    const parsedString = dynamicParser(attribute)
-                    //console.log(parsedString)
+                    const parsedString = dynamicParser(className)
+                    if(parsedString){
+                        dynamicClasses.add(parsedString.cssAttribute)
+                    }
                 } else { // Non-pseudo nor dynamic class
                     cssClasses.add(className)
                 }
             })
 
+            // Classes bound to pseudo class/element found
             if (pseudoClasses.size > 0) {
                 Array.from(pseudoClasses).forEach((pseudo) => {
                     const finalSelector = `${selector}${pseudo}`
@@ -76,12 +76,18 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                                     baseMatch.forEach((item) => { 
                                         finalMediaObject[key].css[finalSelector].add(item)
                                     })
+                                } else {
+                                    const parsedString = dynamicParser(newClass)
+                                    if(parsedString){
+                                        finalMediaObject[key].css[finalSelector].add(parsedString.cssAttribute)
+                                    }
                                 }
                             }
                         })
                 })
             }
 
+            // Non-pseudo classes found
             if (cssClasses.size > 0) {
                 cssClasses.forEach((className) => {
                     if (!finalMediaObject[key].css[selector]) {
@@ -96,12 +102,54 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                     }
                 })
             }
+
+            if(dynamicClasses.size > 0){
+                dynamicClasses.forEach((className) => {
+                    if (!finalMediaObject[key].css[selector]) {
+                        finalMediaObject[key].css[selector] = new Set()
+                    }
+
+                    finalMediaObject[key].css[selector].add(className)
+                })
+            }
             //console.log(pseudoClasses)
             //console.log(cssClasses)
 
         })
     })
-    console.log(finalMediaObject['style-sd'])
+
+    /*
+        Now finally, build the parent selectors, and their attribute classes
+        within their corresponding parent selector (media query)
+    */
+    Object.keys(finalMediaObject).forEach((key) => {
+        var cssOutput = ''
+
+        const { parentString, css } = finalMediaObject[key]
+        cssOutput += parentString 
+
+        // Loop through classSelectors of the current media query
+        Object.keys(css).forEach((selector) => {
+            // Selector --> [style-sd="w-100 h-40"]
+            // css[selector] -> Set of finalised css attributes
+            cssOutput += `\t${selector}{\n`
+            const cssAttributes = css[selector]
+
+            cssAttributes.forEach((value) => {
+                cssOutput += `\t\t${value}\n`
+            })
+
+            // Close the current selector
+            cssOutput += '\t}\n'
+        })
+
+        // Close the media query
+        cssOutput += '}\n'
+
+        finalBaseCSS.push(cssOutput);
+    })
+
+    return finalBaseCSS.join('\n');
 }
 
 function createParents(screens: Config['screens'], finalMediaObject: FinalMediaObject) {
