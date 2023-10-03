@@ -36,12 +36,9 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                 if (className.includes(':') || className.includes('::')) {
                     const classParsed = classParser(className, baseStyle)
                     if (classParsed) {
-                        const { cssAttribute, pseudo, pseudoSeparator } = classParsed
+                        const { cssAttribute, pseudo, pseudoSeparator, pseudoSelector } = classParsed
                         if (typeof cssAttribute === 'string') {
-                            pseudoClasses.add(`${pseudoSeparator}${pseudo}`)
-                            //cssAttribute.split('\n  ').forEach((item) => {
-                            //    cssClasses.add(item)
-                            //})
+                            pseudoClasses.add(`${pseudoSeparator}${pseudoSelector ? pseudoSelector : pseudo}`)
                         }
                     }
                 } else if (className.includes('-[')) { // Dynamic classes
@@ -57,8 +54,8 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             // Classes bound to pseudo class/element found
             if (pseudoClasses.size > 0) {
                 Array.from(pseudoClasses).forEach((pseudo) => {
-                    const match = pseudo.match(dynamicPseudo)
-                    const finalSelector = `${selector}${pseudo}`
+                    const match = pseudo.match(dynamicPseudo) // If the pseudo element has a selector
+                    const finalSelector = `${selector}${match ? pseudo.replace('-[', '(').replace(']', ')') : pseudo}`
                     const pseudoWithoutSelector = pseudo.replace(/:+/g, '') // Remove ':' & '::'
 
                     if (!finalMediaObject[key].css[finalSelector]) {

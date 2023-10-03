@@ -7,7 +7,8 @@ interface ClassParser {
     name: string | null,
     value?: string,
     pseudo: string,
-    pseudoSeparator: ':' | '::'
+    pseudoSeparator: ':' | '::',
+    pseudoSelector?: string | null
 }
 
 export default function classParser(className: string, baseStyle: BaseStyle): ClassParser | null {
@@ -39,7 +40,8 @@ export default function classParser(className: string, baseStyle: BaseStyle): Cl
                 cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e}`}) : `${value}`,
                 name: null,
                 pseudo: newPseudoClass ? newPseudoClass.replace('-(', '(') : pseudoClass,
-                pseudoSeparator: ':'
+                pseudoSeparator: ':',
+                pseudoSelector: match ? match[0] : null
             }
         } else if(_PSEUDO_CLASSES[pseudoClass] && !baseStyle[attribute]){
             // Here would dynamicClasses combined with pseudoClass/Elements end up
@@ -55,7 +57,8 @@ export default function classParser(className: string, baseStyle: BaseStyle): Cl
                         name: name,
                         value: value,
                         pseudo: newPseudoClass ? newPseudoClass.replace('-(', '(') : pseudoClass,
-                        pseudoSeparator: ':'
+                        pseudoSeparator: ':',
+                        pseudoSelector: match ? match[0] : null
                     }
                 }
             }

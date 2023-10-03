@@ -160,6 +160,7 @@ light.light, body.light {
 /************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
 	[style-md="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
+		color: #565656;
 	}
 	[style-md="nth-child-[2n]:color-[#565656] test"]{
 	}
