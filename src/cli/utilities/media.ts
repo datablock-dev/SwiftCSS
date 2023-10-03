@@ -132,6 +132,9 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             // Selector --> [style-sd="w-100 h-40"]
             // css[selector] -> Set of finalised css attributes
             const cssAttributes = css[selector]
+
+            // Makes sure that we dont generate parent selectors
+            // that will end up being empty
             if(cssAttributes.size > 0){
                 cssOutput += `\t${selector}{\n`
     
