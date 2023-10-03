@@ -162,8 +162,6 @@ light.light, body.light {
 	[style-md="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
 		color: #565656;
 	}
-	[style-md="nth-child-[2n]:color-[#565656] test"]{
-	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
 		padding-bottom: 20px;

@@ -131,15 +131,17 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
         Object.keys(css).forEach((selector) => {
             // Selector --> [style-sd="w-100 h-40"]
             // css[selector] -> Set of finalised css attributes
-            cssOutput += `\t${selector}{\n`
             const cssAttributes = css[selector]
-
-            cssAttributes.forEach((value) => {
-                cssOutput += `\t\t${value}\n`
-            })
-
-            // Close the current selector
-            cssOutput += '\t}\n'
+            if(cssAttributes.size > 0){
+                cssOutput += `\t${selector}{\n`
+    
+                cssAttributes.forEach((value) => {
+                    cssOutput += `\t\t${value}\n`
+                })
+    
+                // Close the current selector
+                cssOutput += '\t}\n'
+            }
         })
 
         // Close the media query
