@@ -15,6 +15,7 @@ export interface FinalMediaObject {
 export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseStyle, config: Config) {
     var finalBaseCSS = new Array;
     const finalMediaObject: FinalMediaObject = {}
+    const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
 
     createParents(config.screens, finalMediaObject)
     //console.log(finalMediaObject)
@@ -45,7 +46,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                     }
                 } else if (className.includes('-[')) { // Dynamic classes
                     const parsedString = dynamicParser(className)
-                    if(parsedString){
+                    if (parsedString) {
                         dynamicClasses.add(parsedString.cssAttribute)
                     }
                 } else { // Non-pseudo nor dynamic class
@@ -56,6 +57,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             // Classes bound to pseudo class/element found
             if (pseudoClasses.size > 0) {
                 Array.from(pseudoClasses).forEach((pseudo) => {
+                    const match = pseudo.match(dynamicPseudo)
                     const finalSelector = `${selector}${pseudo}`
                     const pseudoWithoutSelector = pseudo.replace(/:+/g, '') // Remove ':' & '::'
 
@@ -66,24 +68,23 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                     // We need to select classes that should be applied
                     // When pseudo is triggered (e.g. during hover, only class 
                     // with hover:<className> should be included)
-                    cssAttributes
-                        .forEach((className) => {
-                            if (className.includes(pseudoWithoutSelector)) {
-                                const newClass = className.replace(pseudoWithoutSelector, '').replace(/:+/g, '')
-                                const baseMatch = baseStyle[newClass]
+                    cssAttributes.forEach((className) => {
+                        if (className.includes(pseudoWithoutSelector)) {
+                            const newClass = className.replace(pseudoWithoutSelector, '').replace(/:+/g, '')
+                            const baseMatch = baseStyle[newClass]
 
-                                if(baseMatch){
-                                    baseMatch.forEach((item) => { 
-                                        finalMediaObject[key].css[finalSelector].add(item)
-                                    })
-                                } else {
-                                    const parsedString = dynamicParser(newClass)
-                                    if(parsedString){
-                                        finalMediaObject[key].css[finalSelector].add(parsedString.cssAttribute)
-                                    }
+                            if (baseMatch) {
+                                baseMatch.forEach((item) => {
+                                    finalMediaObject[key].css[finalSelector].add(item)
+                                })
+                            } else {
+                                const parsedString = dynamicParser(newClass)
+                                if (parsedString) {
+                                    finalMediaObject[key].css[finalSelector].add(parsedString.cssAttribute)
                                 }
                             }
-                        })
+                        }
+                    })
                 })
             }
 
@@ -95,15 +96,15 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                     }
 
                     const baseMatch = baseStyle[className]
-                    if(baseMatch){
-                        baseMatch.forEach((item) => { 
+                    if (baseMatch) {
+                        baseMatch.forEach((item) => {
                             finalMediaObject[key].css[selector].add(item)
                         })
                     }
                 })
             }
 
-            if(dynamicClasses.size > 0){
+            if (dynamicClasses.size > 0) {
                 dynamicClasses.forEach((className) => {
                     if (!finalMediaObject[key].css[selector]) {
                         finalMediaObject[key].css[selector] = new Set()
@@ -127,7 +128,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
 
         const { parentString, css } = finalMediaObject[key]
         cssOutput += `/************* ${key} *************/\n`
-        cssOutput += parentString 
+        cssOutput += parentString
 
         // Loop through classSelectors of the current media query
         Object.keys(css).forEach((selector) => {

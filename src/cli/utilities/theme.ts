@@ -1,6 +1,6 @@
 import { BaseStyle, Config } from "types";
 import { AttributeObject } from "../funnel";
-import { PSEUDO_CLASSES, PSEUDO_ELEMENTS } from "../parsers/classParser";
+import { PSEUDO_ELEMENTS, _PSEUDO_CLASSES } from "../parsers/classParser";
 import { dynamicRegistry } from "../parsers/dynamicParser";
 
 export default function themeCSS(themeObject: AttributeObject, baseStyle: BaseStyle, config: Config){
@@ -43,6 +43,8 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
 
     // Regex
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/;
+    const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
 
     styleObject.forEach((currStyle) => {
         const uniquePseudo: Set<string> = new Set();
@@ -67,11 +69,12 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
         // We need to process unique pseudoClasses/Elements
         if(uniquePseudo.size > 0){
             uniquePseudo.forEach((pseudo) => {
+                const match = pseudo.match(dynamicPseudo)
 
-                if(PSEUDO_CLASSES.includes(pseudo) || PSEUDO_ELEMENTS.includes(pseudo)){
+                if(_PSEUDO_CLASSES[pseudo] || PSEUDO_ELEMENTS.includes(pseudo) || (match && _PSEUDO_CLASSES[match[1]])){
                     // Define the key we use to find if it exists in the finalObject
-                    const finalKey = `[${prefix}="${attribute}"]:${pseudo}`
-                    const separator = PSEUDO_CLASSES.includes(pseudo) ? ':' : '::'
+                    const finalKey = `[${prefix}="${attribute}"]:${match ? match[0].replace('-[', '(').replace(']', ')') : pseudo}`
+                    const separator = _PSEUDO_CLASSES[match ? match[1] : pseudo] ? ':' : '::'
 
                     // These are the values that will be included when pseudoClass is applied (e.g. during hover)
                     const newCSSAttributes = currStyle.cssAttributes.filter((attribute) => attribute.includes(pseudo))

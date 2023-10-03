@@ -6,18 +6,27 @@
     <link rel="stylesheet" href="../output.css">
     <title>Document</title>
 </head>
-<body>
+<body class="dark">
 
     <h1 
       class="text-center fs-60 mt-40 hover:cursor-pointer"
+      style-dark="not-[.fs-60]:fs-40"
     >
       <span>Hello </span><span>world</span>
     </h1>
+    <ul>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+      <li style-md="nth-child-[2n]:color-[#565656] test">Test</li>
+    </ul>
     <div 
       class="lds-ellipsis brd-color-[#f4f4f4] hover:bg-[#fff] hover:cursor-pointer"
       style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"
     >
-        <div class="bg-[#000]"></div>
+        <div class="bg-[#000] not-[strong]:fw-800"></div>
         <div></div>
         <div></div>
         <div></div>
@@ -27,67 +36,9 @@
       <h1 class="py-20 content-['*']"
         style-dark="color-[#fff]"
         style-light="color-[#000]"
-        style-sd="w-100 h-40"
+        style-sd="w-100 h-40 not-[.py-20]:py-40"
       ></h1>
     </div>
     
 </body>
 </html>
-
-<style>
-    .lds-ellipsis {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
-}
-.lds-ellipsis div {
-  position: absolute;
-  top: 33px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  background: #fff;
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.lds-ellipsis div:nth-child(1) {
-  left: 8px;
-  animation: lds-ellipsis1 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(2) {
-  left: 8px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(3) {
-  left: 32px;
-  animation: lds-ellipsis2 0.6s infinite;
-}
-.lds-ellipsis div:nth-child(4) {
-  left: 56px;
-  animation: lds-ellipsis3 0.6s infinite;
-}
-@keyframes lds-ellipsis1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes lds-ellipsis3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-@keyframes lds-ellipsis2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
-}
-</style>

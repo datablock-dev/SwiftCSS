@@ -13,23 +13,35 @@ interface ClassParser {
 export default function classParser(className: string, baseStyle: BaseStyle): ClassParser | null {
     const finalCSS = new Set();
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
 
     var cssString: null | string = null;
     /******************* Pseudo Classes *******************/
     if(className.includes(':') && !className.includes('::')){ 
-        const pseudoClass = className.split(':')[0]
+        var pseudoClass = className.split(':')[0]
         const attribute = className.split(':')[1]
+        const match = pseudoClass.match(dynamicPseudo)
 
-        if(PSEUDO_CLASSES.includes(pseudoClass) && baseStyle[attribute]){
+        // If its a pseudoClass where the user needs to provide a value
+        // E.g: :nth-child-(3)
+        var newPseudoClass: null | string = null;
+
+        // Identify a pseudo class that requires input
+        if(pseudoClass.includes('-[') && match && _PSEUDO_CLASSES[match[1]]){
+            newPseudoClass = match[0].replace('[', '(').replace(']', ')')
+            pseudoClass = match[1]
+        }
+
+        if(_PSEUDO_CLASSES[pseudoClass] && baseStyle[attribute]){
             const value = baseStyle[attribute]
             return {
-                className: `${pseudoClass}\\:${attribute}`,
+                className: `${(newPseudoClass && match) ? match[0].replace(specialChars, '\\$&') : pseudoClass}\\:${attribute}`,
                 cssAttribute: Array.isArray(baseStyle[attribute]) ? value.map((e) => { return `${e}`}) : `${value}`,
                 name: null,
-                pseudo: pseudoClass,
+                pseudo: newPseudoClass ? newPseudoClass.replace('-(', '(') : pseudoClass,
                 pseudoSeparator: ':'
             }
-        } else if(PSEUDO_CLASSES.includes(pseudoClass) && !baseStyle[attribute]){
+        } else if(_PSEUDO_CLASSES[pseudoClass] && !baseStyle[attribute]){
             // Here would dynamicClasses combined with pseudoClass/Elements end up
 
             if(attribute.includes('-[')){
@@ -38,11 +50,11 @@ export default function classParser(className: string, baseStyle: BaseStyle): Cl
                 if(parsedString){
                     const { className, cssAttribute, name, value } = parsedString
                     return {
-                        className: `${pseudoClass}\\:${className}`,
+                        className: `${(newPseudoClass && match) ? match[0].replace(specialChars, '\\$&') : pseudoClass}\\:${className}`,
                         cssAttribute: cssAttribute,
                         name: name,
                         value: value,
-                        pseudo: pseudoClass,
+                        pseudo: newPseudoClass ? newPseudoClass.replace('-(', '(') : pseudoClass,
                         pseudoSeparator: ':'
                     }
                 }
@@ -88,57 +100,13 @@ export default function classParser(className: string, baseStyle: BaseStyle): Cl
     return null;
 }
 
-export const PSEUDO_CLASSES = [
-    'active',
-    'any',
-    'any-link',
-    'checked',
-    'default',
-    'defined',
-    'dir',
-    'disabled',
-    'empty',
-    'enabled',
-    'first',
-    'first-child',
-    'first-of-type',
-    'fullscreen',
-    'focus',
-    'focus-visible',
-    'focus-within',
-    'has',
-    'hover',
-    'indeterminate',
-    'in-range',
-    'invalid',
-    'lang',
-    'last-child',
-    'last-of-type',
-    'link',
-    'not',
-    'nth-child',
-    'nth-last-child',
-    'nth-last-of-type',
-    'nth-of-type',
-    'only-child',
-    'only-of-type',
-    'optional',
-    'out-of-range',
-    'placeholder-shown',
-    'read-only',
-    'read-write',
-    'required',
-    'root',
-    'scope',
-    'target',
-    'target-within',
-    'user-invalid',
-    'valid',
-    'visited',
-    // Logical Combinations
-    'is',
-    'where',
-];
+export interface PseduoClasses {
+    [key: string]: {
+        isDynamic?: boolean,
+        acceptedValues?: string[],
+        description?: string
+    }
+}
 
 export const PSEUDO_ELEMENTS = [
     'after',
@@ -152,3 +120,99 @@ export const PSEUDO_ELEMENTS = [
     'part',
     'slotted'
 ]
+
+export const _PSEUDO_CLASSES: PseduoClasses = {
+    'active': {
+        isDynamic: false
+    },
+    'any': {},
+    'any-link': {},
+    'checked': {
+        isDynamic: false
+    },
+    'default': {},
+    'defined': {},
+    'dir': {
+        isDynamic: true,
+        acceptedValues: ['ltr', 'rtl'],
+        description: "The :dir() CSS pseudo-class matches elements based on the directionality of the text contained in them."
+    },
+    'disabled': {
+        isDynamic: false
+    },
+    'empty': {
+        isDynamic: false
+    },
+    'enabled': {
+        isDynamic: false
+    },
+    'first': {
+        isDynamic: false
+    },
+    'first-child': {
+        isDynamic: false
+    },
+    'first-of-type': {},
+    'fullscreen': {},
+    'focus': {
+        isDynamic: false
+    },
+    'focus-visible': {},
+    'focus-within': {},
+    'has': {
+        isDynamic: true
+    },
+    'hover': {
+        isDynamic: false
+    },
+    'indeterminate': {},
+    'in-range': {},
+    'invalid': {},
+    'lang': {
+        isDynamic: true
+    },
+    'last-child': {},
+    'last-of-type': {},
+    'link': {},
+    'not': {
+        isDynamic: true
+    },
+    'nth-child': {
+        isDynamic: true
+    },
+    'nth-last-child': {
+        isDynamic: true
+    },
+    'nth-last-of-type': {
+        isDynamic: true
+    },
+    'nth-of-type': {
+        isDynamic: true
+    },
+    'only-child': {},
+    'only-of-type': {
+        isDynamic: false
+    },
+    'optional': {},
+    'out-of-range': {},
+    'placeholder-shown': {},
+    'read-only': {},
+    'read-write': {},
+    'required': {},
+    'root': {},
+    'scope': {},
+    'target': {},
+    'target-within': {},
+    'user-invalid': {},
+    'valid': {},
+    'visited': {
+        isDynamic: false
+    },
+    // Logical Combinations
+    'is': {
+        isDynamic: true
+    },
+    'where': {
+        isDynamic: true
+    },
+};

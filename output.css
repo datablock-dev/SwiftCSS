@@ -75,6 +75,9 @@ time, mark, audio, video {
 .bg\-\[\#000\]{
 	background-color: #000;
 }
+.not\-\[strong\]\:fw-800:not(strong){
+	font-weight: 800;
+}
 .py-20{
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -114,6 +117,9 @@ time, mark, audio, video {
 }
 
 dark.dark, body.dark {
+	[style-dark="not-[.fs-60]:fs-40"]:not(.fs-60) {
+		font-size: 40px;
+	}
 	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:hover {
 		cursor: pointer;
 		color: #f4f4f4;
@@ -141,7 +147,7 @@ light.light, body.light {
 
 /************* style-sd *************/
 @media screen and (max-width: 600px){
-	[style-sd="w-100 h-40"]{
+	[style-sd="w-100 h-40 not-[.py-20]:py-40"]{
 		width: 100px !important;
 		height: 40px !important;
 	}
@@ -153,6 +159,10 @@ light.light, body.light {
 
 /************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
+	[style-md="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
+	}
+	[style-md="nth-child-[2n]:color-[#565656] test"]{
+	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
 		padding-bottom: 20px;
