@@ -8,6 +8,7 @@ const dynamicParser_1 = __importDefault(require("../parsers/dynamicParser"));
 function mediaCSS(mediaObject, baseStyle, config) {
     var finalBaseCSS = new Array;
     const finalMediaObject = {};
+    const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
     createParents(config.screens, finalMediaObject);
     //console.log(finalMediaObject)
     Object.keys(mediaObject).forEach((key) => {
@@ -24,12 +25,9 @@ function mediaCSS(mediaObject, baseStyle, config) {
                 if (className.includes(':') || className.includes('::')) {
                     const classParsed = (0, classParser_1.default)(className, baseStyle);
                     if (classParsed) {
-                        const { cssAttribute, pseudo, pseudoSeparator } = classParsed;
+                        const { cssAttribute, pseudo, pseudoSeparator, pseudoSelector } = classParsed;
                         if (typeof cssAttribute === 'string') {
-                            pseudoClasses.add(`${pseudoSeparator}${pseudo}`);
-                            //cssAttribute.split('\n  ').forEach((item) => {
-                            //    cssClasses.add(item)
-                            //})
+                            pseudoClasses.add(`${pseudoSeparator}${pseudoSelector ? pseudoSelector : pseudo}`);
                         }
                     }
                 }
@@ -46,7 +44,8 @@ function mediaCSS(mediaObject, baseStyle, config) {
             // Classes bound to pseudo class/element found
             if (pseudoClasses.size > 0) {
                 Array.from(pseudoClasses).forEach((pseudo) => {
-                    const finalSelector = `${selector}${pseudo}`;
+                    const match = pseudo.match(dynamicPseudo); // If the pseudo element has a selector
+                    const finalSelector = `${selector}${match ? pseudo.replace('-[', '(').replace(']', ')') : pseudo}`;
                     const pseudoWithoutSelector = pseudo.replace(/:+/g, ''); // Remove ':' & '::'
                     if (!finalMediaObject[key].css[finalSelector]) {
                         finalMediaObject[key].css[finalSelector] = new Set();
@@ -54,8 +53,7 @@ function mediaCSS(mediaObject, baseStyle, config) {
                     // We need to select classes that should be applied
                     // When pseudo is triggered (e.g. during hover, only class 
                     // with hover:<className> should be included)
-                    cssAttributes
-                        .forEach((className) => {
+                    cssAttributes.forEach((className) => {
                         if (className.includes(pseudoWithoutSelector)) {
                             const newClass = className.replace(pseudoWithoutSelector, '').replace(/:+/g, '');
                             const baseMatch = baseStyle[newClass];
@@ -113,13 +111,17 @@ function mediaCSS(mediaObject, baseStyle, config) {
         Object.keys(css).forEach((selector) => {
             // Selector --> [style-sd="w-100 h-40"]
             // css[selector] -> Set of finalised css attributes
-            cssOutput += `\t${selector}{\n`;
             const cssAttributes = css[selector];
-            cssAttributes.forEach((value) => {
-                cssOutput += `\t\t${value}\n`;
-            });
-            // Close the current selector
-            cssOutput += '\t}\n';
+            // Makes sure that we dont generate parent selectors
+            // that will end up being empty
+            if (cssAttributes.size > 0) {
+                cssOutput += `\t${selector}{\n`;
+                cssAttributes.forEach((value) => {
+                    cssOutput += `\t\t${value}\n`;
+                });
+                // Close the current selector
+                cssOutput += '\t}\n';
+            }
         });
         // Close the media query
         cssOutput += '}\n';

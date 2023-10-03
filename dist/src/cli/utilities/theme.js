@@ -32,6 +32,8 @@ function parseTheme(styleObject, prefix, baseStyle) {
     const finalObject = {};
     // Regex
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/;
+    const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
+    const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     styleObject.forEach((currStyle) => {
         const uniquePseudo = new Set();
         const nonPseudoAttributes = new Set();
@@ -53,10 +55,11 @@ function parseTheme(styleObject, prefix, baseStyle) {
         // We need to process unique pseudoClasses/Elements
         if (uniquePseudo.size > 0) {
             uniquePseudo.forEach((pseudo) => {
-                if (classParser_1.PSEUDO_CLASSES.includes(pseudo) || classParser_1.PSEUDO_ELEMENTS.includes(pseudo)) {
+                const match = pseudo.match(dynamicPseudo);
+                if (classParser_1._PSEUDO_CLASSES[pseudo] || classParser_1.PSEUDO_ELEMENTS.includes(pseudo) || (match && classParser_1._PSEUDO_CLASSES[match[1]])) {
                     // Define the key we use to find if it exists in the finalObject
-                    const finalKey = `[${prefix}="${attribute}"]:${pseudo}`;
-                    const separator = classParser_1.PSEUDO_CLASSES.includes(pseudo) ? ':' : '::';
+                    const finalKey = `[${prefix}="${attribute}"]:${match ? match[0].replace('-[', '(').replace(']', ')') : pseudo}`;
+                    const separator = classParser_1._PSEUDO_CLASSES[match ? match[1] : pseudo] ? ':' : '::';
                     // These are the values that will be included when pseudoClass is applied (e.g. during hover)
                     const newCSSAttributes = currStyle.cssAttributes.filter((attribute) => attribute.includes(pseudo));
                     // Loop through cssAttributes and find dynamic classes
@@ -86,15 +89,20 @@ function parseTheme(styleObject, prefix, baseStyle) {
                         }
                         else { // Not a dynamic class
                             const value = baseStyle[currValue];
-                            value.forEach((item) => {
-                                if (!finalObject[finalKey]) {
-                                    finalObject[finalKey] = new Set();
-                                    finalObject[finalKey].add(`${item}`);
-                                }
-                                else {
-                                    finalObject[finalKey].add(`${item}`);
-                                }
-                            });
+                            try {
+                                value.forEach((item) => {
+                                    if (!finalObject[finalKey]) {
+                                        finalObject[finalKey] = new Set();
+                                        finalObject[finalKey].add(`${item}`);
+                                    }
+                                    else {
+                                        finalObject[finalKey].add(`${item}`);
+                                    }
+                                });
+                            }
+                            catch (error) {
+                                // Most likely the user hasnt finished typing
+                            }
                         }
                     });
                 }
@@ -125,15 +133,20 @@ function parseTheme(styleObject, prefix, baseStyle) {
                 }
                 else { // Not a dynamic class
                     const value = baseStyle[cssAttribute];
-                    value.forEach((item) => {
-                        if (!finalObject[finalKey]) {
-                            finalObject[finalKey] = new Set();
-                            finalObject[finalKey].add(`${item}`);
-                        }
-                        else {
-                            finalObject[finalKey].add(`${item}`);
-                        }
-                    });
+                    try {
+                        value.forEach((item) => {
+                            if (!finalObject[finalKey]) {
+                                finalObject[finalKey] = new Set();
+                                finalObject[finalKey].add(`${item}`);
+                            }
+                            else {
+                                finalObject[finalKey].add(`${item}`);
+                            }
+                        });
+                    }
+                    catch (error) {
+                        // Most likely the user hasnt finished typing   
+                    }
                 }
             });
         }

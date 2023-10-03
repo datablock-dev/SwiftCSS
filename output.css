@@ -159,9 +159,6 @@ light.light, body.light {
 
 /************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
-	[style-md="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
-		color: #565656;
-	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
 		padding-bottom: 20px;
@@ -175,6 +172,9 @@ light.light, body.light {
 
 /************* style-ld *************/
 @media screen and (min-width: 1200px){
+	[style-ld="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
+		color: #565656;
+	}
 	[style-ld="max-w-100"]{
 		max-width: 100px;
 	}
