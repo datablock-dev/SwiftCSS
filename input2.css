@@ -9,3 +9,7 @@
         opacity: 1;
     }
 }
+
+div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
+    color: green !important;
+}

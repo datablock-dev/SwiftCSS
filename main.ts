@@ -126,6 +126,13 @@ if (process.argv[2] === 'watch') {
         depth: "infinity"
     });
 
+    const inputWatcher = chokidar.watch(config.input, {
+        ignored: /(^|[/\\])\../, // Ignore dotfiles
+        persistent: true,
+        // @ts-ignore
+        depth: "infinity"
+    });
+
     // Watch for changes in config file
     const configWatcher = chokidar.watch(configFile, { persistent: true });
     configWatcher.on('change', () => {
@@ -141,6 +148,14 @@ if (process.argv[2] === 'watch') {
     screenKeys.push(...Object.keys(config.screens))
 
     watcher.on('change', (filePath: string) => {
+        console.log(`File changed: ${filePath}`);
+        startLoadingAnimation()
+        funnel('watch', styleCSS, config as Config, baseStyle);
+        stopLoadingAnimation()
+        console.log('Changes generated')
+    });
+
+    inputWatcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation()
         funnel('watch', styleCSS, config as Config, baseStyle);

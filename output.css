@@ -65,6 +65,10 @@ time, mark, audio, video {
         opacity: 1;
     }
 }
+
+div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
+    color: green !important;
+}
 /************* Inserted from input file /Users/patrick.tannoury/Documents/Private_Coding/style/input2.css [Above] *************/
 .text-center{
 	text-align: center;

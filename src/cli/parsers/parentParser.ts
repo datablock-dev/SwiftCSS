@@ -9,10 +9,14 @@ export default function parentParser(className: string){
     const valueRegex = /\[([^\]]+)\]/;
     const match = className.match(regex)
     const valueMatch = className.match(valueRegex)
+    const lastIndex = className.lastIndexOf(']:')
 
     if(match && valueMatch){
-        console.log(match[0])
-        console.log(valueMatch[1], valueMatch)
+        const parentSelector = valueMatch[1] // The selector inside the brackets
+        const classSelector = className.substring(lastIndex + 2, className.length) // The class to be applied
+        const pseudoSelector = className.replace(`[${parentSelector}]:${classSelector}`, '');
+        
+        console.log(parentSelector, classSelector)
     }
 
     return null;
