@@ -58,7 +58,6 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
     });
 
     function processFile(filePath: string){
-
         const fileContent = fs.readFileSync(filePath, 'utf-8');
 
         const classMatches = fileContent.matchAll(classRegex);
@@ -131,14 +130,12 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
     */
 
     // Fetch input file
-    if(config.input && config.input !== ''){
-        try {
-            const inputCSS = fs.readFileSync(config.input).toString();
+    if(config.input.length > 0){
+        for (const input of config.input) {
+            const inputCSS = fs.readFileSync(input).toString();
             CSS.push(inputCSS);
-            CSS.push('/************* Inserted from input file [Above] *************/')
-        } catch (error) {
-            console.log(`An error occurred while fetching CSS from ${config.input}: ${error}`)
-        }
+            CSS.push(`/************* Inserted from input file ${input} [Above] *************/`)
+        }        
     }
     CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
     CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));

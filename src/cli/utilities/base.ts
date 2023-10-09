@@ -2,6 +2,7 @@ import fs from 'fs';
 import { BaseStyle, Config } from "types";
 import classParser from '../parsers/classParser';
 import dynamicParser from '../parsers/dynamicParser';
+import parentParser from '../parsers/parentParser';
 
 export default function classCSS(classArray: string[], baseStyle: BaseStyle, config: Config){
     const finalBaseCSS = new Set();
@@ -9,6 +10,7 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
     // Regex
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const parentRegex = /[^-]\[[^\]]+\]:[^\[]+/;
     
     try{
         classArray.forEach((className) => {
@@ -72,6 +74,11 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
                         
                         finalBaseCSS.add(cssString)
                     }
+                }
+
+                // Parse Parent Selections
+                if(className.match(parentRegex)){
+                    const parseString = parentParser(className)
                 }
             }
         })

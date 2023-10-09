@@ -1,7 +1,7 @@
 export interface Config {
     fileExtensions: any[string]
     directories: any[string]
-    input: string
+    input: string[]
     output: string
     screens: {
         [key: string]: {[key: string]: number}

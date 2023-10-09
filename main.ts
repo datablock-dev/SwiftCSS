@@ -27,7 +27,7 @@ export const baseStyle = new Object as BaseStyle;
 const defaultConfig = {
     fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
     directories: ['./src'],
-    input: '',
+    input: [],
     output: './output.css',
 };
 
@@ -38,7 +38,7 @@ if (process.argv[2] === "init") {
     const configContent = `module.exports = {
         fileExtensions: ["html","js","jsx","ts","tsx"],
         directories: ["./src"], // Specify directories to scan for style changes
-        input: "", // Specify an input file to be appended into the output file
+        input: [], // Specify an input file to be appended into the output file
         output: "./output.css", // Specify the path to where the output file will be generated
         screens: { // specify media query cut-offs
             sd: {max: 600},
@@ -55,6 +55,7 @@ if (process.argv[2] === "init") {
 // Load configuration
 let config: Config | null;
 const directories = new Array;
+const inputs = new Array;
 if (fs.existsSync(configFile)) {
     // Since the file exists we assume the type to be of Config
     config = require(path.resolve(configFile)) as Config;
@@ -87,10 +88,29 @@ for (const directory of config.directories) {
     }
 }
 
+if(config.input.length > 0 && Array.isArray(config.input)){
+    // Check if directories exist
+    for (const input of config.input) {
+        if (!fs.existsSync(path.join(process.cwd(), input))) {
+            console.error(`Input file not found: ${input}`);
+            process.exit(1);
+        } else {
+            inputs.push(path.join(process.cwd(), input))
+        }
+    }
+} else if(typeof config.input === "string" && config.input !== ''){
+    if (!fs.existsSync(path.join(process.cwd(), config.input))) {
+        console.error(`Input file not found: ${config.input}`);
+        process.exit(1);
+    } else {
+        inputs.push(path.join(process.cwd(), config.input))
+    }
+}
+
 // Update directories & output
 config.directories = directories
 config.output = path.join(process.cwd(), config.output)
-config.input = path.join(process.cwd(), config.input)
+config.input = inputs
 
 
 // We define the commands here and the actions that occurrs for each command

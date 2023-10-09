@@ -1,0 +1,11 @@
+.group_2{
+    color: aliceblue;
+}
+
+@keyframes test {
+    from {
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
+}
