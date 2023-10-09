@@ -30,4 +30,17 @@
     .right-#{$i}-px{
         right: $i + px;
     }
+
+    .top-#{$i}-prc{
+        top: $i + #{'%'};
+    }
+    .bottom-#{$i}-prc{
+        bottom: $i + #{'%'};
+    }
+    .left-#{$i}-prc{
+        left: $i + #{'%'};
+    }
+    .right-#{$i}-prc{
+        right: $i + #{'%'};
+    }
 }

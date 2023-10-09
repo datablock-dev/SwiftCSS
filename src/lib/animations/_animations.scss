@@ -12,24 +12,24 @@
 }
 
 .animate{
-    &.up{
+    &-up{
         transform: translateY(100px);
         opacity: 0;
-        &.animation{
+        &-animation{
             animation: up 800ms ease forwards;
         }
     }
-    &.left{
+    &-left{
         transform: translateX(-100px);
         opacity: 0;
-        &.animation{
+        &-animation{
             animation: left 800ms ease forwards;   
         }
     }
-    &.right{
+    &-right{
         transform: translateX(100px);
         opacity: 0;
-        &.animation{
+        &-animation{
             animation: right 800ms ease forwards;
         }
     }

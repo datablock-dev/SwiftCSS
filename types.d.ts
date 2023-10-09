@@ -8,6 +8,13 @@ export interface Config {
     }
 }
 
+export interface MediaQueries {
+    [key: string]: {
+        parent: string
+        value: any[]
+    }
+}
+
 export interface DynamicClasses {
     [key: string]: {
         property: string
@@ -25,6 +32,13 @@ export interface modeStyle { // One exists for style-dark and one for style-ligh
     [key: string]: string[]
 }
 
+export interface pseudoThemeClasses {
+    [key: string]: [string] | string[]
+}
+
+export interface BaseStyle {
+    [key: string]: string[]
+}
 
 type approvedPseudoClasses = 
 'active'|
