@@ -24,9 +24,13 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
 
         if(!selector) return;
 
-        // Fix the finalParentSelector (Maybe make it into a single line)
-        if(parentSelector[0] === '.' || parentSelector[0] === '#'){
-            finalParentSelector = `${parentSelector} .${selector.replace(specialChars, "\\$&")}{\n`
+        console.log(parentSelector)
+
+        // Fix the finalParentSelector
+        // If the selector starts with a '&', we have then specified that the styling
+        // should only be applied if a certain class exists as well!
+        if(parentSelector[0] === '&'){
+            finalParentSelector = `${parentSelector.replace('&', '')}.${selector.replace(specialChars, "\\$&")}{\n`
         } else {
             finalParentSelector = `${parentSelector} .${selector.replace(specialChars, "\\$&")}{\n`
         }

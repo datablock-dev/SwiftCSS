@@ -117,21 +117,17 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
     try {
         Object.keys(parentSelectors).forEach((key, index) => {
             const cssValue = Array.from(parentSelectors[key]).toString()
-
-            console.log(key, cssValue)
-            
             var finalCSS = `${key}`
             finalCSS += `${cssValue}`
 
             finalBaseCSS.add(finalCSS)
         })
     } catch (error) {
-        
+        console.log(`An error has occurred: ${error}`);   
     }
 
     //console.log(finalBaseCSS);
     //console.log(config.output.replace('output.css', 'test.css'));
     const css = Array.from(finalBaseCSS).join('\n')
-    
     return css;
 }
