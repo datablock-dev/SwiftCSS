@@ -26,7 +26,7 @@ exports.baseStyle = new Object;
 const defaultConfig = {
     fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
     directories: ['./src'],
-    input: '',
+    input: [],
     output: './output.css',
 };
 // Have the init command recognition in the beginning to allow user to create the config file
@@ -35,7 +35,7 @@ if (process.argv[2] === "init") {
     const configContent = `module.exports = {
         fileExtensions: ["html","js","jsx","ts","tsx"],
         directories: ["./src"], // Specify directories to scan for style changes
-        input: "", // Specify an input file to be appended into the output file
+        input: [], // Specify an input file to be appended into the output file
         output: "./output.css", // Specify the path to where the output file will be generated
         screens: { // specify media query cut-offs
             sd: {max: 600},
@@ -50,6 +50,7 @@ if (process.argv[2] === "init") {
 // Load configuration
 let config;
 const directories = new Array;
+const inputs = new Array;
 if (fs_1.default.existsSync(configFile)) {
     // Since the file exists we assume the type to be of Config
     config = require(path_1.default.resolve(configFile));
@@ -81,16 +82,43 @@ for (const directory of config.directories) {
         directories.push(path_1.default.join(process.cwd(), directory));
     }
 }
+if (config.input.length > 0 && Array.isArray(config.input)) {
+    // Check if directories exist
+    for (const input of config.input) {
+        if (!fs_1.default.existsSync(path_1.default.join(process.cwd(), input))) {
+            console.error(`Input file not found: ${input}`);
+            process.exit(1);
+        }
+        else {
+            inputs.push(path_1.default.join(process.cwd(), input));
+        }
+    }
+}
+else if (typeof config.input === "string" && config.input !== '') {
+    if (!fs_1.default.existsSync(path_1.default.join(process.cwd(), config.input))) {
+        console.error(`Input file not found: ${config.input}`);
+        process.exit(1);
+    }
+    else {
+        inputs.push(path_1.default.join(process.cwd(), config.input));
+    }
+}
 // Update directories & output
 config.directories = directories;
 config.output = path_1.default.join(process.cwd(), config.output);
-config.input = path_1.default.join(process.cwd(), config.input);
+config.input = inputs;
 // We define the commands here and the actions that occurrs for each command
 if (process.argv[2] === 'watch') {
     console.log('Watching for file changes...');
     // Generate baseStyle
     generateBaseStyle(exports.styleCSS, process);
     const watcher = chokidar_1.default.watch(config.directories, {
+        ignored: /(^|[/\\])\../,
+        persistent: true,
+        // @ts-ignore
+        depth: "infinity"
+    });
+    const inputWatcher = chokidar_1.default.watch(config.input, {
         ignored: /(^|[/\\])\../,
         persistent: true,
         // @ts-ignore
@@ -109,6 +137,13 @@ if (process.argv[2] === 'watch') {
     });
     exports.screenKeys.push(...Object.keys(config.screens));
     watcher.on('change', (filePath) => {
+        console.log(`File changed: ${filePath}`);
+        startLoadingAnimation();
+        (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);
+        stopLoadingAnimation();
+        console.log('Changes generated');
+    });
+    inputWatcher.on('change', (filePath) => {
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation();
         (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);

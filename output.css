@@ -213,6 +213,9 @@ div:hover > .\(div\:hover\_\>\)\:py\-20{
 .confirmed.\(\&\.confirmed\)\:color\-\[green\]{
 	color: green;
 }
+.not-confirmed.\(\&\.not\-confirmed\)\:color\-\[red\]{
+	color: red;
+}
 
 dark.dark, body.dark {
 	[style-dark="not-[.fs-60]:fs-40"]:not(.fs-60) {

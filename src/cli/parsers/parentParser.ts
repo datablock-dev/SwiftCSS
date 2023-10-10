@@ -24,8 +24,6 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
 
         if(!selector) return;
 
-        console.log(parentSelector)
-
         // Fix the finalParentSelector
         // If the selector starts with a '&', we have then specified that the styling
         // should only be applied if a certain class exists as well!

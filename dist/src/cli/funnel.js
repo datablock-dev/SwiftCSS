@@ -104,14 +104,11 @@ function funnel(command, styleCSS, config, baseStyle) {
         Also include input file (files, in the future we need to add support for multifile support)
     */
     // Fetch input file
-    if (config.input && config.input !== '') {
-        try {
-            const inputCSS = fs_1.default.readFileSync(config.input).toString();
+    if (config.input.length > 0) {
+        for (const input of config.input) {
+            const inputCSS = fs_1.default.readFileSync(input).toString();
             CSS.push(inputCSS);
-            CSS.push('/************* Inserted from input file [Above] *************/');
-        }
-        catch (error) {
-            console.log(`An error occurred while fetching CSS from ${config.input}: ${error}`);
+            CSS.push(`/************* Inserted from input file ${input} [Above] *************/`);
         }
     }
     CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));

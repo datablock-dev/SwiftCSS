@@ -2,7 +2,7 @@
 module.exports = {
     fileExtensions: ["html", "js", "jsx", "ts", "tsx"],
     directories: ["./test"],
-    input: "./input.css",
+    input: ["./input.css", './input2.css'],
     output: "./output.css",
     screens: {
         sd: { max: 600 },
