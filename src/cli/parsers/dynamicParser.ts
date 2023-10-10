@@ -18,6 +18,15 @@ export default function dynamicParser(className: string){
         const value = match[1]
         const dynamicClass = className.substring(0, firstIndex);
 
+        if(value.substring(0, 3) === 'url' && dynamicClass === 'bg'){
+            return {
+                className: escapedClassName,
+                cssAttribute: `background: ${value};`,
+                name: 'background',
+                value: value
+            }
+        }
+
         if(dynamicRegistry[dynamicClass]){
             const { name, attribute } = dynamicRegistry[dynamicClass]
 
