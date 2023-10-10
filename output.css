@@ -66,8 +66,16 @@ time, mark, audio, video {
     }
 }
 
-div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
+div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
     color: green !important;
+}
+
+.group:hover {
+    [style-group="hover:[.group]:(color-[#f4f4f4] fw-600 fs-40)"]{
+        color: #f4f4f4;
+        font-weight: 600;
+        font-size: 40;
+    }
 }
 /************* Inserted from input file /Users/patrick.tannoury/Documents/Private_Coding/style/input2.css [Above] *************/
 .text-center{
@@ -99,6 +107,9 @@ div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
 }
 .bg\-\[\#123123\]{
 	background-color: #123123;
+}
+.h\-\[max\(60vh\,800px\)\]{
+	height: max(60vh,800px);
 }
 .w-100{
 	width: 100px !important;
@@ -133,6 +144,30 @@ div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
 .content\-\[\'\*\'\]{
 	content: '*';
 }
+.absolute{
+	position: absolute;
+}
+.bottom\-\[calc\(100vh\_\-\_10\%\)\]{
+	bottom: calc(100vh - 10%);
+}
+.bg\-\[\#f4f4f4\]{
+	background-color: #f4f4f4;
+}
+.h\-\[20vw\]{
+	height: 20vw;
+}
+.w\-\[20vw\]{
+	width: 20vw;
+}
+.grid{
+	display: grid;
+}
+.gap-10{
+	gap: 10px;
+}
+.grid\-cols\-\[repeat\(3\,1fr\)\]{
+	grid-template-columns: repeat(3,1fr);
+}
 .hover\:py-20:hover{
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -150,9 +185,6 @@ div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
 .py-69{
 	padding-top: 69px;
 	padding-bottom: 69px;
-}
-.bg\-\[\#f4f4f4\]{
-	background-color: #f4f4f4;
 }
 .opacity-80{
 	opacity: 0.8;
@@ -207,6 +239,9 @@ light.light, body.light {
 
 /************* style-md *************/
 @media screen and (min-width: 600px) and (max-width: 1200px){
+	[style-md="w-[min(calc(80vw),calc(90%_-_32px))]"]{
+		width: min(calc(80vw),calc(90% - 32px));
+	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
 		padding-bottom: 20px;

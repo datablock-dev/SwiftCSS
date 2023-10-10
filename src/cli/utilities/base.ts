@@ -76,7 +76,7 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
                     }
                 }
 
-                // Parse Parent Selections
+                // Parse Parent Selections (not finished)
                 if(className.match(parentRegex)){
                     const parseString = parentParser(className)
                 }

@@ -31,7 +31,7 @@ export default function dynamicParser(className: string){
             } else {
                 return {
                     className: escapedClassName,
-                    cssAttribute: `${name}: ${value};`,
+                    cssAttribute: `${name}: ${value.replaceAll('_', ' ')};`,
                     name: name,
                     value: value
                 }
@@ -45,7 +45,7 @@ export default function dynamicParser(className: string){
 interface Dynamicregistry {
     [key: string]: {
         name: string
-        attribute: 'color' | null
+        attribute: 'color' | 'url' | 'custom' | string[] | null
     }
 }
 export const dynamicRegistry: Dynamicregistry = {
@@ -53,5 +53,14 @@ export const dynamicRegistry: Dynamicregistry = {
     'color': {name: 'color', attribute: 'color'},
     'content': {name: 'content', attribute: null},
     'fill': {name: 'fill', attribute: 'color'},
-    'brd-color': {name: 'border-color', attribute: 'color'}
+    'brd-color': {name: 'border-color', attribute: 'color'},
+    'w': {name: 'width', attribute: 'custom'},
+    'h': {name: 'height', attribute: 'custom'},
+    'top': {name: 'top', attribute: 'custom'},
+    'bottom': {name: 'bottom', attribute: 'custom'},
+    'left': {name: 'left', attribute: 'custom'},
+    'right': {name: 'right', attribute: 'custom'},
+    'grid-cols': {name: 'grid-template-columns', attribute: 'custom'},
+    'grid-rows': {name: 'grid-template-rows', attribute: 'custom'},
+    'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'}
 }

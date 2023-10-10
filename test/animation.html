@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,13 +32,18 @@
         <div></div>
     </div>
 
-    <div class="p-60 bg-[#123123]">
+    <div class="p-60 bg-[#123123] h-[max(60vh,800px)]"
+      style-md="w-[min(calc(80vw),calc(90%_-_32px))]"
+    >
       
-      <div class="w-100 h-100 brd-color-[#f4f4f4] mt-60 ml-60 flex-col hover:cursor-pointer bg-[#000] hover:bg-[#101010] p-40">
-        <span class="my-10 hover:[>div]:color-[#fff]">
+      <div class="group w-100 h-100 brd-color-[#f4f4f4] mt-60 ml-60 flex-col hover:cursor-pointer bg-[#000] hover:bg-[#101010] p-40">
+        <span class="my-10 hover:[div >]:color-[#fff]">
           Test
         </span>
-        <span class="my-10">
+        <span 
+          class="my-10"
+          style-group="hover:[.group]:(color-[#f4f4f4] fw-600 fs-40)"
+        >
           Test 2
         </span>
         <span class="my-10">
@@ -53,6 +58,18 @@
         style-light="color-[#000]"
         style-sd="w-100 h-40 not-[.py-20]:py-40"
       ></h1>
+    </div>
+
+    <div class="absolute bottom-[calc(100vh_-_10%)] bg-[#f4f4f4] h-[20vw] w-[20vw]">
+
+    </div>
+
+    <div class="grid gap-10 grid-cols-[repeat(3,1fr)]">
+      <div>One</div>
+      <div>Two</div>
+      <div>Three</div>
+      <div>Four</div>
+      <div>Five</div>
     </div>
     
 </body>

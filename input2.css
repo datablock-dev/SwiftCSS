@@ -10,6 +10,14 @@
     }
 }
 
-div:hover > .my-10.hover\:\[\>div\]\:color-\[\#fff\]{
+div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
     color: green !important;
+}
+
+.group:hover {
+    [style-group="hover:[.group]:(color-[#f4f4f4] fw-600 fs-40)"]{
+        color: #f4f4f4;
+        font-weight: 600;
+        font-size: 40;
+    }
 }
