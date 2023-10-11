@@ -17,6 +17,7 @@ function parentParser(className, baseStyle) {
     const lastIndex = className.lastIndexOf(':');
     const css = new Array;
     var finalParentSelector = null;
+    var dependencyType = null;
     if (match && lastIndex) {
         const parentSelector = match[0].replace('(', '').replace(')', '').replace('_', ' '); // The selector inside the brackets
         const classSelector = className.substring(lastIndex + 1, className.length); // The class to be applied
@@ -28,16 +29,20 @@ function parentParser(className, baseStyle) {
         // should only be applied if a certain class exists as well!
         if (parentSelector[0] === '&') {
             finalParentSelector = `${parentSelector.replace('&', '')}.${selector.replace(specialChars, "\\$&")}{\n`;
+            dependencyType = 'has';
         }
         else {
             finalParentSelector = `${parentSelector} .${selector.replace(specialChars, "\\$&")}{\n`;
+            dependencyType = 'connect';
         }
         if (baseStyle[classSelector]) {
             css.push(...baseStyle[classSelector]);
             return {
                 parentSelector: finalParentSelector,
                 cssSelector: selector,
-                cssAttributes: css
+                cssAttributes: css,
+                dependency: parentSelector.replace('&', ''),
+                dependencyType: dependencyType
             };
         }
         else {
@@ -48,7 +53,9 @@ function parentParser(className, baseStyle) {
                 return {
                     parentSelector: finalParentSelector,
                     cssSelector: selector,
-                    cssAttributes: css
+                    cssAttributes: css,
+                    dependency: parentSelector.replace('&', ''),
+                    dependencyType: dependencyType
                 };
             }
         }

@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const classParser_1 = require("../parsers/classParser");
 const dynamicParser_1 = require("../parsers/dynamicParser");
+const parentParser_1 = __importDefault(require("../parsers/parentParser"));
 function themeCSS(themeObject, baseStyle, config) {
     var cssStringDark = '\ndark.dark, body.dark {\n';
     var cssStringLight = '\nlight.light, body.light {\n';
@@ -34,18 +38,24 @@ function parseTheme(styleObject, prefix, baseStyle) {
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/;
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const parentRegex = /\([^)]+\):/;
     styleObject.forEach((currStyle) => {
         const uniquePseudo = new Set();
         const nonPseudoAttributes = new Set();
+        const parentSelectors = new Set();
         // cssAttributes --> Array of css attributes
         // attribute = Full attribute name -> "hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]" 
         // retrieved from style-dark="" or style-light=""
         const { attribute, cssAttributes } = currStyle;
         cssAttributes.forEach((attribute) => {
-            if (attribute.includes(':') || attribute.includes('::')) {
+            const parentMatch = attribute.match(parentRegex);
+            if ((attribute.includes(':') || attribute.includes('::')) && !parentMatch) {
                 const separator = attribute.includes(':') ? ':' : '::';
                 const splitValue = attribute.split(separator);
                 uniquePseudo.add(splitValue[0]);
+            }
+            else if (parentMatch) {
+                parentSelectors.add(attribute);
             }
             else {
                 nonPseudoAttributes.add(attribute);
@@ -147,6 +157,28 @@ function parseTheme(styleObject, prefix, baseStyle) {
                     catch (error) {
                         // Most likely the user hasnt finished typing   
                     }
+                }
+            });
+        }
+        /*
+            Here we process parent selectors so that they are formatted
+            the correct way
+        */
+        if (parentSelectors.size > 0) {
+            Array.from(parentSelectors).forEach((elementAttribute, index, arr) => {
+                const parsedString = (0, parentParser_1.default)(elementAttribute, baseStyle);
+                if (parsedString) {
+                    const { cssAttributes, dependency, dependencyType } = parsedString;
+                    const finalKey = dependencyType === "has" ? `${dependency}[${prefix}="${attribute}"]` : `${dependency} [${prefix}="${attribute}"]`;
+                    if (!finalObject[finalKey]) {
+                        finalObject[finalKey] = new Set();
+                    }
+                    try {
+                        cssAttributes.forEach((item) => {
+                            finalObject[finalKey].add(item);
+                        });
+                    }
+                    catch (error) { }
                 }
             });
         }

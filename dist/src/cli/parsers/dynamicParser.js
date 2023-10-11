@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dynamicRegistry = void 0;
+const main_1 = require("../../../main");
 /**
  * The following function parses the the dynamicClassName
  * @param className string
@@ -15,7 +16,7 @@ function dynamicParser(className) {
         const firstIndex = className.indexOf('-[');
         // We need to escape special characters
         const escapedClassName = className.replace(specialChars, "\\$&");
-        const value = match[1];
+        const value = getValue(match[1], main_1._CONFIG); // Identify if value is a variable or not
         const dynamicClass = className.substring(0, firstIndex);
         if (value.substring(0, 3) === 'url' && dynamicClass === 'bg') {
             return {
@@ -48,6 +49,20 @@ function dynamicParser(className) {
     return null;
 }
 exports.default = dynamicParser;
+function getValue(value, config) {
+    // The value is a variable
+    if (value[0] === "$" && Object.keys(config.variables).length > 0) {
+        try {
+            if (config.variables[value]) {
+                return config.variables[value];
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+    return value;
+}
 exports.dynamicRegistry = {
     'bg': { name: 'background-color', attribute: 'color' },
     'color': { name: 'color', attribute: 'color' },

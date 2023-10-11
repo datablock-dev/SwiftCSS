@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const getAllFilesInDir_1 = __importDefault(require("../../src/misc/getAllFilesInDir"));
 const base_1 = __importDefault(require("./utilities/base"));
 const theme_1 = __importDefault(require("./utilities/theme"));
 const media_1 = __importDefault(require("./utilities/media"));
-function funnel(command, styleCSS, config, baseStyle) {
+const buildOptimisiation_1 = __importDefault(require("../../src/misc/buildOptimisiation"));
+const getAllFilesInDir_1 = __importDefault(require("../../src/misc/getAllFilesInDir"));
+function funnel(command, styleCSS, config, baseStyle, triggered = false) {
     const classArray = new Array;
     const mediaObject = new Object;
     const themeObject = new Object;
@@ -111,9 +112,30 @@ function funnel(command, styleCSS, config, baseStyle) {
             CSS.push(`/************* Inserted from input file ${input} [Above] *************/`);
         }
     }
-    CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
-    CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
-    CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
-    fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+    if (command === "watch") {
+        CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
+        CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
+        CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
+        fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+    }
+    else if (command === "build" && !triggered) {
+        // Optimise code for themes and media classes
+        (0, buildOptimisiation_1.default)(themeObject, config);
+        (0, buildOptimisiation_1.default)(mediaObject, config);
+        funnel(command, styleCSS, config, baseStyle, true);
+    }
+    else if (command === 'build' && triggered) {
+        CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
+        CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
+        CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
+        fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+        /*
+        postcss([autoprefixer, cssnanoPlugin])
+        .process(CSS.join('\n'))
+        .then(result => {
+            fs.writeFileSync(config.output, result.css);
+        })
+        */
+    }
 }
 exports.default = funnel;
