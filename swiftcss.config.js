@@ -7,5 +7,8 @@ module.exports = {
         sd: {max: 600},
         md: {min: 600, max: 1200},
         ld: {min: 1200},
+    },
+    variables: {
+        $green: "#0ce42c"
     }
 };

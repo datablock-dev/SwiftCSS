@@ -17,3 +17,7 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .group:hover .\(div\:hover\_\>\)\:py\-20{
 	color: #fff;
 }
+
+.confirmed[style-dark="(&.confirmed):color-[green] (&.confirmed):brd-color-[green] py-20"]{
+    color: green;
+}

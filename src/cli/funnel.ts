@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
-import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
+import postcss from 'postcss';
+import autoprefixer from 'autoprefixer';
+import cssnanoPlugin from 'cssnano';
 
 import { BaseStyle, Config } from "types"
 import classCSS from './utilities/base';
 import themeCSS from './utilities/theme';
 import mediaCSS from './utilities/media';
+import buildOptimisiation from '../../src/misc/buildOptimisiation';
+import getAllFilesInDir from "../../src/misc/getAllFilesInDir"
 
 type Command = "watch" | "build" | "dev"
 export interface Funnel {
@@ -137,9 +141,28 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
             CSS.push(`/************* Inserted from input file ${input} [Above] *************/`)
         }        
     }
-    CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
-    CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
-    CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
+    
+    if(command === "watch"){
+        CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
+        CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
+        CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
+        fs.writeFileSync(config.output, CSS.join('\n'));
+    } else if (command === "build"){
+        CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
 
-    fs.writeFileSync(config.output, CSS.join('\n'));
+        // Optimise code for themes and media classes
+        buildOptimisiation(themeObject as AttributeObject, config)
+        buildOptimisiation(mediaObject as AttributeObject, config)
+
+        CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
+        CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
+        fs.writeFileSync(config.output, CSS.join('\n'));
+        /*
+        postcss([autoprefixer, cssnanoPlugin])
+        .process(CSS.join('\n'))
+        .then(result => {
+            fs.writeFileSync(config.output, result.css);
+        })
+        */
+    }
 }

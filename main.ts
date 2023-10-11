@@ -29,8 +29,11 @@ const defaultConfig = {
     directories: ['./src'],
     input: [],
     output: './output.css',
+    variables: {}
 };
 
+// Create a loading animation
+let animationInterval: ReturnType<typeof setTimeout>;
 
 // Have the init command recognition in the beginning to allow user to create the config file
 // without triggering errors in the coming steps
@@ -44,7 +47,10 @@ if (process.argv[2] === "init") {
             sd: {max: 600},
             md: {min: 600, max: 1200},
             ld: {min: 1200},
-        }
+        },
+        variables: { // Define variables here, variables have to start with "$"
+            $green: "#0ce42c"
+        } 
     };`;
 
     fs.writeFileSync(configFile, configContent);
@@ -149,17 +155,13 @@ if (process.argv[2] === 'watch') {
 
     watcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
-        startLoadingAnimation()
         funnel('watch', styleCSS, config as Config, baseStyle);
-        stopLoadingAnimation()
         console.log('Changes generated')
     });
 
     inputWatcher.on('change', (filePath: string) => {
         console.log(`File changed: ${filePath}`);
-        startLoadingAnimation()
         funnel('watch', styleCSS, config as Config, baseStyle);
-        stopLoadingAnimation()
         console.log('Changes generated')
     });
 
@@ -221,11 +223,6 @@ if (process.argv[2] === 'watch') {
     funnel('dev', styleCSS, config, baseStyle);
 }
 
-
-
-// Create a loading animation
-let animationInterval: ReturnType<typeof setTimeout>;
-
 export function generateBaseStyle(styleCSS: string, process: NodeJS.Process){
     styleCSS.split('}').forEach((styleBlock: string, i: number) => {
         const trimmedStyleBlock = styleBlock.trim();
@@ -253,7 +250,7 @@ export function startLoadingAnimation() {
     const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
     let animationIndex = 0;
     animationInterval = setInterval(() => {
-        //process.stdout.write('\r'); // Move cursor to the beginning of the line
+        process.stdout.write('\r'); // Move cursor to the beginning of the line
         console.log(loadingSymbols[animationIndex]);
         animationIndex = (animationIndex + 1) % loadingSymbols.length;
     }, 100);

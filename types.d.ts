@@ -5,6 +5,9 @@ export interface Config {
     output: string
     screens: {
         [key: string]: {[key: string]: number}
+    },
+    variables: {
+        [key: string]: string
     }
 }
 

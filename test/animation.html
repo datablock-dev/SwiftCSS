@@ -27,7 +27,7 @@
       style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"
     >
         <div class="bg-[#000] not-[strong]:fw-800"></div>
-        <div></div>
+        <div style-dark="hover:cursor-pointer color-[#fff] hover:color-[#f4f4f4]"></div>
         <div></div>
         <div></div>
     </div>
@@ -63,12 +63,18 @@
 
     </div>
 
-    <div class="grid gap-10 grid-cols-[repeat(3,1fr)] mb-40">
+    <div class="group grid gap-10 grid-cols-[repeat(3,1fr)] mb-40 hover:cursor-pointer">
       <div class="confirmed (&.confirmed):color-[green]">One</div>
       <div class="not-confirmed (&.not-confirmed):color-[red]">Two</div>
       <div>Three</div>
-      <div>Four</div>
-      <div>Five</div>
+      <div
+        style-dark="(.group:hover):color-[blue]"
+      >Four</div>
+      <div
+        class="confirmed"
+        style-dark="(&.confirmed):color-[green] (&.confirmed):brd-color-[green] py-20"
+        style-md="(&.confirmed):color-[green]"
+      >Five</div>
     </div>
     
 </body>

@@ -16,6 +16,7 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
     const lastIndex = className.lastIndexOf(':')
     const css = new Array;
     var finalParentSelector: string | null = null
+    var dependencyType: string | null = null;
     
     if(match && lastIndex){
         const parentSelector = match[0].replace('(', '').replace(')', '').replace('_', ' ') // The selector inside the brackets
@@ -29,8 +30,10 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
         // should only be applied if a certain class exists as well!
         if(parentSelector[0] === '&'){
             finalParentSelector = `${parentSelector.replace('&', '')}.${selector.replace(specialChars, "\\$&")}{\n`
+            dependencyType = 'has'
         } else {
             finalParentSelector = `${parentSelector} .${selector.replace(specialChars, "\\$&")}{\n`
+            dependencyType = 'connect'
         }
 
         if(baseStyle[classSelector]){
@@ -39,7 +42,9 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
             return {
                 parentSelector: finalParentSelector,
                 cssSelector: selector,
-                cssAttributes: css
+                cssAttributes: css,
+                dependency: parentSelector.replace('&', ''),
+                dependencyType: dependencyType
             }
         } else {
             const dynamicValue = dynamicParser(classSelector)
@@ -51,7 +56,9 @@ export default function parentParser(className: string, baseStyle: BaseStyle){
                 return {
                     parentSelector: finalParentSelector,
                     cssSelector: selector,
-                    cssAttributes: css
+                    cssAttributes: css,
+                    dependency: parentSelector.replace('&', ''),
+                    dependencyType: dependencyType
                 }
             }
         }
