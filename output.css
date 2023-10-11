@@ -177,6 +177,9 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .mb-40{
 	margin-bottom: 40px;
 }
+.color\-\[\$green\]{
+	color: #0ce42c;
+}
 .hover\:py-20:hover{
 	padding-top: 20px;
 	padding-bottom: 20px;

@@ -1,3 +1,6 @@
+import { Config } from "types";
+import { _CONFIG } from "../../../main";
+
 /**
  * The following function parses the the dynamicClassName
  * @param className string
@@ -15,7 +18,7 @@ export default function dynamicParser(className: string){
         const firstIndex = className.indexOf('-[')
         // We need to escape special characters
         const escapedClassName = className.replace(specialChars, "\\$&")
-        const value = match[1]
+        const value = getValue(match[1], _CONFIG) // Identify if value is a variable or not
         const dynamicClass = className.substring(0, firstIndex);
 
         if(value.substring(0, 3) === 'url' && dynamicClass === 'bg'){
@@ -49,6 +52,21 @@ export default function dynamicParser(className: string){
     }
 
     return null;
+}
+
+function getValue(value: string, config: Config){
+    // The value is a variable
+    if(value[0] === "$" && Object.keys(config.variables).length > 0){
+        try{
+            if(config.variables[value]){
+                return config.variables[value];
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
+    return value;
 }
 
 interface Dynamicregistry {

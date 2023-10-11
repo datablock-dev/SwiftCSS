@@ -118,6 +118,8 @@ config.directories = directories
 config.output = path.join(process.cwd(), config.output)
 config.input = inputs
 
+export const _CONFIG = config;
+
 
 // We define the commands here and the actions that occurrs for each command
 if (process.argv[2] === 'watch') {
