@@ -232,11 +232,11 @@ dark.dark, body.dark {
 	[style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"]:checked {
 		color: #49e31b;
 	}
-	[style-dark="hover:cursor-pointer color-[#fff] hover:color-[#f4f4f4]"]:hover {
-		cursor: pointer;
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"]:hover {
 		color: #f4f4f4;
+		cursor: pointer;
 	}
-	[style-dark="hover:cursor-pointer color-[#fff] hover:color-[#f4f4f4]"] {
+	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"] {
 		color: #fff;
 	}
 	[style-dark="color-[#fff]"] {
@@ -252,13 +252,6 @@ dark.dark, body.dark {
 	.confirmed[style-dark="(&.confirmed):color-[green] (&.confirmed):brd-color-[green] py-20"] {
 		color: green;
 		border-color: green;
-	}
-	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"]:hover {
-		color: #f4f4f4;
-		cursor: pointer;
-	}
-	[style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"] {
-		color: #fff;
 	}
 }
 

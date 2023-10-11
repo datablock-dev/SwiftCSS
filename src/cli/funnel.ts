@@ -29,7 +29,7 @@ export type AttributeObject = { // This object is for style-<dark, light & media
     }>
 }
 
-export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle) {
+export default function funnel(command: Command, styleCSS: string, config: Config, baseStyle: BaseStyle, triggered: boolean = false) {
     const classArray = new Array;
     const mediaObject = new Object;
     const themeObject = new Object;
@@ -147,13 +147,15 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
         CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
         CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
         fs.writeFileSync(config.output, CSS.join('\n'));
-    } else if (command === "build"){
-        CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
-
+    } else if (command === "build" && !triggered){
+        
         // Optimise code for themes and media classes
         buildOptimisiation(themeObject as AttributeObject, config)
         buildOptimisiation(mediaObject as AttributeObject, config)
-
+        
+        funnel(command, styleCSS, config, baseStyle, true)
+    } else if(command === 'build' && triggered){
+        CSS.push(classCSS([...new Set(classArray.flat())], baseStyle, config));
         CSS.push(themeCSS(themeObject as AttributeObject, baseStyle, config));
         CSS.push(mediaCSS(mediaObject as AttributeObject, baseStyle, config))
         fs.writeFileSync(config.output, CSS.join('\n'));
@@ -164,5 +166,6 @@ export default function funnel(command: Command, styleCSS: string, config: Confi
             fs.writeFileSync(config.output, result.css);
         })
         */
+        
     }
 }

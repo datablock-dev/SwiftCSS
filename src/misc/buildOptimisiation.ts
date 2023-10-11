@@ -60,15 +60,19 @@ function classFixer(styleToBeCorrected: StyleToBeCorrected, config: Config) {
             const files = getAllFilesInDir(directory, extension);
             // Process all files
             files.forEach(filePath => {
-                var fileContent = fs.readFileSync(filePath, 'utf-8');
+                const file = fs.readFileSync(filePath, 'utf-8');
+                let fileContent = file
 
                 Object.keys(styleToBeCorrected).forEach((key) => {
                     const searchString = key;
                     const correctedString = styleToBeCorrected[key];
-                    fileContent.replace(searchString, correctedString)
+
+                    fileContent = fileContent.replace(searchString, correctedString)
                 })
 
-                fs.writeFileSync(filePath, fileContent)
+                if(fileContent !== file){
+                    fs.writeFileSync(filePath, fileContent)
+                }
             });
         });
     });
