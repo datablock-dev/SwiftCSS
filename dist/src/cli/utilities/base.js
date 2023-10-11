@@ -5,11 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const classParser_1 = __importDefault(require("../parsers/classParser"));
 const dynamicParser_1 = __importDefault(require("../parsers/dynamicParser"));
+const parentParser_1 = __importDefault(require("../parsers/parentParser"));
 function classCSS(classArray, baseStyle, config) {
     const finalBaseCSS = new Set();
+    const parentSelectors = {};
     // Regex
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const parentRegex = /\([^)]+\):/;
     try {
         classArray.forEach((className) => {
             if (baseStyle[className]) {
@@ -69,11 +72,44 @@ function classCSS(classArray, baseStyle, config) {
                         finalBaseCSS.add(cssString);
                     }
                 }
+                // Parse Parent Selections (not finished)
+                if (className.match(parentRegex)) {
+                    const parsedString = (0, parentParser_1.default)(className, baseStyle);
+                    if (parsedString) {
+                        const { parentSelector, cssAttributes } = parsedString;
+                        if (!parentSelectors[parentSelector]) {
+                            parentSelectors[parentSelector] = new Set;
+                        }
+                        let cssString = '';
+                        cssAttributes.forEach((e, i, arr) => {
+                            if ((i + 1) === arr.length) {
+                                cssString += `\t${e}`;
+                                cssString += '\n}';
+                            }
+                            else if (i + 1 !== arr.length) {
+                                cssString += `\t${e}\n`;
+                            }
+                        });
+                        parentSelectors[parentSelector].add(cssString);
+                    }
+                }
             }
         });
     }
     catch (err) {
         console.log(`An error has occurred: ${err}`);
+    }
+    // Parse parent Selections
+    try {
+        Object.keys(parentSelectors).forEach((key, index) => {
+            const cssValue = Array.from(parentSelectors[key]).toString();
+            var finalCSS = `${key}`;
+            finalCSS += `${cssValue}`;
+            finalBaseCSS.add(finalCSS);
+        });
+    }
+    catch (error) {
+        console.log(`An error has occurred: ${error}`);
     }
     //console.log(finalBaseCSS);
     //console.log(config.output.replace('output.css', 'test.css'));

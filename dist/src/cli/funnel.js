@@ -4,11 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const getAllFilesInDir_1 = __importDefault(require("../../src/misc/getAllFilesInDir"));
 const base_1 = __importDefault(require("./utilities/base"));
 const theme_1 = __importDefault(require("./utilities/theme"));
 const media_1 = __importDefault(require("./utilities/media"));
-function funnel(command, styleCSS, config, baseStyle) {
+const buildOptimisiation_1 = __importDefault(require("../../src/misc/buildOptimisiation"));
+const getAllFilesInDir_1 = __importDefault(require("../../src/misc/getAllFilesInDir"));
+function funnel(command, styleCSS, config, baseStyle, triggered = false) {
     const classArray = new Array;
     const mediaObject = new Object;
     const themeObject = new Object;
@@ -104,19 +105,37 @@ function funnel(command, styleCSS, config, baseStyle) {
         Also include input file (files, in the future we need to add support for multifile support)
     */
     // Fetch input file
-    if (config.input && config.input !== '') {
-        try {
-            const inputCSS = fs_1.default.readFileSync(config.input).toString();
+    if (config.input.length > 0) {
+        for (const input of config.input) {
+            const inputCSS = fs_1.default.readFileSync(input).toString();
             CSS.push(inputCSS);
-            CSS.push('/************* Inserted from input file [Above] *************/');
-        }
-        catch (error) {
-            console.log(`An error occurred while fetching CSS from ${config.input}: ${error}`);
+            CSS.push(`/************* Inserted from input file ${input} [Above] *************/`);
         }
     }
-    CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
-    CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
-    CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
-    fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+    if (command === "watch") {
+        CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
+        CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
+        CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
+        fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+    }
+    else if (command === "build" && !triggered) {
+        // Optimise code for themes and media classes
+        (0, buildOptimisiation_1.default)(themeObject, config);
+        (0, buildOptimisiation_1.default)(mediaObject, config);
+        funnel(command, styleCSS, config, baseStyle, true);
+    }
+    else if (command === 'build' && triggered) {
+        CSS.push((0, base_1.default)([...new Set(classArray.flat())], baseStyle, config));
+        CSS.push((0, theme_1.default)(themeObject, baseStyle, config));
+        CSS.push((0, media_1.default)(mediaObject, baseStyle, config));
+        fs_1.default.writeFileSync(config.output, CSS.join('\n'));
+        /*
+        postcss([autoprefixer, cssnanoPlugin])
+        .process(CSS.join('\n'))
+        .then(result => {
+            fs.writeFileSync(config.output, result.css);
+        })
+        */
+    }
 }
 exports.default = funnel;

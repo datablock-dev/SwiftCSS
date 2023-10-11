@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stopLoadingAnimation = exports.startLoadingAnimation = exports.generateBaseStyle = exports.baseStyle = exports.screenKeys = exports.darkStyles = exports.lightStyles = exports.dynamicClasses = exports.dynamicStyles = exports.dynamicClassNames = exports.classNames = exports.styleCSS = void 0;
+exports.stopLoadingAnimation = exports.startLoadingAnimation = exports.generateBaseStyle = exports._CONFIG = exports.baseStyle = exports.screenKeys = exports.darkStyles = exports.lightStyles = exports.dynamicClasses = exports.dynamicStyles = exports.dynamicClassNames = exports.classNames = exports.styleCSS = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const chokidar_1 = __importDefault(require("chokidar"));
@@ -26,22 +26,28 @@ exports.baseStyle = new Object;
 const defaultConfig = {
     fileExtensions: ['html', 'js', 'jsx', 'ts', 'tsx'],
     directories: ['./src'],
-    input: '',
+    input: [],
     output: './output.css',
+    variables: {}
 };
+// Create a loading animation
+let animationInterval;
 // Have the init command recognition in the beginning to allow user to create the config file
 // without triggering errors in the coming steps
 if (process.argv[2] === "init") {
     const configContent = `module.exports = {
         fileExtensions: ["html","js","jsx","ts","tsx"],
         directories: ["./src"], // Specify directories to scan for style changes
-        input: "", // Specify an input file to be appended into the output file
+        input: [], // Specify an input file to be appended into the output file
         output: "./output.css", // Specify the path to where the output file will be generated
         screens: { // specify media query cut-offs
             sd: {max: 600},
             md: {min: 600, max: 1200},
             ld: {min: 1200},
-        }
+        },
+        variables: { // Define variables here, variables have to start with "$"
+            $green: "#0ce42c"
+        } 
     };`;
     fs_1.default.writeFileSync(configFile, configContent);
     console.log(`Configuration file created at ${configFile}`);
@@ -50,6 +56,7 @@ if (process.argv[2] === "init") {
 // Load configuration
 let config;
 const directories = new Array;
+const inputs = new Array;
 if (fs_1.default.existsSync(configFile)) {
     // Since the file exists we assume the type to be of Config
     config = require(path_1.default.resolve(configFile));
@@ -81,16 +88,44 @@ for (const directory of config.directories) {
         directories.push(path_1.default.join(process.cwd(), directory));
     }
 }
+if (config.input.length > 0 && Array.isArray(config.input)) {
+    // Check if directories exist
+    for (const input of config.input) {
+        if (!fs_1.default.existsSync(path_1.default.join(process.cwd(), input))) {
+            console.error(`Input file not found: ${input}`);
+            process.exit(1);
+        }
+        else {
+            inputs.push(path_1.default.join(process.cwd(), input));
+        }
+    }
+}
+else if (typeof config.input === "string" && config.input !== '') {
+    if (!fs_1.default.existsSync(path_1.default.join(process.cwd(), config.input))) {
+        console.error(`Input file not found: ${config.input}`);
+        process.exit(1);
+    }
+    else {
+        inputs.push(path_1.default.join(process.cwd(), config.input));
+    }
+}
 // Update directories & output
 config.directories = directories;
 config.output = path_1.default.join(process.cwd(), config.output);
-config.input = path_1.default.join(process.cwd(), config.input);
+config.input = inputs;
+exports._CONFIG = config;
 // We define the commands here and the actions that occurrs for each command
 if (process.argv[2] === 'watch') {
     console.log('Watching for file changes...');
     // Generate baseStyle
     generateBaseStyle(exports.styleCSS, process);
     const watcher = chokidar_1.default.watch(config.directories, {
+        ignored: /(^|[/\\])\../,
+        persistent: true,
+        // @ts-ignore
+        depth: "infinity"
+    });
+    const inputWatcher = chokidar_1.default.watch(config.input, {
         ignored: /(^|[/\\])\../,
         persistent: true,
         // @ts-ignore
@@ -110,9 +145,12 @@ if (process.argv[2] === 'watch') {
     exports.screenKeys.push(...Object.keys(config.screens));
     watcher.on('change', (filePath) => {
         console.log(`File changed: ${filePath}`);
-        startLoadingAnimation();
         (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);
-        stopLoadingAnimation();
+        console.log('Changes generated');
+    });
+    inputWatcher.on('change', (filePath) => {
+        console.log(`File changed: ${filePath}`);
+        (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);
         console.log('Changes generated');
     });
     process.on('SIGINT', () => {
@@ -164,8 +202,6 @@ else if (process.argv[2] === "dev") {
     exports.screenKeys.push(...Object.keys(config.screens));
     (0, funnel_1.default)('dev', exports.styleCSS, config, exports.baseStyle);
 }
-// Create a loading animation
-let animationInterval;
 function generateBaseStyle(styleCSS, process) {
     styleCSS.split('}').forEach((styleBlock, i) => {
         const trimmedStyleBlock = styleBlock.trim();
@@ -192,7 +228,7 @@ function startLoadingAnimation() {
     const loadingSymbols = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
     let animationIndex = 0;
     animationInterval = setInterval(() => {
-        //process.stdout.write('\r'); // Move cursor to the beginning of the line
+        process.stdout.write('\r'); // Move cursor to the beginning of the line
         console.log(loadingSymbols[animationIndex]);
         animationIndex = (animationIndex + 1) % loadingSymbols.length;
     }, 100);

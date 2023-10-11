@@ -2,13 +2,20 @@ import fs from 'fs';
 import { BaseStyle, Config } from "types";
 import classParser from '../parsers/classParser';
 import dynamicParser from '../parsers/dynamicParser';
+import parentParser from '../parsers/parentParser';
+
+export interface ParentSelector {
+    [key: string]: Set<string>
+}
 
 export default function classCSS(classArray: string[], baseStyle: BaseStyle, config: Config){
     const finalBaseCSS = new Set();
+    const parentSelectors: ParentSelector = {};
 
     // Regex
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const parentRegex = /\([^)]+\):/;
     
     try{
         classArray.forEach((className) => {
@@ -73,17 +80,54 @@ export default function classCSS(classArray: string[], baseStyle: BaseStyle, con
                         finalBaseCSS.add(cssString)
                     }
                 }
+
+                // Parse Parent Selections (not finished)
+                if(className.match(parentRegex)){
+                    const parsedString = parentParser(className, baseStyle)
+
+                    if(parsedString){
+                        const { parentSelector, cssAttributes } = parsedString
+
+                        if(!parentSelectors[parentSelector]){
+                            parentSelectors[parentSelector] = new Set<string>
+                        }
+
+                        let cssString = ''
+
+                        cssAttributes.forEach((e, i, arr) => {
+                            if((i + 1) === arr.length){
+                                cssString += `\t${e}`;
+                                cssString += '\n}'
+                            } else if(i + 1 !== arr.length) {
+                                cssString += `\t${e}\n`;
+                            }
+                        })
+
+                        parentSelectors[parentSelector].add(cssString)
+                    }
+                }
             }
         })
-
 
     } catch(err) {
         console.log(`An error has occurred: ${err}`);
     }
 
+    // Parse parent Selections
+    try {
+        Object.keys(parentSelectors).forEach((key, index) => {
+            const cssValue = Array.from(parentSelectors[key]).toString()
+            var finalCSS = `${key}`
+            finalCSS += `${cssValue}`
+
+            finalBaseCSS.add(finalCSS)
+        })
+    } catch (error) {
+        console.log(`An error has occurred: ${error}`);   
+    }
+
     //console.log(finalBaseCSS);
     //console.log(config.output.replace('output.css', 'test.css'));
     const css = Array.from(finalBaseCSS).join('\n')
-    
     return css;
 }

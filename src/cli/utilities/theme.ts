@@ -2,6 +2,7 @@ import { BaseStyle, Config } from "types";
 import { AttributeObject } from "../funnel";
 import { PSEUDO_ELEMENTS, _PSEUDO_CLASSES } from "../parsers/classParser";
 import { dynamicRegistry } from "../parsers/dynamicParser";
+import parentParser from "../parsers/parentParser";
 
 export default function themeCSS(themeObject: AttributeObject, baseStyle: BaseStyle, config: Config){
     var cssStringDark = '\ndark.dark, body.dark {\n'
@@ -45,10 +46,12 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/;
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const parentRegex = /\([^)]+\):/;
 
     styleObject.forEach((currStyle) => {
         const uniquePseudo: Set<string> = new Set();
         const nonPseudoAttributes: Set<string> = new Set();
+        const parentSelectors: Set<string> = new Set();
 
         // cssAttributes --> Array of css attributes
         // attribute = Full attribute name -> "hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]" 
@@ -56,10 +59,14 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
         const { attribute, cssAttributes } = currStyle
 
         cssAttributes.forEach((attribute) => {
-            if(attribute.includes(':') || attribute.includes('::')){
+            const parentMatch = attribute.match(parentRegex)
+
+            if((attribute.includes(':') || attribute.includes('::')) && !parentMatch){
                 const separator = attribute.includes(':') ? ':' : '::'
                 const splitValue = attribute.split(separator)
                 uniquePseudo.add(splitValue[0])
+            } else if(parentMatch){
+                parentSelectors.add(attribute)
             } else {
                 nonPseudoAttributes.add(attribute)
             }
@@ -167,6 +174,31 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                     } catch (error) {
                         // Most likely the user hasnt finished typing   
                     }
+                }
+            })
+        }
+
+        /*
+            Here we process parent selectors so that they are formatted
+            the correct way
+        */
+        if(parentSelectors.size > 0){
+            Array.from(parentSelectors).forEach((elementAttribute, index, arr) => {
+                const parsedString = parentParser(elementAttribute, baseStyle)
+                
+                if(parsedString){
+                    const { cssAttributes, dependency, dependencyType } = parsedString
+                    const finalKey = dependencyType === "has" ? `${dependency}[${prefix}="${attribute}"]` : `${dependency} [${prefix}="${attribute}"]` 
+
+                    if(!finalObject[finalKey]){
+                        finalObject[finalKey] = new Set();
+                    }
+
+                    try {
+                        cssAttributes.forEach((item) => {
+                            finalObject[finalKey].add(item)
+                        })
+                    } catch (error) {}
                 }
             })
         }

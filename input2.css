@@ -1,0 +1,23 @@
+.group_2{
+    color: aliceblue;
+}
+
+@keyframes test {
+    from {
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
+}
+
+div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
+    color: green !important;
+}
+
+.group:hover .\(div\:hover\_\>\)\:py\-20{
+	color: #fff;
+}
+
+.confirmed[style-dark="(&.confirmed):color-[green] (&.confirmed):brd-color-[green] py-20"]{
+    color: green;
+}

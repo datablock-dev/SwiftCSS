@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,9 +27,28 @@
       style-dark="hover:cursor-pointer hover:color-[#f4f4f4] hover:cursor-pointer checked:color-[#49e31b]"
     >
         <div class="bg-[#000] not-[strong]:fw-800"></div>
+        <div style-dark="color-[#fff] hover:color-[#f4f4f4] hover:cursor-pointer"></div>
         <div></div>
         <div></div>
-        <div></div>
+    </div>
+
+    <div class="p-60 bg-[#123123] h-[max(60vh,800px)]"
+      style-md="w-[min(calc(80vw),calc(90%_-_32px))]"
+    >
+      
+      <div class="group w-100 h-100 brd-color-[#f4f4f4] mt-60 ml-60 flex-col hover:cursor-pointer bg-[#000] hover:bg-[#101010] p-40">
+        <span class="my-10 (div:hover_>):color-[#090909] (div:hover_>):py-20">
+          Test
+        </span>
+        <span 
+          class="my-10 (div:hover_>):color-[#090909]"
+        >
+          Test 2
+        </span>
+        <span class="my-10 (.group:hover):color-[#fff]">
+          Test 3
+        </span>
+      </div>
     </div>
 
     <div>
@@ -38,6 +57,24 @@
         style-light="color-[#000]"
         style-sd="w-100 h-40 not-[.py-20]:py-40"
       ></h1>
+    </div>
+
+    <div class="absolute bottom-[calc(100vh_-_10%)] bg-[#f4f4f4] h-[20vw] w-[20vw] bg-[url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRfXv9FjRI6Z_Ap9ZjvdFdYId5Qs9MSeqbxPQk0XfCoBKnS9KHEr8U6PQu_IVZW7b1CcA&usqp=CAU)] bg-cover">
+
+    </div>
+
+    <div class="group grid gap-10 grid-cols-[repeat(3,1fr)] mb-40 hover:cursor-pointer">
+      <div class="confirmed (&.confirmed):color-[green]">One</div>
+      <div class="not-confirmed (&.not-confirmed):color-[red]">Two</div>
+      <div class="color-[$green]">Three</div>
+      <div
+        style-dark="(.group:hover):color-[blue]"
+      >Four</div>
+      <div
+        class="confirmed"
+        style-dark="(&.confirmed):color-[green] (&.confirmed):brd-color-[green] py-20"
+        style-md="(&.confirmed):color-[green]"
+      >Five</div>
     </div>
     
 </body>
