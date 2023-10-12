@@ -8,18 +8,7 @@
         &-ridge {outline-style: ridge;}
         &-inset {outline-style: inset;}
         &-outset {outline-style: outset;}
-    }
-    &-none{
-        border-style: none;
-    }
-    &-dotted{
-        border-style: dotted;
-    }
-    &-dashed{
-        border-style: dashed;
-    }
-    &-solid{
-        border-style: solid;
+        &-none {outline-style: none;}
     }
 }
 

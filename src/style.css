@@ -324191,17 +324191,8 @@
 .outline-style-outset {
   outline-style: outset;
 }
-.outline-none {
-  border-style: none;
-}
-.outline-dotted {
-  border-style: dotted;
-}
-.outline-dashed {
-  border-style: dashed;
-}
-.outline-solid {
-  border-style: solid;
+.outline-style-none {
+  outline-style: none;
 }
 
 .outline-width-0 {
