@@ -89,5 +89,6 @@ export const dynamicRegistry: Dynamicregistry = {
     'right': {name: 'right', attribute: 'custom'},
     'grid-cols': {name: 'grid-template-columns', attribute: 'custom'},
     'grid-rows': {name: 'grid-template-rows', attribute: 'custom'},
-    'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'}
+    'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'},
+    'font': {name: 'font-family', attribute: 'custom'}
 }
