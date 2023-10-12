@@ -324167,6 +324167,447 @@
   scroll-snap-stop: always;
 }
 
+.outline-style-dotted {
+  outline-style: dotted;
+}
+.outline-style-dashed {
+  outline-style: dashed;
+}
+.outline-style-solid {
+  outline-style: solid;
+}
+.outline-style-double {
+  outline-style: double;
+}
+.outline-style-groove {
+  outline-style: groove;
+}
+.outline-style-ridge {
+  outline-style: ridge;
+}
+.outline-style-inset {
+  outline-style: inset;
+}
+.outline-style-outset {
+  outline-style: outset;
+}
+.outline-none {
+  border-style: none;
+}
+.outline-dotted {
+  border-style: dotted;
+}
+.outline-dashed {
+  border-style: dashed;
+}
+.outline-solid {
+  border-style: solid;
+}
+
+.outline-width-0 {
+  outline-width: 0px;
+}
+
+.outline-width-1 {
+  outline-width: 1px;
+}
+
+.outline-width-2 {
+  outline-width: 2px;
+}
+
+.outline-width-3 {
+  outline-width: 3px;
+}
+
+.outline-width-4 {
+  outline-width: 4px;
+}
+
+.outline-width-5 {
+  outline-width: 5px;
+}
+
+.outline-width-6 {
+  outline-width: 6px;
+}
+
+.outline-width-7 {
+  outline-width: 7px;
+}
+
+.outline-width-8 {
+  outline-width: 8px;
+}
+
+.outline-width-9 {
+  outline-width: 9px;
+}
+
+.outline-width-10 {
+  outline-width: 10px;
+}
+
+.outline-width-11 {
+  outline-width: 11px;
+}
+
+.outline-width-12 {
+  outline-width: 12px;
+}
+
+.outline-width-13 {
+  outline-width: 13px;
+}
+
+.outline-width-14 {
+  outline-width: 14px;
+}
+
+.outline-width-15 {
+  outline-width: 15px;
+}
+
+.outline-width-16 {
+  outline-width: 16px;
+}
+
+.outline-width-17 {
+  outline-width: 17px;
+}
+
+.outline-width-18 {
+  outline-width: 18px;
+}
+
+.outline-width-19 {
+  outline-width: 19px;
+}
+
+.outline-width-20 {
+  outline-width: 20px;
+}
+
+.outline-width-21 {
+  outline-width: 21px;
+}
+
+.outline-width-22 {
+  outline-width: 22px;
+}
+
+.outline-width-23 {
+  outline-width: 23px;
+}
+
+.outline-width-24 {
+  outline-width: 24px;
+}
+
+.outline-width-25 {
+  outline-width: 25px;
+}
+
+.outline-width-26 {
+  outline-width: 26px;
+}
+
+.outline-width-27 {
+  outline-width: 27px;
+}
+
+.outline-width-28 {
+  outline-width: 28px;
+}
+
+.outline-width-29 {
+  outline-width: 29px;
+}
+
+.outline-width-30 {
+  outline-width: 30px;
+}
+
+.outline-width-31 {
+  outline-width: 31px;
+}
+
+.outline-width-32 {
+  outline-width: 32px;
+}
+
+.outline-width-33 {
+  outline-width: 33px;
+}
+
+.outline-width-34 {
+  outline-width: 34px;
+}
+
+.outline-width-35 {
+  outline-width: 35px;
+}
+
+.outline-width-36 {
+  outline-width: 36px;
+}
+
+.outline-width-37 {
+  outline-width: 37px;
+}
+
+.outline-width-38 {
+  outline-width: 38px;
+}
+
+.outline-width-39 {
+  outline-width: 39px;
+}
+
+.outline-width-40 {
+  outline-width: 40px;
+}
+
+.outline-width-41 {
+  outline-width: 41px;
+}
+
+.outline-width-42 {
+  outline-width: 42px;
+}
+
+.outline-width-43 {
+  outline-width: 43px;
+}
+
+.outline-width-44 {
+  outline-width: 44px;
+}
+
+.outline-width-45 {
+  outline-width: 45px;
+}
+
+.outline-width-46 {
+  outline-width: 46px;
+}
+
+.outline-width-47 {
+  outline-width: 47px;
+}
+
+.outline-width-48 {
+  outline-width: 48px;
+}
+
+.outline-width-49 {
+  outline-width: 49px;
+}
+
+.outline-width-50 {
+  outline-width: 50px;
+}
+
+.outline-width-51 {
+  outline-width: 51px;
+}
+
+.outline-width-52 {
+  outline-width: 52px;
+}
+
+.outline-width-53 {
+  outline-width: 53px;
+}
+
+.outline-width-54 {
+  outline-width: 54px;
+}
+
+.outline-width-55 {
+  outline-width: 55px;
+}
+
+.outline-width-56 {
+  outline-width: 56px;
+}
+
+.outline-width-57 {
+  outline-width: 57px;
+}
+
+.outline-width-58 {
+  outline-width: 58px;
+}
+
+.outline-width-59 {
+  outline-width: 59px;
+}
+
+.outline-width-60 {
+  outline-width: 60px;
+}
+
+.outline-width-61 {
+  outline-width: 61px;
+}
+
+.outline-width-62 {
+  outline-width: 62px;
+}
+
+.outline-width-63 {
+  outline-width: 63px;
+}
+
+.outline-width-64 {
+  outline-width: 64px;
+}
+
+.outline-width-65 {
+  outline-width: 65px;
+}
+
+.outline-width-66 {
+  outline-width: 66px;
+}
+
+.outline-width-67 {
+  outline-width: 67px;
+}
+
+.outline-width-68 {
+  outline-width: 68px;
+}
+
+.outline-width-69 {
+  outline-width: 69px;
+}
+
+.outline-width-70 {
+  outline-width: 70px;
+}
+
+.outline-width-71 {
+  outline-width: 71px;
+}
+
+.outline-width-72 {
+  outline-width: 72px;
+}
+
+.outline-width-73 {
+  outline-width: 73px;
+}
+
+.outline-width-74 {
+  outline-width: 74px;
+}
+
+.outline-width-75 {
+  outline-width: 75px;
+}
+
+.outline-width-76 {
+  outline-width: 76px;
+}
+
+.outline-width-77 {
+  outline-width: 77px;
+}
+
+.outline-width-78 {
+  outline-width: 78px;
+}
+
+.outline-width-79 {
+  outline-width: 79px;
+}
+
+.outline-width-80 {
+  outline-width: 80px;
+}
+
+.outline-width-81 {
+  outline-width: 81px;
+}
+
+.outline-width-82 {
+  outline-width: 82px;
+}
+
+.outline-width-83 {
+  outline-width: 83px;
+}
+
+.outline-width-84 {
+  outline-width: 84px;
+}
+
+.outline-width-85 {
+  outline-width: 85px;
+}
+
+.outline-width-86 {
+  outline-width: 86px;
+}
+
+.outline-width-87 {
+  outline-width: 87px;
+}
+
+.outline-width-88 {
+  outline-width: 88px;
+}
+
+.outline-width-89 {
+  outline-width: 89px;
+}
+
+.outline-width-90 {
+  outline-width: 90px;
+}
+
+.outline-width-91 {
+  outline-width: 91px;
+}
+
+.outline-width-92 {
+  outline-width: 92px;
+}
+
+.outline-width-93 {
+  outline-width: 93px;
+}
+
+.outline-width-94 {
+  outline-width: 94px;
+}
+
+.outline-width-95 {
+  outline-width: 95px;
+}
+
+.outline-width-96 {
+  outline-width: 96px;
+}
+
+.outline-width-97 {
+  outline-width: 97px;
+}
+
+.outline-width-98 {
+  outline-width: 98px;
+}
+
+.outline-width-99 {
+  outline-width: 99px;
+}
+
+.outline-width-100 {
+  outline-width: 100px;
+}
+
 .opacity-0 {
   opacity: 0;
 }
