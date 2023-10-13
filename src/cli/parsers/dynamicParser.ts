@@ -77,10 +77,20 @@ interface Dynamicregistry {
 }
 export const dynamicRegistry: Dynamicregistry = {
     'bg': {name: 'background-color', attribute: 'color'},
+    'outline-color': {name: "outline-color", attribute: 'color'},
     'color': {name: 'color', attribute: 'color'},
     'content': {name: 'content', attribute: null},
     'fill': {name: 'fill', attribute: 'color'},
     'brd-color': {name: 'border-color', attribute: 'color'},
+    'brd-t-color': {name: 'border-top-color', attribute: 'color'},
+    'brd-r-color': {name: 'border-right-color', attribute: 'color'},
+    'brd-b-color': {name: 'border-bottom-color', attribute: 'color'},
+    'brd-l-color': {name: 'border-left-color', attribute: 'color'},
+    'brd-radius': {name: "border-radius", attribute: 'custom'},
+    'brd-tl-radius': {name: "border-top-left-radius", attribute: 'custom'},
+    'brd-bl-radius': {name: "border-bottom-left-radius", attribute: 'custom'},
+    'brd-tr-radius': {name: "border-top-right-radius", attribute: 'custom'},
+    'brd-br-radius': {name: "border-bottom-right-radius", attribute: 'custom'},
     'w': {name: 'width', attribute: 'custom'},
     'h': {name: 'height', attribute: 'custom'},
     'top': {name: 'top', attribute: 'custom'},
@@ -89,5 +99,6 @@ export const dynamicRegistry: Dynamicregistry = {
     'right': {name: 'right', attribute: 'custom'},
     'grid-cols': {name: 'grid-template-columns', attribute: 'custom'},
     'grid-rows': {name: 'grid-template-rows', attribute: 'custom'},
-    'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'}
+    'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'},
+    'font': {name: 'font-family', attribute: 'custom'}
 }

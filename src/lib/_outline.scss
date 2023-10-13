@@ -1,0 +1,21 @@
+.outline{
+    &-style{
+        &-dotted {outline-style: dotted;}
+        &-dashed {outline-style: dashed;}
+        &-solid {outline-style: solid;}
+        &-double {outline-style: double;}
+        &-groove {outline-style: groove;}
+        &-ridge {outline-style: ridge;}
+        &-inset {outline-style: inset;}
+        &-outset {outline-style: outset;}
+        &-none {outline-style: none;}
+    }
+}
+
+@for $i from 0 through 100 {
+    .outline{
+        &-width-#{$i}{
+            outline-width: $i + #{'px'};
+        }
+    }   
+}
