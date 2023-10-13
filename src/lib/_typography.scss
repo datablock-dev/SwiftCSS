@@ -80,6 +80,12 @@
     }
 }
 
+@for $i from 0 through 100 {
+    .line-height-#{$i}{
+        line-height: $i + #{'px'}
+    }
+}
+
 .user-select{
     &-none{
         user-select: none;
