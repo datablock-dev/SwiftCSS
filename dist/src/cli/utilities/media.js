@@ -5,10 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const classParser_1 = __importDefault(require("../parsers/classParser"));
 const dynamicParser_1 = __importDefault(require("../parsers/dynamicParser"));
+const parentParser_1 = __importDefault(require("../parsers/parentParser"));
 function mediaCSS(mediaObject, baseStyle, config) {
     var finalBaseCSS = new Array;
     const finalMediaObject = {};
+    // Regex
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
+    const parentRegex = /\([^)]+\):/;
     createParents(config.screens, finalMediaObject);
     //console.log(finalMediaObject)
     Object.keys(mediaObject).forEach((key) => {
@@ -20,22 +23,27 @@ function mediaCSS(mediaObject, baseStyle, config) {
             const pseudoClasses = new Set;
             const cssClasses = new Set;
             const dynamicClasses = new Set;
+            const parentSelectors = new Set();
             // Iterate through array and process individual classes
             cssAttributes.forEach((className) => {
-                if (className.includes(':') || className.includes('::')) {
+                const parentMatch = className.match(parentRegex);
+                if ((className.includes(':') || className.includes('::')) && !parentMatch) {
                     const classParsed = (0, classParser_1.default)(className, baseStyle);
                     if (classParsed) {
                         const { cssAttribute, pseudo, pseudoSeparator, pseudoSelector } = classParsed;
-                        if (typeof cssAttribute === 'string') {
+                        if (typeof cssAttribute === 'string' || Array.isArray(cssAttribute)) {
                             pseudoClasses.add(`${pseudoSeparator}${pseudoSelector ? pseudoSelector : pseudo}`);
                         }
                     }
                 }
-                else if (className.includes('-[')) { // Dynamic classes
+                else if (className.includes('-[') && !parentMatch) { // Dynamic classes
                     const parsedString = (0, dynamicParser_1.default)(className);
                     if (parsedString) {
                         dynamicClasses.add(parsedString.cssAttribute);
                     }
+                }
+                else if (parentMatch) {
+                    parentSelectors.add(attribute);
                 }
                 else { // Non-pseudo nor dynamic class
                     cssClasses.add(className);
@@ -96,6 +104,30 @@ function mediaCSS(mediaObject, baseStyle, config) {
             }
             //console.log(pseudoClasses)
             //console.log(cssClasses)
+            /*
+                Here we process parent selectors so that they are formatted
+                the correct way
+            */
+            if (parentSelectors.size > 0) {
+                parentSelectors.forEach((elementAttribute) => {
+                    const parsedString = (0, parentParser_1.default)(elementAttribute, baseStyle);
+                    if (parsedString) {
+                        const { cssAttributes, dependency, dependencyType } = parsedString;
+                        const selector = dependencyType === "has" ? `${dependency}[${key}="${attribute}"]` : `${dependency} [${key}="${attribute}"]`;
+                        if (!finalMediaObject[key].css[selector]) {
+                            finalMediaObject[key].css[selector] = new Set();
+                        }
+                        try {
+                            cssAttributes.forEach((item) => {
+                                finalMediaObject[key].css[selector].add(item);
+                            });
+                        }
+                        catch (error) {
+                            console.log("Error in parsing parent selector for media queries: ", error);
+                        }
+                    }
+                });
+            }
         });
     });
     /*

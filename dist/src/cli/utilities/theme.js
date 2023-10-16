@@ -15,6 +15,7 @@ function themeCSS(themeObject, baseStyle, config) {
     // Regex
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
+    const parentRegex = /\([^)]+\):/;
     if (themeObject['style-dark']) {
         const _STYLE_DARK = themeObject['style-dark'];
         styleDark = parseTheme(_STYLE_DARK, 'style-dark', baseStyle);
@@ -111,7 +112,7 @@ function parseTheme(styleObject, prefix, baseStyle) {
                                 });
                             }
                             catch (error) {
-                                // Most likely the user hasnt finished typing
+                                console.log("Error in parsing parent selector for theme queries: ", error);
                             }
                         }
                     });
@@ -165,7 +166,7 @@ function parseTheme(styleObject, prefix, baseStyle) {
             the correct way
         */
         if (parentSelectors.size > 0) {
-            Array.from(parentSelectors).forEach((elementAttribute, index, arr) => {
+            parentSelectors.forEach((elementAttribute) => {
                 const parsedString = (0, parentParser_1.default)(elementAttribute, baseStyle);
                 if (parsedString) {
                     const { cssAttributes, dependency, dependencyType } = parsedString;
