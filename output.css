@@ -263,9 +263,17 @@ light.light, body.light {
 
 /************* style-sd *************/
 @media screen and (max-width: 600px){
+	[style-sd="w-100 h-40 not-[.py-20]:py-40"]:not(.py-20){
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
 	[style-sd="w-100 h-40 not-[.py-20]:py-40"]{
 		width: 100px !important;
 		height: 40px !important;
+	}
+	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]:hover{
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]{
 		margin-right: 20px;
@@ -294,6 +302,9 @@ light.light, body.light {
 
 /************* style-ld *************/
 @media screen and (min-width: 1200px){
+	[style-ld="nth-child-[3n]:fw-500 test"]:nth-child(3n){
+		font-weight: 500;
+	}
 	[style-ld="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
 		color: #565656;
 	}

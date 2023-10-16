@@ -43,7 +43,7 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
                     const classParsed = classParser(className, baseStyle)
                     if (classParsed) {
                         const { cssAttribute, pseudo, pseudoSeparator, pseudoSelector } = classParsed
-                        if (typeof cssAttribute === 'string') {
+                        if (typeof cssAttribute === 'string' || Array.isArray(cssAttribute)) {
                             pseudoClasses.add(`${pseudoSeparator}${pseudoSelector ? pseudoSelector : pseudo}`)
                         }
                     }
