@@ -15,6 +15,7 @@ export default function themeCSS(themeObject: AttributeObject, baseStyle: BaseSt
     // Regex
     const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
     const dynamicStyleRegex = /-(?:\[([^\]]+)\])/g;
+    const parentRegex = /\([^)]+\):/;
 
     if(themeObject['style-dark']){
         const _STYLE_DARK = themeObject['style-dark']
@@ -126,7 +127,7 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
                                     }
                                 })
                             } catch (error) {
-                                // Most likely the user hasnt finished typing
+                                console.log("Error in parsing parent selector for theme queries: ", error)
                             }
                         }
                     })
@@ -183,7 +184,7 @@ function parseTheme(styleObject: Set<{attribute: string, cssAttributes: string[]
             the correct way
         */
         if(parentSelectors.size > 0){
-            Array.from(parentSelectors).forEach((elementAttribute, index, arr) => {
+            parentSelectors.forEach((elementAttribute) => {
                 const parsedString = parentParser(elementAttribute, baseStyle)
                 
                 if(parsedString){

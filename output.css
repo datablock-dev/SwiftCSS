@@ -141,9 +141,6 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
-.content\-\[\'\*\'\]{
-	content: '*';
-}
 .absolute{
 	position: absolute;
 }
@@ -281,6 +278,9 @@ light.light, body.light {
 	[style-md="w-[min(calc(80vw),calc(90%_-_32px))]"]{
 		width: min(calc(80vw),calc(90% - 32px));
 	}
+	.confirmed[style-md="(&.confirmed):color-[green]"]{
+		color: green;
+	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
 		padding-bottom: 20px;
@@ -296,6 +296,9 @@ light.light, body.light {
 @media screen and (min-width: 1200px){
 	[style-ld="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
 		color: #565656;
+	}
+	.confirmed:hover > [style-ld="(.confirmed:hover_>):cursor-pointer"]{
+		cursor: pointer;
 	}
 	[style-ld="max-w-100"]{
 		max-width: 100px;
