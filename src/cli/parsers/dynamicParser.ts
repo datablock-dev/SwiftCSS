@@ -106,6 +106,7 @@ export const dynamicRegistry: Dynamicregistry = {
     'bottom': {name: 'bottom', attribute: 'custom'},
     'left': {name: 'left', attribute: 'custom'},
     'right': {name: 'right', attribute: 'custom'},
+    'gap': {name: 'gap', attribute: 'custom'},
     'grid-cols': {name: 'grid-template-columns', attribute: 'custom'},
     'grid-rows': {name: 'grid-template-rows', attribute: 'custom'},
     'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'},
