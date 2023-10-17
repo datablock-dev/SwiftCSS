@@ -90,6 +90,9 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .hover\:cursor-pointer:hover{
 	cursor: pointer;
 }
+.gap\-\[406px\]{
+	gap: 406px;
+}
 .brd\-color\-\[\#f4f4f4\]{
 	border-color: #f4f4f4;
 }
