@@ -15,11 +15,11 @@ function funnel(command, styleCSS, config, baseStyle, triggered = false) {
     const themeObject = new Object;
     const CSS = new Array;
     // Regex
-    const classRegex = /(?:className|class)\s*=\s*"([^"]+)"/g;
-    const themeRegex = /\s+(style-dark|style-light)\s*=\s*"([^"]+)"/g;
+    const classRegex = /(?:className|class)\s*=\s*['"`]([^'`"]+)['"`]/g;
+    const themeRegex = /\s+(style-(?:dark|light))\s*=\s*['"`]([^'`"]+)['"`]/g;
     // Dynamically create Regex for mediaQuery Regex
     // Create a regular expression pattern dynamically
-    const pattern = `\\s+(style-${Object.keys(config.screens).join('|style-')})\\s*=\\s*"([^"]+)"`;
+    const pattern = `\\s+(style-${Object.keys(config.screens).join('|style-')})\\s*=['"\`]([^'"\`]+)['"\`]`;
     // Create a RegExp object with the pattern and 'g' flag
     const mediaRegex = new RegExp(pattern, 'g');
     /*

@@ -2,6 +2,21 @@
     .brd-width-#{$i}{
         border-width: $i + #{'px'};
     }
+    .brd-w-#{$i}{
+        border-width: $i + #{'px'};
+    }
+    .brd-t-w-#{$i}{
+        border-top-width: $i + #{'px'};
+    }
+    .brd-r-w-#{$i}{
+        border-right-width: $i + #{'px'};
+    }
+    .brd-b-w-#{$i}{
+        border-bottom-width: $i + #{'px'};
+    }
+    .brd-l-w-#{$i}{
+        border-left-width: $i + #{'px'};
+    }
     .brd-radius-#{$i}{
         border-radius: $i + #{'px'};
     }

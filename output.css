@@ -90,6 +90,9 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .hover\:cursor-pointer:hover{
 	cursor: pointer;
 }
+.gap\-\[406px\]{
+	gap: 406px;
+}
 .brd\-color\-\[\#f4f4f4\]{
 	border-color: #f4f4f4;
 }
@@ -140,9 +143,6 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .py-20{
 	padding-top: 20px;
 	padding-bottom: 20px;
-}
-.content\-\[\'\*\'\]{
-	content: '*';
 }
 .absolute{
 	position: absolute;
@@ -266,9 +266,17 @@ light.light, body.light {
 
 /************* style-sd *************/
 @media screen and (max-width: 600px){
+	[style-sd="w-100 h-40 not-[.py-20]:py-40"]:not(.py-20){
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
 	[style-sd="w-100 h-40 not-[.py-20]:py-40"]{
 		width: 100px !important;
 		height: 40px !important;
+	}
+	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]:hover{
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 	[style-sd="hover:py-10 mr-20 color-[#f4f4f4]"]{
 		margin-right: 20px;
@@ -280,6 +288,9 @@ light.light, body.light {
 @media screen and (min-width: 600px) and (max-width: 1200px){
 	[style-md="w-[min(calc(80vw),calc(90%_-_32px))]"]{
 		width: min(calc(80vw),calc(90% - 32px));
+	}
+	.confirmed[style-md="(&.confirmed):color-[green]"]{
+		color: green;
 	}
 	[style-md="hover:py-20 mr-40 hover:cursor-pointer hover:color-[#acacac]"]:hover{
 		padding-top: 20px;
@@ -294,8 +305,14 @@ light.light, body.light {
 
 /************* style-ld *************/
 @media screen and (min-width: 1200px){
+	[style-ld="nth-child-[3n]:fw-500 test"]:nth-child(3n){
+		font-weight: 500;
+	}
 	[style-ld="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
 		color: #565656;
+	}
+	.confirmed:hover > [style-ld="(.confirmed:hover_>):cursor-pointer"]{
+		cursor: pointer;
 	}
 	[style-ld="max-w-100"]{
 		max-width: 100px;

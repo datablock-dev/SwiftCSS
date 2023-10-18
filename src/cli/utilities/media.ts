@@ -2,6 +2,7 @@ import { BaseStyle, Config } from "types";
 import { AttributeObject } from "../funnel";
 import classParser from "../parsers/classParser";
 import dynamicParser from "../parsers/dynamicParser";
+import parentParser from "../parsers/parentParser";
 
 export interface FinalMediaObject {
     [key: string]: {
@@ -15,7 +16,10 @@ export interface FinalMediaObject {
 export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseStyle, config: Config) {
     var finalBaseCSS = new Array;
     const finalMediaObject: FinalMediaObject = {}
+
+    // Regex
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
+    const parentRegex = /\([^)]+\):/;
 
     createParents(config.screens, finalMediaObject)
     //console.log(finalMediaObject)
@@ -30,22 +34,26 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             const pseudoClasses = new Set<string>
             const cssClasses = new Set<string>
             const dynamicClasses = new Set<string>
+            const parentSelectors: Set<string> = new Set();
 
             // Iterate through array and process individual classes
             cssAttributes.forEach((className) => {
-                if (className.includes(':') || className.includes('::')) {
+                const parentMatch = className.match(parentRegex)
+                if ((className.includes(':') || className.includes('::')) && !parentMatch) {
                     const classParsed = classParser(className, baseStyle)
                     if (classParsed) {
                         const { cssAttribute, pseudo, pseudoSeparator, pseudoSelector } = classParsed
-                        if (typeof cssAttribute === 'string') {
+                        if (typeof cssAttribute === 'string' || Array.isArray(cssAttribute)) {
                             pseudoClasses.add(`${pseudoSeparator}${pseudoSelector ? pseudoSelector : pseudo}`)
                         }
                     }
-                } else if (className.includes('-[')) { // Dynamic classes
+                } else if (className.includes('-[') && !parentMatch) { // Dynamic classes
                     const parsedString = dynamicParser(className)
                     if (parsedString) {
                         dynamicClasses.add(parsedString.cssAttribute)
                     }
+                } else if (parentMatch) {
+                    parentSelectors.add(attribute)
                 } else { // Non-pseudo nor dynamic class
                     cssClasses.add(className)
                 }
@@ -113,6 +121,34 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
             //console.log(pseudoClasses)
             //console.log(cssClasses)
 
+            /*
+                Here we process parent selectors so that they are formatted
+                the correct way
+            */
+            if (parentSelectors.size > 0) {
+                parentSelectors.forEach((elementAttribute) => {
+                    const parsedString = parentParser(elementAttribute, baseStyle)
+
+                    if (parsedString) {
+                        const { cssAttributes, dependency, dependencyType } = parsedString
+                        const selector = dependencyType === "has" ? `${dependency}[${key}="${attribute}"]` : `${dependency} [${key}="${attribute}"]`
+                        
+                        if (!finalMediaObject[key].css[selector]) {
+                            finalMediaObject[key].css[selector] = new Set();
+                        }
+
+                        try {
+                            cssAttributes.forEach((item) => {
+                                finalMediaObject[key].css[selector].add(item)
+                            })
+                        } catch (error) { 
+                            console.log("Error in parsing parent selector for media queries: ", error)
+                        }
+                        
+                    }
+                })
+            }
+
         })
     })
 
@@ -135,13 +171,13 @@ export default function mediaCSS(mediaObject: AttributeObject, baseStyle: BaseSt
 
             // Makes sure that we dont generate parent selectors
             // that will end up being empty
-            if(cssAttributes.size > 0){
+            if (cssAttributes.size > 0) {
                 cssOutput += `\t${selector}{\n`
-    
+
                 cssAttributes.forEach((value) => {
                     cssOutput += `\t\t${value}\n`
                 })
-    
+
                 // Close the current selector
                 cssOutput += '\t}\n'
             }
