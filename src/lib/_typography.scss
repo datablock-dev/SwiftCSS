@@ -26,8 +26,32 @@
     &-capitalize{
         text-transform: capitalize;
     }
+}
 
-    
+.decoration{
+    &-underline{
+        text-decoration: underline;
+        &-dotted{
+            text-decoration: underline dotted;
+        }
+    }
+    &-overline{
+        text-decoration: overline;
+    }
+    &-none{
+        text-decoration: none;
+    }
+    &-style{
+        &-wavy{
+            text-decoration-style: wavy;
+        }
+        &-solid{
+            text-decoration-style: solid;
+        }
+        &-dotted{
+            text-decoration-style: dotted;
+        }
+    }
 }
 
 .align{
