@@ -156,7 +156,7 @@ if (process.argv[2] === 'watch') {
     screenKeys.push(...Object.keys(config.screens))
 
     watcher.on('change', (filePath: string) => {
-        if(config?.fileExtensions.includes(filePath.substring(filePath.lastIndexOf('.'), filePath.length))){
+        if(config?.fileExtensions.includes(filePath.substring(filePath.lastIndexOf('.'), filePath.length).replace('.', ''))){
             console.log(`File changed: ${filePath}`);
             funnel('watch', styleCSS, config as Config, baseStyle);
             console.log('Changes generated')

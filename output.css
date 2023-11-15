@@ -207,12 +207,6 @@ div:hover > .my-10.hover\:\[div\ >\]\:color-\[\#fff\]{
 .hover\:bg\-\[\#000\]:hover{
 	background-color: #000;
 }
-.fw-500{
-	font-weight: 500;
-}
-.fs-43{
-	font-size: 43px;
-}
 div:hover > .\(div\:hover\_\>\)\:color\-\[\#090909\]{
 	color: #090909;
 }
