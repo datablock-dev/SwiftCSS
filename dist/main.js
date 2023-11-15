@@ -144,9 +144,11 @@ if (process.argv[2] === 'watch') {
     });
     exports.screenKeys.push(...Object.keys(config.screens));
     watcher.on('change', (filePath) => {
-        console.log(`File changed: ${filePath}`);
-        (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);
-        console.log('Changes generated');
+        if (config?.fileExtensions.includes(filePath.substring(filePath.lastIndexOf('.'), filePath.length))) {
+            console.log(`File changed: ${filePath}`);
+            (0, funnel_1.default)('watch', exports.styleCSS, config, exports.baseStyle);
+            console.log('Changes generated');
+        }
     });
     inputWatcher.on('change', (filePath) => {
         console.log(`File changed: ${filePath}`);
