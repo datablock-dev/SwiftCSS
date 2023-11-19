@@ -40,6 +40,14 @@ export default function dynamicParser(className: string){
                     name: name,
                     value: value
                 }
+            } else if (Array.isArray(name) && attribute === "custom") {
+                const cssString = name.map(property => `${property}: ${value.replaceAll('_', ' ')};`).join('\n');
+                return {
+                    className: escapedClassName,
+                    cssAttribute: cssString, 
+                    name: name,
+                    value: value
+                }
             } else {
                 return {
                     className: escapedClassName,
@@ -71,7 +79,7 @@ function getValue(value: string, config: Config){
 
 interface Dynamicregistry {
     [key: string]: {
-        name: string
+        name: string | string[]
         attribute: 'color' | 'url' | 'custom' | string[] | null
     }
 }
@@ -106,6 +114,8 @@ export const dynamicRegistry: Dynamicregistry = {
     'pr': {name: "padding-right", attribute: 'custom'},
     'pb': {name: "padding-bottom", attribute: 'custom'},
     'pl': {name: "padding-left", attribute: 'custom'},
+    'px': {name: ["padding-left", "padding-right"], attribute: 'custom'},
+    'py': {name: ["padding-top", "padding-bottom"], attribute: 'custom'},
     'w': {name: 'width', attribute: 'custom'},
     'max-h': {name: 'max-height', attribute: 'custom'},
     'min-h': {name: 'min-height', attribute: 'custom'},

@@ -36,6 +36,15 @@ function dynamicParser(className) {
                     value: value
                 };
             }
+            else if (Array.isArray(name) && attribute === "custom") {
+                const cssString = name.map(property => `${property}: ${value.replaceAll('_', ' ')};`).join('\n');
+                return {
+                    className: escapedClassName,
+                    cssAttribute: cssString,
+                    name: name,
+                    value: value
+                };
+            }
             else {
                 return {
                     className: escapedClassName,
@@ -94,6 +103,8 @@ exports.dynamicRegistry = {
     'pr': { name: "padding-right", attribute: 'custom' },
     'pb': { name: "padding-bottom", attribute: 'custom' },
     'pl': { name: "padding-left", attribute: 'custom' },
+    'px': { name: ["padding-left", "padding-right"], attribute: 'custom' },
+    'py': { name: ["padding-top", "padding-bottom"], attribute: 'custom' },
     'w': { name: 'width', attribute: 'custom' },
     'max-h': { name: 'max-height', attribute: 'custom' },
     'min-h': { name: 'min-height', attribute: 'custom' },
@@ -107,5 +118,6 @@ exports.dynamicRegistry = {
     'grid-rows': { name: 'grid-template-rows', attribute: 'custom' },
     'auto-cols': { name: 'grid-auto-columns', attribute: 'custom' },
     'font': { name: 'font-family', attribute: 'custom' },
-    "transition": { name: "transition", attribute: 'custom' }
+    "transition": { name: "transition", attribute: 'custom' },
+    "decoration": { name: "text-decoration", attribute: 'custom' }
 };

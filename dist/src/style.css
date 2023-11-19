@@ -319639,6 +319639,29 @@
   text-transform: capitalize;
 }
 
+.decoration-underline {
+  text-decoration: underline;
+}
+.decoration-underline-dotted {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+.decoration-overline {
+  text-decoration: overline;
+}
+.decoration-none {
+  text-decoration: none;
+}
+.decoration-style-wavy {
+  text-decoration-style: wavy;
+}
+.decoration-style-solid {
+  text-decoration-style: solid;
+}
+.decoration-style-dotted {
+  text-decoration-style: dotted;
+}
+
 .align-baseline {
   vertical-align: baseline;
 }

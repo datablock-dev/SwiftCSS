@@ -4,7 +4,7 @@ import dynamicParser from "./dynamicParser";
 interface ClassParser {
     className: string,
     cssAttribute: string | string[],
-    name: string | null,
+    name: string | string[] | null,
     value?: string,
     pseudo: string,
     pseudoSeparator: ':' | '::',
@@ -12,11 +12,11 @@ interface ClassParser {
 }
 
 export default function classParser(className: string, baseStyle: BaseStyle): ClassParser | null {
-    const finalCSS = new Set();
+    const finalCSS = new Set(); // Also never read?
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
 
-    var cssString: null | string = null;
+    var cssString: null | string = null; // Is this needed? It is never used
     /******************* Pseudo Classes *******************/
     if(className.includes(':') && !className.includes('::')){ 
         var pseudoClass = className.split(':')[0]
