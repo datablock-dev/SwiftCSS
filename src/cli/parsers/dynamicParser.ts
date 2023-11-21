@@ -132,6 +132,7 @@ export const dynamicRegistry: Dynamicregistry = {
     'grid-rows': {name: 'grid-template-rows', attribute: 'custom'},
     'auto-cols': {name: 'grid-auto-columns', attribute: 'custom'},
     'font': {name: 'font-family', attribute: 'custom'},
+    'filter': {name: "filter", attribute: 'custom'},
     "transition": {name: "transition", attribute: 'custom'},
     "decoration": {name: "text-decoration", attribute: 'custom'}
 }
