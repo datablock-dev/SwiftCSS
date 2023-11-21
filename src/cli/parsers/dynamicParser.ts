@@ -110,6 +110,8 @@ export const dynamicRegistry: Dynamicregistry = {
     'mr': {name: "margin-right", attribute: 'custom'},
     'mb': {name: "margin-bottom", attribute: 'custom'},
     'ml': {name: "margin-left", attribute: 'custom'},
+    'mx': {name: ["margin-left", "margin-right"], attribute: 'custom'},
+    'my': {name: ["margin-top",  "margin-bottom"], attribute: 'custom'},
     'pt': {name: "padding-top", attribute: 'custom'},
     'pr': {name: "padding-right", attribute: 'custom'},
     'pb': {name: "padding-bottom", attribute: 'custom'},
