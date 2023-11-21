@@ -104,6 +104,7 @@ export const dynamicRegistry: Dynamicregistry = {
     'brd-bl-radius': {name: "border-bottom-left-radius", attribute: 'custom'},
     'brd-tr-radius': {name: "border-top-right-radius", attribute: 'custom'},
     'brd-br-radius': {name: "border-bottom-right-radius", attribute: 'custom'},
+    'box-shadow': {name: "box-shadow", attribute: 'custom'},
     'max-w': {name: 'max-width', attribute: 'custom'},
     'min-w': {name: 'min-width', attribute: 'custom'},
     'mt': {name: "margin-top", attribute: 'custom'},
