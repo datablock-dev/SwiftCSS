@@ -11,13 +11,9 @@
     "url": "https://github.com/pannoury/SwiftCSS"
   },
   "scripts": {
-    "watch": "node ./dist/main.js watch",
-    "build": "node ./dist/main.js build",
-    "init": "node ./dist/main.js init",
-    "dev": "ts-node main.ts watch",
-    "dev-build": "ts-node main.ts build",
-    "dev-init": "ts-node main.ts init",
-    "new-dev": "ts-node main.ts dev"
+    "watch": "ts-node --esm main.ts watch",
+    "build": "ts-node --esm main.ts build",
+    "init": "ts-node --esm main.ts init"
   },
   "bin": {
     "swiftcss": "main.ts"
