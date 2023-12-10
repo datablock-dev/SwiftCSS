@@ -5,6 +5,7 @@
   "main": "main.ts",
   "license": "MIT",
   "homepage": "https://datablock.dev",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/pannoury/SwiftCSS"
