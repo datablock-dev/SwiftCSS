@@ -122,6 +122,12 @@
     &-normal{
         white-space: normal;
     }
+    &-pre-line{
+        white-space: pre-line;
+    }
+    &-break {
+        white-space: break-spaces;
+    }
 }
 
 @for $i from 2 through 600 {
