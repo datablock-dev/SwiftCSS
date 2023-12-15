@@ -968,6 +968,27 @@
   background-position-x: left;
 }
 
+.object-position-bottom {
+  -o-object-position: bottom;
+     object-position: bottom;
+}
+.object-position-top {
+  -o-object-position: top;
+     object-position: top;
+}
+.object-position-center {
+  -o-object-position: center;
+     object-position: center;
+}
+.object-position-left {
+  -o-object-position: left;
+     object-position: left;
+}
+.object-position-right {
+  -o-object-position: right;
+     object-position: right;
+}
+
 .brd-width-0 {
   border-width: 0px;
 }

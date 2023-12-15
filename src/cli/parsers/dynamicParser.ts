@@ -136,5 +136,8 @@ export const dynamicRegistry: Dynamicregistry = {
     'font': {name: 'font-family', attribute: 'custom'},
     'filter': {name: "filter", attribute: 'custom'},
     "transition": {name: "transition", attribute: 'custom'},
-    "decoration": {name: "text-decoration", attribute: 'custom'}
+    "transform": {name: "transform", attribute: 'custom'},
+    "decoration": {name: "text-decoration", attribute: 'custom'},
+    'object': {name: "object-position", attribute: 'custom'},
+    'stroke': {name: "stroke", attribute: 'color'}
 }

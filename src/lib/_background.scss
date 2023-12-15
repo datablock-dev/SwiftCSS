@@ -83,3 +83,21 @@
         }
     }
 }
+
+.object-position {
+    &-bottom{
+        object-position: bottom;
+    }   
+    &-top{
+        object-position: top;
+    }   
+    &-center{
+        object-position: center;
+    }   
+    &-left{
+        object-position: left;
+    }   
+    &-right{
+        object-position: right;
+    }       
+}
