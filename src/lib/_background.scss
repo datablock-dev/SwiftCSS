@@ -53,4 +53,51 @@
     &-center{
         background-position: center;
     }
+
+    &-y{
+        &-center{
+            background-position-y: center;
+        }
+        &-bottom {
+            background-position-y: bottom;
+        }
+        &-top {
+            background-position-y: top;
+        }
+        &-left {
+            background-position-y: left;
+        }
+    }
+    &-x {
+        &-center{
+            background-position-x: center;
+        }
+        &-bottom {
+            background-position-x: bottom;
+        }
+        &-top {
+            background-position-x: top;
+        }
+        &-left {
+            background-position-x: left;
+        }
+    }
+}
+
+.object-position {
+    &-bottom{
+        object-position: bottom;
+    }   
+    &-top{
+        object-position: top;
+    }   
+    &-center{
+        object-position: center;
+    }   
+    &-left{
+        object-position: left;
+    }   
+    &-right{
+        object-position: right;
+    }       
 }

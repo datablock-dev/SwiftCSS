@@ -943,6 +943,51 @@
 .bg-center {
   background-position: center;
 }
+.bg-y-center {
+  background-position-y: center;
+}
+.bg-y-bottom {
+  background-position-y: bottom;
+}
+.bg-y-top {
+  background-position-y: top;
+}
+.bg-y-left {
+  background-position-y: left;
+}
+.bg-x-center {
+  background-position-x: center;
+}
+.bg-x-bottom {
+  background-position-x: bottom;
+}
+.bg-x-top {
+  background-position-x: top;
+}
+.bg-x-left {
+  background-position-x: left;
+}
+
+.object-position-bottom {
+  -o-object-position: bottom;
+     object-position: bottom;
+}
+.object-position-top {
+  -o-object-position: top;
+     object-position: top;
+}
+.object-position-center {
+  -o-object-position: center;
+     object-position: center;
+}
+.object-position-left {
+  -o-object-position: left;
+     object-position: left;
+}
+.object-position-right {
+  -o-object-position: right;
+     object-position: right;
+}
 
 .brd-width-0 {
   border-width: 0px;
@@ -319639,6 +319684,29 @@
   text-transform: capitalize;
 }
 
+.decoration-underline {
+  text-decoration: underline;
+}
+.decoration-underline-dotted {
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
+}
+.decoration-overline {
+  text-decoration: overline;
+}
+.decoration-none {
+  text-decoration: none;
+}
+.decoration-style-wavy {
+  text-decoration-style: wavy;
+}
+.decoration-style-solid {
+  text-decoration-style: solid;
+}
+.decoration-style-dotted {
+  text-decoration-style: dotted;
+}
+
 .align-baseline {
   vertical-align: baseline;
 }
@@ -320133,6 +320201,12 @@
 }
 .white-space-normal {
   white-space: normal;
+}
+.white-space-pre-line {
+  white-space: pre-line;
+}
+.white-space-break {
+  white-space: break-spaces;
 }
 
 .fs-2 {

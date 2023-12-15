@@ -6,10 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports._PSEUDO_CLASSES = exports.PSEUDO_ELEMENTS = void 0;
 const dynamicParser_1 = __importDefault(require("./dynamicParser"));
 function classParser(className, baseStyle) {
-    const finalCSS = new Set();
+    const finalCSS = new Set(); // Also never read?
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
     const dynamicPseudo = /^(.*?)-\[(.*?)\]$/;
-    var cssString = null;
+    var cssString = null; // Is this needed? It is never used
     /******************* Pseudo Classes *******************/
     if (className.includes(':') && !className.includes('::')) {
         var pseudoClass = className.split(':')[0];

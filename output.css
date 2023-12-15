@@ -308,8 +308,15 @@ light.light, body.light {
 	[style-ld="nth-child-[3n]:fw-500 test"]:nth-child(3n){
 		font-weight: 500;
 	}
-	[style-ld="nth-child-[2n]:color-[#565656] test"]:nth-child(2n){
+	[style-ld="nth-child-[2n]:color-[#565656] not-[:first-child]:mx-[5vw] test"]:nth-child(2n){
 		color: #565656;
+	}
+	[style-ld="nth-child-[n+2]:color-[#565656] nth-child-[2n]:mx-[5vw] test"]:nth-child(n+2){
+		color: #565656;
+	}
+	[style-ld="nth-child-[n+2]:color-[#565656] nth-child-[2n]:mx-[5vw] test"]:nth-child(2n){
+		margin-left: 5vw;
+margin-right: 5vw;
 	}
 	.confirmed:hover > [style-ld="(.confirmed:hover_>):cursor-pointer"]{
 		cursor: pointer;

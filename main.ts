@@ -156,9 +156,11 @@ if (process.argv[2] === 'watch') {
     screenKeys.push(...Object.keys(config.screens))
 
     watcher.on('change', (filePath: string) => {
-        console.log(`File changed: ${filePath}`);
-        funnel('watch', styleCSS, config as Config, baseStyle);
-        console.log('Changes generated')
+        if(config?.fileExtensions.includes(filePath.substring(filePath.lastIndexOf('.'), filePath.length).replace('.', ''))){
+            console.log(`File changed: ${filePath}`);
+            funnel('watch', styleCSS, config as Config, baseStyle);
+            console.log('Changes generated')
+        }
     });
 
     inputWatcher.on('change', (filePath: string) => {
@@ -205,7 +207,7 @@ if (process.argv[2] === 'watch') {
 
     screenKeys.push(...Object.keys(config.screens))
 
-    watcher.on('change', (filePath: string) => {
+    watcher.on('change', (filePath: string) => {        
         console.log(`File changed: ${filePath}`);
         startLoadingAnimation()
         funnel('dev', styleCSS, config as Config, baseStyle);

@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
     fileExtensions: ["html", "js", "jsx", "ts", "tsx"],
-    directories: ["./test"],
+    directories: ["./test", "./src"],
     input: ["./input.css", './input2.css'],
     output: "./output.css",
     screens: {
