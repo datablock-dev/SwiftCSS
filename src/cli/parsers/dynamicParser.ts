@@ -87,6 +87,7 @@ export const dynamicRegistry: Dynamicregistry = {
     'bg': {name: 'background-color', attribute: 'color'},
     'bg-x': {name: 'background-position-x', attribute: 'custom'},
     'bg-y': {name: 'background-position-y', attribute: 'custom'},
+    'bg-position': {name: 'background-position', attribute: 'custom'},
     'outline-color': {name: "outline-color", attribute: 'color'},
     'color': {name: 'color', attribute: 'color'},
     'content': {name: 'content', attribute: null},
