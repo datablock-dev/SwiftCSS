@@ -319684,6 +319684,16 @@
   text-transform: capitalize;
 }
 
+.fs-italic {
+  font-style: italic;
+}
+.fs-normal {
+  font-style: normal;
+}
+.fs-oblique {
+  font-style: oblique;
+}
+
 .decoration-underline {
   text-decoration: underline;
 }
