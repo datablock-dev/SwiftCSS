@@ -28,6 +28,18 @@
     }
 }
 
+.fs{
+    &-italic{
+        font-style: italic;
+    }
+    &-normal {
+        font-style: normal;
+    }
+    &-oblique {
+        font-style: oblique;
+    }
+}
+
 .decoration{
     &-underline{
         text-decoration: underline;
