@@ -73,6 +73,7 @@ function getValue(value, config) {
     return value;
 }
 exports.dynamicRegistry = {
+    'animation': { name: 'animation', attribute: 'custom' },
     'bg': { name: 'background-color', attribute: 'color' },
     'bg-x': { name: 'background-position-x', attribute: 'custom' },
     'bg-y': { name: 'background-position-y', attribute: 'custom' },

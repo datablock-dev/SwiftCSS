@@ -84,6 +84,7 @@ interface Dynamicregistry {
     }
 }
 export const dynamicRegistry: Dynamicregistry = {
+    'animation': {name: 'animation', attribute: 'custom'}, // Allow for custom animation properties
     'bg': {name: 'background-color', attribute: 'color'},
     'bg-x': {name: 'background-position-x', attribute: 'custom'},
     'bg-y': {name: 'background-position-y', attribute: 'custom'},
