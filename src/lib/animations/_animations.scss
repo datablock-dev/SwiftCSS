@@ -35,6 +35,30 @@
     }
 }
 
+.animation-play-state{
+    &-paused{
+        animation-play-state: paused;
+    }
+    &-running{
+        animation-play-state: running;
+    }
+    &-initial{
+        animation-play-state: initial;
+    }
+    &-inherit{
+        animation-play-state: inherit;
+    }
+}
+
+@for $i from 0 through 1000 {
+    .animation-delay-#{$i}ms{
+        animation-delay: $i + #{'ms'};
+    }
+    .animation-delay-#{$i}s{
+        animation-delay: $i + #{'s'};
+    }
+}
+
 @keyframes up {
     0% {
         transform: translateY(100px);
