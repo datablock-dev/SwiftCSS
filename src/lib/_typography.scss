@@ -144,7 +144,7 @@
 
 @for $i from 2 through 600 {
     .fs-#{$i}{
-        font-size: $i + #{'px'};
+        font-size: $i + #{'px'} !important;
     }
 }
 
