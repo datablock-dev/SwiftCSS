@@ -7,7 +7,7 @@
   "homepage": "https://datablock.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pannoury/SwiftCSS"
+    "url": "https://github.com/datablock-dev/SwiftCSS"
   },
   "scripts": {
     "watch": "node ./dist/main.js watch",
@@ -19,6 +19,7 @@
     "new-dev": "ts-node main.ts dev",
     "install": "sh installation.bash"
   },
+  "keywords": ["datablock", "DataBlock", "typescript", "javascript", "node", "nodejs", "js", "ts", "TypeScript", "JavaScript"],
   "bin": {
     "swiftcss": "./dist/main.js"
   },
