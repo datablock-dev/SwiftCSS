@@ -61,6 +61,32 @@
     }
 }
 
+.row{
+    @for $i from 1 through 50 {
+        &-span-#{$i}{
+            grid-row: span $i / span $i;
+        }
+        &-start-#{$i}{
+            grid-row-start: $i;
+        }
+        &-end-#{$i}{
+            grid-row-end: $i;
+        }
+    } 
+    &-span-full{
+        grid-row: 1 / -1;
+    }
+    &-start-auto{
+        grid-row-start: auto;
+    }
+    &-end-auto{
+        grid-row-end: auto;
+    }
+    &-auto{
+        grid-row: auto;
+    }
+}
+
 .col{
     @for $i from 1 through 50 {
         &-span-#{$i}{
@@ -73,7 +99,7 @@
             grid-column-end: $i;
         }
     }
-    &-soan-full{
+    &-span-full{
         grid-column: 1 / -1;
     }
     &-start-auto{
