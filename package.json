@@ -1,6 +1,6 @@
 {
   "name": "swiftcss",
-  "version": "3.32.1",
+  "version": "3.32.2",
   "description": "A CSS framework inspired by Tailwindcss with attribute styling to split styling and reduce dependency and size of classes in elements and components.",
   "main": "./dist/main.js",
   "license": "MIT",
@@ -19,7 +19,18 @@
     "new-dev": "ts-node main.ts dev",
     "install": "sh installation.bash"
   },
-  "keywords": ["datablock", "DataBlock", "typescript", "javascript", "node", "nodejs", "js", "ts", "TypeScript", "JavaScript"],
+  "keywords": [
+    "datablock",
+    "DataBlock",
+    "typescript",
+    "javascript",
+    "node",
+    "nodejs",
+    "js",
+    "ts",
+    "TypeScript",
+    "JavaScript"
+  ],
   "bin": {
     "swiftcss": "./dist/main.js"
   },
