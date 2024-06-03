@@ -24,7 +24,7 @@
     display: -moz-inline-grid;
 }
 .none{
-    display: none;
+    display: none !important;
 }
 .conents{
     display: contents;
